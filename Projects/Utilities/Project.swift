@@ -1,18 +1,17 @@
 import ProjectDescription
 
 let project = Project(
-    name: "Features",
+    name: "CokeZet-Utilities",
     targets: [
         .target(
-            name: "Features",
+            name: "CokeZet-Utilities",
             destinations: .iOS,
             product: .framework,
-            bundleId: "CokeZet-iOS.Features",
+            bundleId: "CokeZet-iOS.CokeZet-Utilities",
             infoPlist: .default,
-            sources: [],
+            sources: ["Sources/**"],
             dependencies: [
-                
             ]
-        )
+        ),
     ]
 )

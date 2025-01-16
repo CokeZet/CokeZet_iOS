@@ -1,33 +1,33 @@
 //
-//  TermsOfServiceInteractor.swift
-//  Features
+//  Interactor.stencil
+//  Manifests
 //
-//  Created by 김진우 on 1/9/25.
+//  Created by 김진우 on 1/16/25.
 //
 
 import ModernRIBs
 
-public protocol TermsOfServiceRouting: ViewableRouting {
+protocol {{name}}Routing: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
-protocol TermsOfServicePresentable: Presentable {
-    var listener: TermsOfServicePresentableListener? { get set }
+protocol {{name}}Presentable: Presentable {
+    var listener: {{name}}PresentableListener? { get set }
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-public protocol TermsOfServiceListener: AnyObject {
+protocol {{name}}Listener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
-final class TermsOfServiceInteractor: PresentableInteractor<TermsOfServicePresentable>, TermsOfServiceInteractable, TermsOfServicePresentableListener {
+final class {{name}}Interactor: PresentableInteractor<{{name}}Presentable>, {{name}}Interactable, {{name}}PresentableListener {
 
-    weak var router: TermsOfServiceRouting?
-    weak var listener: TermsOfServiceListener?
+    weak var router: {{name}}Routing?
+    weak var listener: {{name}}Listener?
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
-    override init(presenter: TermsOfServicePresentable) {
+    override init(presenter: {{name}}Presentable) {
         super.init(presenter: presenter)
         presenter.listener = self
     }

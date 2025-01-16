@@ -1,28 +1,20 @@
 import ProjectDescription
 
 let project = Project(
-    name: "App",
+    name: "CokeZet-App",
     targets: [
         .target(
-            name: "App",
+            name: "CokeZet-App",
             destinations: .iOS,
             product: .app,
-            bundleId: "CokeZet-iOS.App",
+            bundleId: "CokeZet-iOS.CokeZet-App",
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchStoryboardName": "LaunchScreen.storyboard",
-                    "UIApplicationSceneManifest": [
-                        "UIApplicationSupportsMultipleScenes": false,
-                        "UISceneConfigurations": [
-                            "UIWindowSceneSessionRoleApplication": [
-                                [
-                                    "UISceneConfigurationName": "Default Configuration",
-                                    "UISceneDelegateClassName": "$(PRODUCT_MODULE_NAME).SceneDelegate"
-                                ],
-                            ]
-                        ]                            ],
-                ]                   ),
+                ]
+            ),
             sources: ["Sources/**"],
+            resources: ["Resources/**"],
             dependencies: [
                 .project(target: "Features", path: "../Features"),
             ]

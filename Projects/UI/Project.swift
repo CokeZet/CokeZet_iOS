@@ -1,15 +1,16 @@
 import ProjectDescription
 
 let project = Project(
-    name: "UI",
+    name: "CokeZet-UI",
     targets: [
         .target(
-            name: "UI",
+            name: "CokeZet-UI",
             destinations: .iOS,
             product: .framework,
-            bundleId: "CokeZet-iOS.UI",
+            bundleId: "CokeZet-iOS.CokeZet-UI",
             infoPlist: .default,
             sources: ["Sources/**"],
+            resources: ["Sources/**"],
             dependencies: [
                 .external(name: "Then"),
                 .external(name: "SnapKit")
