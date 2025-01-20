@@ -9,5 +9,7 @@ import ProjectDescription
 
 let workspace = Workspace(
     name: "CokeZet-iOS_Workspace",
-    projects: ["Projects/**"]
+    projects: [
+        "Projects/**"
+    ]
     )

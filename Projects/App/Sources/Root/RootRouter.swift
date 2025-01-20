@@ -6,7 +6,6 @@
 //
 
 import ModernRIBs
-import Features
 
 protocol RootInteractable: Interactable {
     var router: RootRouting? { get set }

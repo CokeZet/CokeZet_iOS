@@ -1,0 +1,40 @@
+import ProjectDescription
+
+let project = Project(
+    name: "{{name}}-DemoApp",
+    targets: [
+        .target(
+            name: "{{name}}-DemoApp",
+            destinations: .iOS,
+            product: .app,
+            bundleId: "CokeZet-iOS.{{name}}-DemoApp",
+            infoPlist: .extendingDefault(
+                with: [
+                    "UILaunchStoryboardName": "LaunchScreen.storyboard",
+                ]
+            ),
+            sources: [
+                "App/**",
+                "Sources/**",
+            ],
+            resources: [
+                "Resources/**"
+            ],
+            dependencies: [
+                .project(target: "{{features}}-Feature", path: "../../Features/{{features}}-Feature"),
+                .project(target: "CokeZet-Core", path: "../../Core"),
+                .project(target: "CokeZet-UI", path: "../../UI")
+            ]
+        ),
+        .target(
+            name: "{{name}}-Test",
+            destinations: .iOS,
+            product: .unitTests,
+            bundleId: "io.tuist.CokeZet-iOS.{{name}}-Tests",
+            infoPlist: .default,
+            sources: ["Tests/**"],
+            resources: [],
+            dependencies: [.target(name: "{{name}}-DemoApp")]
+        )
+    ]
+)

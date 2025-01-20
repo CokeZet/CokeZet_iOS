@@ -1,0 +1,43 @@
+//
+//  Builder.swift
+//  Manifests
+//
+//  Created by 김진우 on 1/16/25.
+//
+
+import ModernRIBs
+import Features
+
+protocol {{name}}Dependency: Dependency {
+    // TODO: Declare the set of dependencies required by this RIB, but cannot be
+    // created by this RIB.
+}
+
+final class {{name}}Component: Component<{{name}}Dependency> {
+    
+    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+}
+
+// MARK: - Builder
+
+protocol {{name}}Buildable: Buildable {
+    func build() -> LaunchRouting
+}
+
+final class {{name}}Builder: Builder<{{name}}Dependency>, {{name}}Buildable {
+    
+    override init(dependency: {{name}}Dependency) {
+        super.init(dependency: dependency)
+    }
+    
+    public func build() -> LaunchRouting {
+        let component = {{name}}Component(dependency: dependency)
+        let viewController = {{name}}ViewController()
+        let interactor = {{name}}Interactor(presenter: viewController)
+        return {{name}}Router(
+            interactor: interactor,
+            viewController: viewController
+        )
+    }
+}
+

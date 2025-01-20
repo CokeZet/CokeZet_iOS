@@ -1,0 +1,23 @@
+
+import ModernRIBs
+import Features
+
+protocol {{name}}Interactable: Interactable {
+    var router: {{name}}Routing? { get set }
+    var listener: {{name}}Listener? { get set }
+}
+
+protocol {{name}}ViewControllable: ViewControllable {
+    // TODO: Declare methods the router invokes to manipulate the view hierarchy.
+}
+
+final class {{name}}Router: LaunchRouter<{{name}}Interactable, {{name}}ViewControllable>, {{name}}Routing {
+    // TODO: Constructor inject child builder protocols to allow building children.
+    override init(
+        interactor: {{name}}Interactable,
+        viewController: {{name}}ViewControllable
+    ) {
+        super.init(interactor: interactor, viewController: viewController)
+        interactor.router = self
+    }
+}

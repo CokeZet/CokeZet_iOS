@@ -1,29 +1,20 @@
 import ProjectDescription
 
 let project = Project(
-    name: "Core",
+    name: "CokeZet-Core",
     targets: [
         .target(
-            name: "Core",
+            name: "CokeZet-Core",
             destinations: .iOS,
             product: .framework,
-            bundleId: "CokeZet-iOS.Core",
+            bundleId: "CokeZet-iOS.CokeZet-Core",
             infoPlist: .default,
             sources: ["Sources/**"],
             dependencies: [
-                .external(name: "ModernRIBs")
+                .external(name: "ModernRIBs"),
+                .project(target: "CokeZet-Network", path: "../Network"),
+                .project(target: "CokeZet-Utilities", path: "../Utilities"),
             ]
         ),
-        
-//            .target(
-//                name: "CokeZet_iOSTests",
-//                destinations: .iOS,
-//                product: .unitTests,
-//                bundleId: "io.tuist.CokeZet-iOSTests",
-//                infoPlist: .default,
-//                sources: ["Tests/**"],
-//                resources: [],
-//                dependencies: [.target(name: "Core")]
-//            )
     ]
 )
