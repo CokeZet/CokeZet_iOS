@@ -16,16 +16,17 @@ public struct Network {
     var test: AnyPublisher<[Post], Error>?
     var cancellables = Set<AnyCancellable>()
     
-    public func Example() async {
+    public func Example() async -> Result<[Post], Error> {
         print("Network Hello")
         
         let endpoint = Endpoint.example
         
         do {
             let post: [Post] = try await NetworkService.shared.requestAsync(endpoint: endpoint)
-            print(post)
+            return .success(post)
         } catch {
             print("Error: \(error)")
+            return .failure(error)
         }
     }
     
