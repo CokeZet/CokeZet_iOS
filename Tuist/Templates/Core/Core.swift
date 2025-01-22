@@ -33,7 +33,7 @@ enum CoreTemplate: CaseIterable {
         case .source:
             return [
                 .file(
-                    path: .basePath + "/Sources/\(name)ViewController.swift",
+                    path: .basePath + "/Sources/Source.swift",
                     templatePath: "../Core.stencil"
                 )
             ]
