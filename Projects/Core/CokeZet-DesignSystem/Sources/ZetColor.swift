@@ -60,5 +60,5 @@ public enum ZetColor {
     case Gray300
     case Gray200
     case Gray100
-    case Gray50
+    case White
 }
