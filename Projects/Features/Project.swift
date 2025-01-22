@@ -11,7 +11,7 @@ let project = Project(
             infoPlist: .default,
             sources: [],
             dependencies: [
-                
+                .project(target: "ProductDetail-Feature", path: "ProductDetail-Feature/"),
             ]
         )
     ]
