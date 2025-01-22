@@ -14,6 +14,7 @@ let project = Project(
                 .external(name: "ModernRIBs"),
                 .project(target: "CokeZet-Network", path: "../Network"),
                 .project(target: "CokeZet-Utilities", path: "../Utilities"),
+                .project(target: "CokeZet-DesignSystem", path: "../Core/CokeZet-DesignSystem"),
             ]
         ),
     ]
