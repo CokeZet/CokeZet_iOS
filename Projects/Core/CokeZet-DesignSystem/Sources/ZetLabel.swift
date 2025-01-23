@@ -39,13 +39,13 @@ public class ZetLabel: UILabel {
         }
     }
 
-    public var hasStrikeThrough: Bool {
+    public var hasStrikeThrough: Bool = false {
         didSet {
             configureTypography()
         }
     }
 
-    public var hasUnderline: Bool {
+    public var hasUnderline: Bool = false {
         didSet {
             configureTypography()
         }
