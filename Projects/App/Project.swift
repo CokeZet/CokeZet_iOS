@@ -16,9 +16,6 @@ let project = Project(
             sources: ["Sources/**"],
             resources: ["Resources/**"],
             dependencies: [
-                .external(name: "ModernRIBs"),
-                .external(name: "Then"),
-                .external(name: "SnapKit"),
                 .project(target: "Features", path: "../Features"),
             ]
         ),
