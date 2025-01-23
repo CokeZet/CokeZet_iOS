@@ -51,9 +51,12 @@ public class ZetLabel: UILabel {
         }
     }
 
-    public init(typography: Typography, frame: CGRect) {
+    public init(
+        typography: Typography,
+        textColor: UIColor = .Basic888888
+    ) {
         self.typography = typography
-        super.init(frame: frame)
+        super.init(frame: .zero)
         configureTypography()
     }
 
