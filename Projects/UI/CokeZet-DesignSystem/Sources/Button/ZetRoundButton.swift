@@ -21,7 +21,6 @@ public final class ZetRoundButton: UIButton {
     private var buttonState: ButtonState {
         didSet {
             self.setButtonStyle(self.buttonState)
-            self.isEnabled = self.buttonState == .Disabled
         }
     }
 
@@ -55,6 +54,7 @@ public final class ZetRoundButton: UIButton {
     private func setButtonStyle(_ state: ButtonState) {
         self.backgroundColor = state.backgroundColor
         self.setTitleColor(state.titleColor, for: .normal)
+        self.isEnabled = self.buttonState != .Disabled
     }
 
     private func setButtonAction() {
