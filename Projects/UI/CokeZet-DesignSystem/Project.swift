@@ -16,6 +16,7 @@ let project = Project(
                 "Resources/**"
             ],
             dependencies: [
+                .external(name: "SnapKit"),
                 .project(target: "CokeZet-Utilities", path: "../../Utilities"),
             ]
         ),
