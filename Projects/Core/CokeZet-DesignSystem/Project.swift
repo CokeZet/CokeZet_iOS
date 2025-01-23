@@ -16,7 +16,8 @@ let project = Project(
                 "Resources/**"
             ],
             dependencies: [
-	    ]
+                .project(target: "CokeZet-Utilities", path: "../../Utilities"),
+            ]
         ),
         .target(
             name: "DesignSystem-Test",
