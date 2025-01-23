@@ -12,8 +12,12 @@ let project = Project(
             sources: [
                 "Sources/**",
             ],
+            resources: [
+                "Resources/**"
+            ],
             dependencies: [
-	    ]
+                .project(target: "CokeZet-Utilities", path: "../../Utilities"),
+            ]
         ),
         .target(
             name: "DesignSystem-Test",

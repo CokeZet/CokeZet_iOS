@@ -12,9 +12,8 @@ let project = Project(
             sources: ["Sources/**"],
             dependencies: [
                 .external(name: "ModernRIBs"),
-                .project(target: "CokeZet-Network", path: "../Network"),
+                .project(target: "CokeZet-Network", path: "../Core/Network"),
                 .project(target: "CokeZet-Utilities", path: "../Utilities"),
-                .project(target: "CokeZet-DesignSystem", path: "../Core/CokeZet-DesignSystem"),
             ]
         ),
     ]

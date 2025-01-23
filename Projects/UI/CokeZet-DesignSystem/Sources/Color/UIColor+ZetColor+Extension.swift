@@ -5,6 +5,8 @@
 //  Created by Daye on 1/22/25.
 //
 
+import UIKit
+
 extension UIColor {
     public static var Primary: UIColor { ZetColor.Primary.color }
     public static var Sub: UIColor { ZetColor.Sub.color }

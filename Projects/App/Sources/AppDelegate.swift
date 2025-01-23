@@ -8,8 +8,6 @@
 import UIKit
 import ModernRIBs
 
-import CokeZet_Core
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
