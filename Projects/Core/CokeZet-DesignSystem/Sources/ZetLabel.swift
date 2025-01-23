@@ -13,7 +13,7 @@ public class ZetLabel: UILabel {
 
     private let typography: Typography
 
-    private let letterSpacing: CGFloat = -2
+//    private let letterSpacing: CGFloat = -2
 
     public override var text: String? {
         didSet {
@@ -53,10 +53,11 @@ public class ZetLabel: UILabel {
 
     public init(
         typography: Typography,
-        textColor: UIColor = .Basic888888
+        textColor: UIColor = .Basic222222
     ) {
         self.typography = typography
         super.init(frame: .zero)
+        self.textColor = textColor
         configureTypography()
     }
 
@@ -70,7 +71,7 @@ public class ZetLabel: UILabel {
             text: self.text,
             font: self.typography.font,
             color: self.textColor,
-            letterSpacing: self.letterSpacing,
+            letterSpacing: .zero, // 추후 설정
             lineHeight: nil, // 추후 설정
             textAlignment: self.textAlignment,
             lineBreakMode: self.lineBreakMode,
@@ -79,3 +80,55 @@ public class ZetLabel: UILabel {
         )
     }
 }
+
+@available(iOS 17.0, *)
+#Preview(
+    "sigle line",
+    traits: .sizeThatFitsLayout
+) {
+    let contentView = UIStackView()
+    contentView.axis = .vertical
+    let labelT24 = ZetLabel(
+        typography: .T24,
+        textColor: .Basic222222
+    )
+    labelT24.text = "ZET와 함께 제로콜라 최저가 탐색"
+
+    let labelT22 = ZetLabel(
+        typography: .T22,
+        textColor: .Primary296DEA
+    )
+    labelT22.text = "ZET와 함께 제로콜라 최저가 탐색"
+
+    let labelT20 = ZetLabel(
+        typography: .T20,
+        textColor: .AdditionalDE0000
+    )
+    labelT20.text = "ZET와 함께 제로콜라 최저가 탐색"
+
+    contentView.addArrangedSubview(labelT24)
+    contentView.addArrangedSubview(labelT22)
+    contentView.addArrangedSubview(labelT20)
+
+    return contentView
+}
+
+@available(iOS 17.0, *)
+#Preview(
+    "multi line",
+    traits: .sizeThatFitsLayout
+) {
+    let contentView = UIStackView()
+    contentView.axis = .vertical
+    let labelT24 = ZetLabel(
+        typography: .T24,
+        textColor: .Basic666666
+    )
+    labelT24.numberOfLines = 2
+    labelT24.text = "ZET와 함께 제로콜라\n최저가 탐색 시작해요"
+
+    contentView.addArrangedSubview(labelT24)
+
+    return contentView
+}
+
