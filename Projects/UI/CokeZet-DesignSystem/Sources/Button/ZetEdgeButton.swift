@@ -86,26 +86,6 @@ public final class ZetEdgeButton: UIButton {
     }
 }
 
-public enum EdgeButtonSize: CaseIterable {
-    case Default
-    case L
-    case M
-    case S
-
-    var width: CGFloat {
-        switch self {
-        case .Default:
-            return 294
-        case .L:
-            return 183
-        case .M:
-            return 142
-        case .S:
-            return 104
-        }
-    }
-}
-
 @available(iOS 17.0, *)
 #Preview(
     "button state",
