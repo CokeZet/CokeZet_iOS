@@ -1,13 +1,13 @@
 import ProjectDescription
 
 let project = Project(
-    name: "CokeZet-DesignSystem",
+    name: "CokeZet-Components",
     targets: [
         .target(
-            name: "CokeZet-DesignSystem",
+            name: "CokeZet-Components",
             destinations: .iOS,
             product: .framework,
-            bundleId: "CokeZet-iOS.CokeZet-DesignSystem",
+            bundleId: "CokeZet-iOS.CokeZet-Components",
             infoPlist: .default,
             sources: [
                 "Sources/**",
@@ -21,13 +21,13 @@ let project = Project(
             ]
         ),
         .target(
-            name: "DesignSystem-Test",
+            name: "Components-Test",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "io.tuist.CokeZet-iOS.CokeZet-DesignSystem-Test",
+            bundleId: "io.tuist.CokeZet-iOS.CokeZet-Components-Test",
             sources: ["Tests/**"],
             resources: [],
-            dependencies: [.target(name: "CokeZet-DesignSystem")]
+            dependencies: [.target(name: "CokeZet-Components")]
         )
     ]
 )

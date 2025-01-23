@@ -9,10 +9,10 @@ import PackageDescription
         // Default is .staticFramework
         // productTypes: ["Alamofire": .framework,]
         productTypes: [
-            "lottie-ios": .framework,
-            "Then": .framework,
-            "SnapKit": .framework,
-            "ModernRIBs": .framework
+            "lottie-ios": .staticFramework,
+            "Then": .staticFramework,
+            "SnapKit": .staticFramework,
+            "ModernRIBs": .staticFramework
         ]
     )
 #endif

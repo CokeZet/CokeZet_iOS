@@ -10,7 +10,7 @@ public struct Utilities {
 }
 
 public extension Int {
-    public func testItem() -> String {
+    func testItem() -> String {
         if self % 2 == 1 {
             return "홀수"
         }
