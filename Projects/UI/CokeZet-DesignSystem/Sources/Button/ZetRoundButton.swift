@@ -9,6 +9,8 @@ import UIKit
 
 import SnapKit
 
+/// Round Button 컴포넌트 정의
+/// figma: https://www.figma.com/design/2Sd5HIV4AVqvFUEzNpbBgX/SD🥤?node-id=497-17519&t=m3eVZ1aeg9slpf2F-0
 public final class ZetRoundButton: UIButton {
 
     private enum Metric {
