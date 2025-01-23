@@ -13,7 +13,8 @@ let project = Project(
             resources: ["Sources/**"],
             dependencies: [
                 .external(name: "Then"),
-                .external(name: "SnapKit")
+                .external(name: "SnapKit"),
+                .project(target: "CokeZet-DesignSystem", path: "../UI/CokeZet-DesignSystem"),
             ]
         ),
         
