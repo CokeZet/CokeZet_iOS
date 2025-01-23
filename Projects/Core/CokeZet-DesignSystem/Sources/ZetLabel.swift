@@ -13,8 +13,6 @@ public class ZetLabel: UILabel {
 
     private let typography: Typography
 
-//    private let letterSpacing: CGFloat = -2
-
     public override var text: String? {
         didSet {
             configureTypography()
