@@ -1,6 +1,5 @@
 
 import ModernRIBs
-import Features
 
 protocol NicknameInteractable: Interactable {
     var router: NicknameRouting? { get set }
