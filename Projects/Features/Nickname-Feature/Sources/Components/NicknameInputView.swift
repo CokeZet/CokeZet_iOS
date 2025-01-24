@@ -13,6 +13,10 @@ import SnapKit
 
 internal final class NicknameInputView: UIView {
 
+    private enum Constant {
+        static let maxCount = 10
+    }
+
     private enum Metric {
         static let textFieldWidth: CGFloat = 210
         static let hStackSpacing: CGFloat = 8
@@ -44,7 +48,7 @@ internal final class NicknameInputView: UIView {
         $0.alignment = .leading
     }
     private let countLabel = ZetLabel(typography: .T14, textColor: .Gray500).then {
-        $0.text = "0/10"
+        $0.text = "0/\(Constant.maxCount)"
     }
 
     internal override init(frame: CGRect) {
@@ -55,6 +59,11 @@ internal final class NicknameInputView: UIView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func addConfigure(placeHolder: String) {
+        self.textField.delegate = self
+
     }
 
     private func makeConstraints() {
@@ -78,6 +87,28 @@ internal final class NicknameInputView: UIView {
         self.underLineView.snp.makeConstraints {
             $0.height.equalTo(Metric.underLineHeight)
             $0.horizontalEdges.bottom.equalToSuperview()
+        }
+    }
+}
+
+extension NicknameInputView: UITextFieldDelegate {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        // 공백 입력 차단
+        return !string.contains(" ")
+    }
+
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        let length = text.precomposedStringWithCanonicalMapping.count
+
+        countLabel.text = "\(length)/\(Constant.maxCount)"
+
+        if length > Constant.maxCount {
+            textField.text = String(text.precomposedStringWithCanonicalMapping.prefix(Constant.maxCount))
         }
     }
 }
