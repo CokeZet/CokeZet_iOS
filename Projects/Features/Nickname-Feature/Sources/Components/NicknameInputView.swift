@@ -34,6 +34,8 @@ internal final class NicknameInputView: UIView {
         $0.textColor = .White
         $0.font = Typography.T24.font
         $0.borderStyle = .none
+        $0.tintColor = .White
+        $0.textAlignment = .center
     }
     private let underLineView = UIView().then {
         $0.backgroundColor = .White
@@ -51,8 +53,9 @@ internal final class NicknameInputView: UIView {
         $0.text = "0/\(Constant.maxCount)"
     }
 
-    internal override init(frame: CGRect) {
-        super.init(frame: frame)
+    internal init(placeHolder: String) {
+        super.init(frame: .zero)
+        self.addConfigure(placeHolder: placeHolder)
         self.makeConstraints()
     }
 
@@ -63,7 +66,13 @@ internal final class NicknameInputView: UIView {
 
     private func addConfigure(placeHolder: String) {
         self.textField.delegate = self
-
+        self.textField.attributedPlaceholder = NSAttributedString(
+            string: placeHolder,
+            attributes: [
+                .foregroundColor: UIColor.Gray500,
+                .font: Typography.T24.font
+            ]
+        )
     }
 
     private func makeConstraints() {
@@ -121,7 +130,7 @@ extension NicknameInputView: UITextFieldDelegate {
     let contentView = UIView()
     contentView.backgroundColor = .black
 
-    let view = NicknameInputView()
+    let view = NicknameInputView(placeHolder: "행복한강아지")
     contentView.addSubview(view)
     view.snp.makeConstraints {
         $0.edges.equalToSuperview()
