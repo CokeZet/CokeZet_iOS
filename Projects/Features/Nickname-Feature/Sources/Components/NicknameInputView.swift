@@ -7,16 +7,96 @@
 
 import UIKit
 
+import CokeZet_DesignSystem
+
 import SnapKit
 
 internal final class NicknameInputView: UIView {
 
+    private enum Metric {
+        static let textFieldWidth: CGFloat = 210
+        static let hStackSpacing: CGFloat = 8
+        static let vStackSpacing: CGFloat = 12
+        static let underLineHeight: CGFloat = 1
+    }
+
+    private let hStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = Metric.hStackSpacing
+        $0.alignment = .top
+    }
+    private let textField = UITextField().then {
+        $0.backgroundColor = .clear
+        $0.textColor = .White
+        $0.font = Typography.T24.font
+        $0.borderStyle = .none
+    }
+    private let underLineView = UIView().then {
+        $0.backgroundColor = .White
+    }
+    private let sirLabel = ZetLabel(typography: .T24, textColor: .BasicFFFFFF).then {
+        $0.text = "님,"
+    }
+
+    private let vStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = Metric.vStackSpacing
+        $0.alignment = .leading
+    }
+    private let countLabel = ZetLabel(typography: .T14, textColor: .Gray500).then {
+        $0.text = "0/10"
+    }
+
     internal override init(frame: CGRect) {
         super.init(frame: frame)
+        self.makeConstraints()
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    private func makeConstraints() {
+        self.textField.addSubview(underLineView)
+
+        self.hStackView.addArrangedSubview(textField)
+        self.hStackView.addArrangedSubview(sirLabel)
+
+        self.vStackView.addArrangedSubview(hStackView)
+        self.vStackView.addArrangedSubview(countLabel)
+
+        self.addSubview(vStackView)
+
+        self.vStackView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
+        self.textField.snp.makeConstraints {
+            $0.width.equalTo(Metric.textFieldWidth)
+        }
+        self.underLineView.snp.makeConstraints {
+            $0.height.equalTo(Metric.underLineHeight)
+            $0.horizontalEdges.bottom.equalToSuperview()
+        }
+    }
 }
+
+@available(iOS 17.0, *)
+#Preview(
+    "normal",
+    traits: .sizeThatFitsLayout
+) {
+    let contentView = UIView()
+    contentView.backgroundColor = .black
+
+    let view = NicknameInputView()
+    contentView.addSubview(view)
+    view.snp.makeConstraints {
+        $0.edges.equalToSuperview()
+    }
+
+    return contentView
+}
+
+
