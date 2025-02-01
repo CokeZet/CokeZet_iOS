@@ -1,17 +1,17 @@
 import ProjectDescription
 
 let project = Project(
-    name: "Features",
+    name: "Third-Party-UI",
     targets: [
         .target(
-            name: "Features",
+            name: "Third-Party-UI",
             destinations: .iOS,
             product: .framework,
-            bundleId: "CokeZet-iOS.Features",
+            bundleId: "CokeZet-iOS.Third-Party-UI",
             infoPlist: .default,
-            sources: [],
             dependencies: [
-                .project(target: "ProductDetail-Feature", path: "ProductDetail-Feature/"),
+                .external(name: "Then"),
+                .external(name: "SnapKit"),
             ]
         )
     ]
