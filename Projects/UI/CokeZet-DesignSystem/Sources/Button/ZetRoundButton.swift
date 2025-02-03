@@ -26,7 +26,7 @@ public final class ZetRoundButton: UIButton {
         }
     }
 
-    init(buttonState: ButtonState = .Primary) {
+    public init(buttonState: ButtonState = .Primary) {
         self.buttonState = buttonState
         super.init(frame: .zero)
         self.addConfigure()

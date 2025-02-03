@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension ZetColor {
+public extension ZetColor {
     var color: UIColor {
         guard let color = UIColor(hex: self.hex) else {
             return .white

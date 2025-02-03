@@ -25,7 +25,7 @@ public final class ZetEdgeButton: UIButton {
         }
     }
 
-    init(
+    public init(
         size: EdgeButtonSize = .Default,
         buttonState: ButtonState = .Primary
     ) {
