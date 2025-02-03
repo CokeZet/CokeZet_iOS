@@ -14,9 +14,7 @@ import SnapKit
 public final class ZetRoundButton: UIButton {
 
     private enum Metric {
-        static let width: CGFloat = 334
         static let height: CGFloat = 65
-        static let size = CGSize(width: width, height: height)
         static let cornerRadius: CGFloat = height/2
     }
 
@@ -49,7 +47,7 @@ public final class ZetRoundButton: UIButton {
 
     private func makeConstraints() {
         self.snp.makeConstraints {
-            $0.size.equalTo(Metric.size)
+            $0.height.equalTo(Metric.height)
         }
     }
 
