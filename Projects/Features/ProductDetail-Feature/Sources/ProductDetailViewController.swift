@@ -11,12 +11,15 @@ protocol ProductDetailPresentableListener: AnyObject {
 }
 
 final class ProductDetailViewController: UIViewController, ProductDetailPresentable, ProductDetailViewControllable {
-
-    let collectionView: UICollectionView = {
+    
+    lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(ProductOverCell.self, forCellWithReuseIdentifier: "overCell")
         return collectionView
     }()
     
@@ -32,7 +35,6 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
         setupViews()
     }
     
@@ -41,4 +43,27 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
         collectionView.snp.makeConstraints {
             $0.leading.trailing.top.bottom.equalToSuperview()
         }
-    }}
+        
+        collectionView.reloadData()
+    }
+}
+
+extension ProductDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "overCell", for: indexPath) as? ProductOverCell else { return UICollectionViewCell() }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        // 좌측 20, 우측 20, 상단 28, 하단 24
+        return UIEdgeInsets(top: 28, left: 20, bottom: 24, right: 20)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: self.view.bounds.width - 40, height: 534)
+    }
+}
