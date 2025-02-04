@@ -100,6 +100,10 @@ public final class ZetRoundButton: UIButton {
             print("\(state) clicked!")
         })
         button.addAction(action, for: .touchUpInside)
+        
+        button.snp.makeConstraints {
+            $0.width.equalTo(334)
+        }
 
         contentView.addArrangedSubview(button)
     }
