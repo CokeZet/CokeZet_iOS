@@ -51,7 +51,7 @@ public final class ToolTip: UIView {
             stackView.addArrangedSubview($0)
         }
         stackView.spacing = 4
-        self.backgroundColor = ZetColor.Purple800.color.withAlphaComponent(0.35)
+        self.backgroundColor = ZetColor.Purple800.color.withAlphaComponent(0.15)
         label.text = "조건있음"
         label.font = Typography.T14.font
         label.textColor = .Purple500

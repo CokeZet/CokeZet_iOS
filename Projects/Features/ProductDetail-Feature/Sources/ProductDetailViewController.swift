@@ -14,7 +14,7 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
@@ -50,11 +50,12 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
 
 extension ProductDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "overCell", for: indexPath) as? ProductOverCell else { return UICollectionViewCell() }
+        cell.backgroundColor = .Gray800
         return cell
     }
     
@@ -64,6 +65,6 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.bounds.width - 40, height: 534)
+        return CGSize(width: self.view.bounds.width, height: 542)
     }
 }

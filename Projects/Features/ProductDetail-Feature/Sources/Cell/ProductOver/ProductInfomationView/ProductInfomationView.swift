@@ -16,76 +16,90 @@ import SwiftUI
 
 final class ProductInfomationView: UIView {
     
-    let titleStackView: UIStackView = UIStackView().then {
+    // MARK: - UI Components
+    private let titleStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 8
         $0.alignment = .leading
     }
     
-    let productTypeLabel: UILabel = ZetLabel(typography: .T14, textColor: ZetColor.Gray600.color).then {
+    private let productTypeLabel = ZetLabel(typography: .T14, textColor: ZetColor.Gray600.color).then {
         $0.text = "코카콜라 음료"
     }
     
-    let titleLabel: UILabel = ZetLabel(typography: .T20, textColor: ZetColor.White.color).then {
+    private let titleLabel = ZetLabel(typography: .T20, textColor: ZetColor.White.color).then {
         $0.text = "코카콜라 제로 190ml (12개)"
     }
     
-    let productStackView: UIStackView = UIStackView().then {
+    private let productStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.distribution = .fill
-        $0.alignment = .leading
         $0.spacing = 4
+        $0.alignment = .leading
+        $0.distribution = .fill
     }
     
-    let minimumPriceStackView = KeyValueStackView()
+    private let minimumPriceStackView = KeyValueStackView()
         .setKeyValue("최저가", "13000원")
         .setLargeValue()
     
-    let pricePer100mlStackView = KeyValueStackView()
+    private let pricePer100mlStackView = KeyValueStackView()
         .setKeyValue("100ml", "193원")
     
-    let sellerStackView = KeyValueStackView()
+    private let sellerStackView = KeyValueStackView()
         .setKeyValue("판매처", "")
         .setImage(CokeZetDesignSystemAsset.alertCircle.image)
     
-    let shippingFeeStackView = KeyValueStackView()
+    private let shippingFeeStackView = KeyValueStackView()
         .setKeyValue("배송비", "3000원", .deliveryPrice)
     
-    let cardDiscountStackView = KeyValueStackView()
+    private let cardDiscountStackView = KeyValueStackView()
         .setKeyValue("카드할인", "신한카드 12300원", .cardSale)
         .addToolTip()
     
+    // MARK: - Constants
+    private enum Layout {
+        static let productStackTopSpacing: CGFloat = 12
+    }
+    
+    // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
-        initLayout()
+        setupLayout()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func initLayout() {
+    // MARK: - Layout Setup
+    private func setupLayout() {
+        // Add Subviews
         [titleStackView, productStackView].forEach {
-            self.addSubview($0)
+            addSubview($0)
         }
         
+        // Add Subviews to Title Stack
         [productTypeLabel, titleLabel].forEach {
             titleStackView.addArrangedSubview($0)
         }
         
+        // Add Subviews to Product Stack
         [minimumPriceStackView, pricePer100mlStackView, sellerStackView, shippingFeeStackView, cardDiscountStackView].forEach {
             productStackView.addArrangedSubview($0)
         }
-        
+    }
+    
+    private func setupConstraints() {
+        // Title Stack Constraints
         titleStackView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
         }
         
+        // Product Stack Constraints
         productStackView.snp.makeConstraints {
-            $0.top.equalTo(titleStackView.snp.bottom).offset(12)
+            $0.top.equalTo(titleStackView.snp.bottom).offset(Layout.productStackTopSpacing)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-        
-        
     }
 }
