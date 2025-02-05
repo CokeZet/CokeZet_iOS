@@ -59,11 +59,6 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        // 좌측 20, 우측 20, 상단 28, 하단 24
-        return UIEdgeInsets(top: 28, left: 20, bottom: 24, right: 20)
-    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: self.view.bounds.width, height: 542)
     }
