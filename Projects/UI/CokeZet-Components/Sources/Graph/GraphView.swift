@@ -162,9 +162,9 @@ public final class GraphView: UICollectionViewCell {
 
             // 데이터 점 추가 (원)
             let circle = UIView()
-            circle.backgroundColor = .black // 원 내부 색상 설정
+            circle.backgroundColor = .Gray800 // 원 내부 색상 설정
             circle.layer.borderColor = UIColor.Purple500.cgColor
-            circle.layer.borderWidth = 1
+            circle.layer.borderWidth = 2
             circle.layer.cornerRadius = 4
             graphView.addSubview(circle)
             circle.snp.makeConstraints { make in
@@ -178,7 +178,6 @@ public final class GraphView: UICollectionViewCell {
             dateLabel.text = data.date
             dateLabel.font = Typography.T12.font
             dateLabel.textColor = .Gray500
-//            dateLabel.sizeToFit()
             dateLabel.layer.cornerRadius = 4
             dateLabel.layer.backgroundColor = UIColor.Gray700.cgColor
             dateLabel.textAlignment = .center

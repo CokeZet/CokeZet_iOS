@@ -3,6 +3,7 @@ import ModernRIBs
 import UIKit
 import Then
 import SnapKit
+import CokeZet_Components
 
 protocol ProductDetailPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
@@ -19,7 +20,11 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.register(ProductOverCell.self, forCellWithReuseIdentifier: "overCell")
+        collectionView.register(GraphView.self, forCellWithReuseIdentifier: "GraphView")
+        
         return collectionView
     }()
     
@@ -54,12 +59,25 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "overCell", for: indexPath) as? ProductOverCell else { return UICollectionViewCell() }
-        cell.backgroundColor = .Gray800
-        return cell
+        if indexPath.row == 0 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "overCell", for: indexPath) as? ProductOverCell else { return UICollectionViewCell() }
+            cell.backgroundColor = .Gray800
+            return cell
+        } else if indexPath.row == 1 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GraphView", for: indexPath) as? GraphView else { return UICollectionViewCell() }
+            cell.backgroundColor = .Gray800
+            return cell
+        }
+        
+        return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if indexPath.row == 0 {
+            return CGSize(width: self.view.bounds.width, height: 542)
+        } else if indexPath.row == 1 {
+            return CGSize(width: self.view.bounds.width, height: 360)
+        }
         return CGSize(width: self.view.bounds.width, height: 542)
     }
 }
