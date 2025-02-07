@@ -13,18 +13,14 @@ extension ZetColor {
         switch self {
 
         case .Primary:
-            ZetColor.Red700.hex
+            ZetColor.Red600.hex
         case .Sub:
-            ZetColor.Purple700.hex
-        case .Gray:
-            ZetColor.Gray900.hex
+            ZetColor.Purple600.hex
 
-        case .Red:
-            "#C4100E"
         case .Red900:
-            "#CD110E"
+            "#C4100E"
         case .Red800:
-            "#DF1A17"
+            "#CD110E"
         case .Red700:
             "#E91613"
         case .Red600:
@@ -42,16 +38,14 @@ extension ZetColor {
         case .Red50:
             "#FFF1F1"
 
-        case .Purple:
-            "#2C39B1"
         case .Purple900:
-            "#3948D2"
+            "#2C39B1"
         case .Purple800:
-            "#4859F4"
+            "#3948D2"
         case .Purple700:
-            "#6573F3"
+            "#4859F4"
         case .Purple600:
-            "#7B87F0"
+            "#6573F3"
         case .Purple500:
             "#8C96F1"
         case .Purple400:
@@ -70,13 +64,13 @@ extension ZetColor {
         case .Gray900:
             "#121212"
         case .Gray800:
-            "#2B2727"
+            "#1E1E1E"
         case .Gray700:
-            "#494848"
+            "#2D2D2D"
         case .Gray600:
-            "#6B6666"
+            "#3F3F3F"
         case .Gray500:
-            "#989797"
+            "#868686"
         case .Gray400:
             "#B7B6B6"
         case .Gray300:
@@ -84,7 +78,7 @@ extension ZetColor {
         case .Gray200:
             "#E4E3E3"
         case .Gray100:
-            "#F0ECEC"
+            "#EDEDED"
         case .White:
             "#FFFFFF"
         }
