@@ -53,9 +53,9 @@ internal final class NicknameInputView: UIView {
         $0.text = "0/\(Constant.maxCount)"
     }
 
-    internal init(placeHolder: String) {
+    internal init() {
         super.init(frame: .zero)
-        self.addConfigure(placeHolder: placeHolder)
+        self.addConfigure()
         self.makeConstraints()
     }
 
@@ -64,15 +64,8 @@ internal final class NicknameInputView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func addConfigure(placeHolder: String) {
+    private func addConfigure() {
         self.textField.delegate = self
-        self.textField.attributedPlaceholder = NSAttributedString(
-            string: placeHolder,
-            attributes: [
-                .foregroundColor: UIColor.Gray500,
-                .font: Typography.T24.font
-            ]
-        )
     }
 
     private func makeConstraints() {
@@ -97,6 +90,16 @@ internal final class NicknameInputView: UIView {
             $0.height.equalTo(Metric.underLineHeight)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
+    }
+
+    func setPlaceHolder(_ text: String) {
+        self.textField.attributedPlaceholder = NSAttributedString(
+            string: text,
+            attributes: [
+                .foregroundColor: UIColor.Gray500,
+                .font: Typography.T24.font
+            ]
+        )
     }
 }
 
@@ -130,11 +133,13 @@ extension NicknameInputView: UITextFieldDelegate {
     let contentView = UIView()
     contentView.backgroundColor = .black
 
-    let view = NicknameInputView(placeHolder: "행복한강아지")
+    let view = NicknameInputView()
     contentView.addSubview(view)
     view.snp.makeConstraints {
         $0.edges.equalToSuperview()
     }
+
+    view.setPlaceHolder("행복한강아지")
 
     return contentView
 }
