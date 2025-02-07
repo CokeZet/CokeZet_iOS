@@ -12,6 +12,7 @@ let project = Project(
             sources: [],
             dependencies: [
                 .project(target: "Nickname-Feature", path: "Nickname-Feature"),
+                .project(target: "ProductDetail-Feature", path: "ProductDetail-Feature/"),
             ]
         )
     ]
