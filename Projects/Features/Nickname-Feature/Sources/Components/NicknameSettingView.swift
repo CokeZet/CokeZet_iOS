@@ -29,6 +29,8 @@ internal final class NicknameSettingView: UIView {
     private let descriptionLabel = ZetLabel(typography: .T24, textColor: .White)
     private let confirmButton = ZetRoundButton(buttonState: .Primary)
 
+    var selectConfirm: (() -> Void)?
+
     internal init() {
         super.init(frame: .zero)
         self.addConfigure()
@@ -50,13 +52,19 @@ internal final class NicknameSettingView: UIView {
         self.descriptionLabel.numberOfLines = 2
         self.descriptionLabel.text = "몇 가지 더 설정하고\n함께 최저가 콜라 즐겨요!"
         self.descriptionLabel.textAlignment = .left
-        self.confirmButton.setTitle("다음", for: .normal)
+
         self.nickNameinputView.isVaild = { isValid in
             // TODO: 추후 버튼 컴포넌트 업데이트 시 수정 필요
             let state: ButtonState = isValid ? .Primary : .Disabled
 
             self.confirmButton.buttonState = state
         }
+
+        let action = UIAction { [weak self] _ in
+            self?.selectConfirm?()
+        }
+        self.confirmButton.addAction(action, for: .touchUpInside)
+        self.confirmButton.setTitle("다음", for: .normal)
     }
 
     private func makeConstraints() {
@@ -96,6 +104,10 @@ internal final class NicknameSettingView: UIView {
     }
 
     view.bind(state: NicknameSettingView.State(defaultNickname: "복슬복슬한반달가슴곰"))
+
+    view.selectConfirm = {
+        print("버튼 클릭클릭")
+    }
 
     return contentView
 }
