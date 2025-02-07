@@ -13,16 +13,13 @@ public enum ZetColor {
 
     // MARK: - Main Color
 
-    /// #E91613 Red700
+    /// #E91613 Red600
     case Primary
-    /// #6573F3 Purple700
+    /// #6573F3 Purple600
     case Sub
-    /// #121212 Gray900
-    case Gray
 
     // MARK: - RED
 
-    case Red
     case Red900
     case Red800
     case Red700
@@ -36,7 +33,6 @@ public enum ZetColor {
 
     // MARK: - Purple
 
-    case Purple
     case Purple900
     case Purple800
     case Purple700
