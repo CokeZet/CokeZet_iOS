@@ -18,7 +18,7 @@ public final class ZetRoundButton: UIButton {
         static let cornerRadius: CGFloat = height/2
     }
 
-    private var buttonState: ButtonState {
+    public var buttonState: ButtonState {
         didSet {
             self.setButtonStyle(self.buttonState)
         }

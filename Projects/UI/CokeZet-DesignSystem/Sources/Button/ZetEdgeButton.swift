@@ -19,7 +19,7 @@ public final class ZetEdgeButton: UIButton {
     }
 
     private let size: EdgeButtonSize
-    private var buttonState: ButtonState {
+    public var buttonState: ButtonState {
         didSet {
             self.setButtonStyle(self.buttonState)
         }
