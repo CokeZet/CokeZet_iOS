@@ -266,3 +266,23 @@ public final class GraphView: UICollectionViewCell {
         drawGraph()
     }
 }
+
+@available(iOS 17.0, *)
+#Preview(
+    "button state",
+    traits: .sizeThatFitsLayout
+) {
+    let contentView = UIStackView()
+    contentView.axis = .vertical
+    contentView.alignment = .fill
+    contentView.spacing = 10
+    contentView.backgroundColor = ZetColor.Gray800.color
+    
+    let tool = GraphView()
+    tool.snp.makeConstraints {
+        $0.width.equalTo(360)
+    }
+    contentView.addArrangedSubview(tool)
+
+    return tool
+}
