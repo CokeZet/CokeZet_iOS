@@ -13,6 +13,13 @@ import SnapKit
 
 internal final class NicknameSettingView: UIView {
 
+    private enum Metric {
+        static let topInset: CGFloat = 88
+        static let bottomInset: CGFloat = 17
+        static let leadingInset: CGFloat = 20
+        static let spacing: CGFloat = 24
+    }
+
     private let stackView = UIStackView()
     private let nickNameinputView = NicknameInputView()
     private let descriptionLabel = ZetLabel(typography: .T24, textColor: .White)
@@ -33,7 +40,7 @@ internal final class NicknameSettingView: UIView {
         self.backgroundColor = .Gray800
 
         self.stackView.axis = .vertical
-        self.stackView.spacing = 24
+        self.stackView.spacing = Metric.spacing
         self.stackView.alignment = .leading
 
         self.descriptionLabel.numberOfLines = 2
@@ -50,12 +57,12 @@ internal final class NicknameSettingView: UIView {
         self.addSubview(confirmButton)
 
         self.stackView.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide).offset(88)
-            $0.leading.equalToSuperview().offset(20)
+            $0.top.equalTo(self.safeAreaLayoutGuide).offset(Metric.topInset)
+            $0.leading.equalToSuperview().offset(Metric.leadingInset)
         }
 
         self.confirmButton.snp.makeConstraints {
-            $0.bottom.equalTo(self.safeAreaLayoutGuide).offset(-17)
+            $0.bottom.equalTo(self.safeAreaLayoutGuide).offset(-Metric.bottomInset)
             $0.centerX.equalToSuperview()
         }
     }
