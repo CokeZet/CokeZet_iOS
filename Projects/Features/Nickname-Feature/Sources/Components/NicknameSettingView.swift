@@ -20,10 +20,14 @@ internal final class NicknameSettingView: UIView {
         static let spacing: CGFloat = 24
     }
 
+    struct State {
+        let defaultNickname: String
+    }
+
     private let stackView = UIStackView()
     private let nickNameinputView = NicknameInputView()
     private let descriptionLabel = ZetLabel(typography: .T24, textColor: .White)
-    private let confirmButton = ZetRoundButton(buttonState: .Disabled)
+    private let confirmButton = ZetRoundButton(buttonState: .Primary)
 
     internal init() {
         super.init(frame: .zero)
@@ -47,6 +51,12 @@ internal final class NicknameSettingView: UIView {
         self.descriptionLabel.text = "몇 가지 더 설정하고\n함께 최저가 콜라 즐겨요!"
         self.descriptionLabel.textAlignment = .left
         self.confirmButton.setTitle("다음", for: .normal)
+        self.nickNameinputView.isVaild = { isValid in
+            // TODO: 추후 버튼 컴포넌트 업데이트 시 수정 필요
+            let state: ButtonState = isValid ? .Primary : .Disabled
+
+            self.confirmButton.buttonState = state
+        }
     }
 
     private func makeConstraints() {
@@ -67,6 +77,9 @@ internal final class NicknameSettingView: UIView {
         }
     }
 
+    func bind(state: State) {
+        self.nickNameinputView.setDefaultNickname(state.defaultNickname)
+    }
 }
 
 @available(iOS 17.0, *)
@@ -81,6 +94,8 @@ internal final class NicknameSettingView: UIView {
     view.snp.makeConstraints {
         $0.edges.equalToSuperview()
     }
+
+    view.bind(state: NicknameSettingView.State(defaultNickname: "복슬복슬한반달가슴곰"))
 
     return contentView
 }

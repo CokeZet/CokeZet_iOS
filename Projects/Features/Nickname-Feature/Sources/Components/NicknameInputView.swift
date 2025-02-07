@@ -53,6 +53,8 @@ internal final class NicknameInputView: UIView {
         $0.text = "0/\(Constant.maxCount)"
     }
 
+    var isVaild: ((Bool) -> ())?
+
     internal init() {
         super.init(frame: .zero)
         self.addConfigure()
@@ -92,14 +94,8 @@ internal final class NicknameInputView: UIView {
         }
     }
 
-    func setPlaceHolder(_ text: String) {
-        self.textField.attributedPlaceholder = NSAttributedString(
-            string: text,
-            attributes: [
-                .foregroundColor: UIColor.Gray500,
-                .font: Typography.T24.font
-            ]
-        )
+    func setDefaultNickname(_ text: String) {
+        self.textField.text = text
     }
 }
 
@@ -122,6 +118,8 @@ extension NicknameInputView: UITextFieldDelegate {
         if length > Constant.maxCount {
             textField.text = String(text.precomposedStringWithCanonicalMapping.prefix(Constant.maxCount))
         }
+
+        self.isVaild?(length > 0)
     }
 }
 
@@ -139,7 +137,7 @@ extension NicknameInputView: UITextFieldDelegate {
         $0.edges.equalToSuperview()
     }
 
-    view.setPlaceHolder("행복한강아지")
+    view.setDefaultNickname("행복한강아지")
 
     return contentView
 }
