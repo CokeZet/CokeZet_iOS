@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_can_pepsi_190.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
