@@ -10,9 +10,8 @@ import UIKit
 import CokeZet_DesignSystem
 
 public final class PriceComparisonView: UIView {
-    private let titleLabel: UILabel = UILabel().then {
+    private let titleLabel: ZetLabel = ZetLabel(typography: .T18, textColor: .White).then {
         $0.text = "가격비교"
-        $0.font = Typography.T18.font
     }
     
     public override func layoutSubviews() {

@@ -14,15 +14,9 @@ import CokeZet_DesignSystem
 /// ToolTip 컴포넌트 정의
 /// figma: https://www.figma.com/design/2Sd5HIV4AVqvFUEzNpbBgX/SD%F0%9F%A5%A4?node-id=1245-10476&t=CXFXuqoYu6hHFjZ8-4
 public final class KeyValueStackView: UIStackView {
-    let keyLabel: UILabel = UILabel(frame: .zero).then {
-        $0.textColor = ZetColor.Gray500.color
-        $0.font = Typography.T14.font
-    }
+    let keyLabel: ZetLabel = ZetLabel(typography: .T14, textColor: .Gray500)
     
-    let valueLabel: UILabel = UILabel(frame: .zero).then {
-        $0.textColor = ZetColor.White.color
-        $0.font = Typography.T14.font
-    }
+    let valueLabel: ZetLabel = ZetLabel(typography: .T14, textColor: .White)
     
     let imageView: UIImageView = UIImageView(frame: .zero)
 

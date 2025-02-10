@@ -1,5 +1,5 @@
 //
-//  AdBannerView.swift
+//  AdBannerButton.swift
 //  ProductDetail-Feature
 //
 //  Created by 김진우 on 2/5/25.
@@ -28,11 +28,9 @@ final class AdBannerButton: UIButton {
         $0.distribution = .fill
     }
     
-    private let descriptLabel = UILabel().then {
+    private let descriptLabel = ZetLabel(typography: .T16, textColor: .Gray300).then {
         $0.text = "신한카드, 국민카드가 있다면 이 가격에 구입 가능해요!"
         $0.numberOfLines = 2
-        $0.font = Typography.T16.font
-        $0.textColor = .Gray300
         $0.lineBreakStrategy = .hangulWordPriority
     }
     
@@ -43,10 +41,8 @@ final class AdBannerButton: UIButton {
         $0.distribution = .fill
     }
     
-    private let priceLabel = UILabel().then {
+    private let priceLabel = ZetLabel(typography: .T18, textColor: .Red500).then {
         $0.text = "11800".formatWithComma() + "원"
-        $0.font = Typography.T18.font
-        $0.textColor = .Red500
     }
     
     private let tooltip = ToolTip()
@@ -60,7 +56,7 @@ final class AdBannerButton: UIButton {
     
     private let shopImageView = UIImageView().then {
         $0.image = .strokedCheckmark
-        $0.layer.cornerRadius = 28 // 56 / 2
+        $0.layer.cornerRadius = Layout.imageSize.height / 2
         $0.clipsToBounds = true
     }
     

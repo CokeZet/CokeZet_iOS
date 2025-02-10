@@ -27,10 +27,8 @@ public final class GraphView: UICollectionViewCell {
     // 그래프를 그릴 뷰
     private let graphView = UIView()
     
-    private let titleLabel: UILabel = UILabel().then {
+    private let titleLabel: ZetLabel = ZetLabel(typography: .T18, textColor: .White).then {
         $0.text = "최저가 그래프"
-        $0.font = Typography.T18.font
-        $0.textColor = .White
     }
 
     private var isGraphDrawn = false // 그래프가 이미 그려졌는지 확인하는 플래그
@@ -174,10 +172,8 @@ public final class GraphView: UICollectionViewCell {
             }
             
             // 날짜 레이블 추가
-            let dateLabel = UILabel()
+            let dateLabel = ZetLabel(typography: .T12, textColor: .Gray500)
             dateLabel.text = data.date
-            dateLabel.font = Typography.T12.font
-            dateLabel.textColor = .Gray500
             dateLabel.layer.cornerRadius = 4
             dateLabel.layer.backgroundColor = UIColor.Gray700.cgColor
             dateLabel.textAlignment = .center
@@ -190,10 +186,8 @@ public final class GraphView: UICollectionViewCell {
             }
 
             // 가격 레이블 추가
-            let priceLabel = UILabel()
+            let priceLabel = ZetLabel(typography: .T14, textColor: data.price == minPrice ? .Purple500 : .Gray300)
             priceLabel.text = String(data.price).formatWithComma() + "원"
-            priceLabel.font = Typography.T14.font
-            priceLabel.textColor = data.price == minPrice ? .Purple500 : .Gray300
             priceLabel.sizeToFit()
             graphView.addSubview(priceLabel)
             priceLabel.snp.makeConstraints { make in

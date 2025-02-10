@@ -14,7 +14,7 @@ import CokeZet_DesignSystem
 /// figma: https://www.figma.com/design/2Sd5HIV4AVqvFUEzNpbBgX/SD%F0%9F%A5%A4?node-id=557-14171&t=AJTf2WXskCeRDQuP-4
 public final class ToolTip: UIView {
     let stackView: UIStackView = UIStackView(frame: .zero)
-    let label: UILabel = UILabel(frame: .zero)
+    let label: ZetLabel = ZetLabel(typography: .T14, textColor: .Purple500)
     let imageView: UIImageView = UIImageView(frame: .zero)
     
     private enum Metric {
@@ -53,8 +53,6 @@ public final class ToolTip: UIView {
         stackView.spacing = 4
         self.backgroundColor = ZetColor.Purple800.color.withAlphaComponent(0.15)
         label.text = "조건있음"
-        label.font = Typography.T14.font
-        label.textColor = .Purple500
     }
 
     private func makeConstraints() {
