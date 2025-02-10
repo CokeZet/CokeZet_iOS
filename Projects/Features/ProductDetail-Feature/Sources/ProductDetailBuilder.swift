@@ -20,7 +20,7 @@ final class ProductDetailComponent: Component<ProductDetailDependency> {
 // MARK: - Builder
 
 public protocol ProductDetailBuildable: Buildable {
-    func build() -> LaunchRouting
+    func build(withListener listener: ProductDetailListener) -> ViewableRouting
 }
 
 public final class ProductDetailBuilder: Builder<ProductDetailDependency>, ProductDetailBuildable {
@@ -29,10 +29,12 @@ public final class ProductDetailBuilder: Builder<ProductDetailDependency>, Produ
         super.init(dependency: dependency)
     }
     
-    public func build() -> LaunchRouting {
+    public func build(withListener listener: ProductDetailListener) -> ViewableRouting {
         let component = ProductDetailComponent(dependency: dependency)
         let viewController = ProductDetailViewController()
         let interactor = ProductDetailInteractor(presenter: viewController)
+        interactor.listener = listener
+        
         return ProductDetailRouter(
             interactor: interactor,
             viewController: viewController

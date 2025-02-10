@@ -14,19 +14,17 @@ import SnapKit
 public final class ZetRoundButton: UIButton {
 
     private enum Metric {
-        static let width: CGFloat = 334
         static let height: CGFloat = 65
-        static let size = CGSize(width: width, height: height)
         static let cornerRadius: CGFloat = height/2
     }
 
-    private var buttonState: ButtonState {
+    public var buttonState: ButtonState {
         didSet {
             self.setButtonStyle(self.buttonState)
         }
     }
 
-    init(buttonState: ButtonState = .Primary) {
+    public init(buttonState: ButtonState = .Primary) {
         self.buttonState = buttonState
         super.init(frame: .zero)
         self.addConfigure()
@@ -49,7 +47,7 @@ public final class ZetRoundButton: UIButton {
 
     private func makeConstraints() {
         self.snp.makeConstraints {
-            $0.size.equalTo(Metric.size)
+            $0.height.equalTo(Metric.height)
         }
     }
 
@@ -102,6 +100,10 @@ public final class ZetRoundButton: UIButton {
             print("\(state) clicked!")
         })
         button.addAction(action, for: .touchUpInside)
+        
+        button.snp.makeConstraints {
+            $0.width.equalTo(334)
+        }
 
         contentView.addArrangedSubview(button)
     }

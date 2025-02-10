@@ -10,9 +10,7 @@ import UIKit
 extension UIColor {
     public static var Primary: UIColor { ZetColor.Primary.color }
     public static var Sub: UIColor { ZetColor.Sub.color }
-    public static var Gray: UIColor { ZetColor.Gray.color }
 
-    public static var Red: UIColor { ZetColor.Red.color }
     public static var Red900: UIColor { ZetColor.Red900.color }
     public static var Red800: UIColor { ZetColor.Red800.color }
     public static var Red700: UIColor { ZetColor.Red700.color }
@@ -24,7 +22,6 @@ extension UIColor {
     public static var Red100: UIColor { ZetColor.Red100.color }
     public static var Red50: UIColor { ZetColor.Red50.color }
 
-    public static var Purple: UIColor { ZetColor.Purple.color }
     public static var Purple900: UIColor { ZetColor.Purple900.color }
     public static var Purple800: UIColor { ZetColor.Purple800.color }
     public static var Purple700: UIColor { ZetColor.Purple700.color }
