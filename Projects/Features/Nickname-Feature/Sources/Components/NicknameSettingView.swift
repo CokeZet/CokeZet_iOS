@@ -47,7 +47,6 @@ internal final class NicknameSettingView: UIView {
 
         self.stackView.axis = .vertical
         self.stackView.spacing = Metric.spacing
-        self.stackView.alignment = .leading
 
         self.descriptionLabel.numberOfLines = 2
         self.descriptionLabel.text = "몇 가지 더 설정하고\n함께 최저가 콜라 즐겨요!"
@@ -81,7 +80,7 @@ internal final class NicknameSettingView: UIView {
 
         self.confirmButton.snp.makeConstraints {
             $0.bottom.equalTo(self.safeAreaLayoutGuide).offset(-Metric.bottomInset)
-            $0.centerX.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(Metric.leadingInset)
         }
     }
 
@@ -101,6 +100,7 @@ internal final class NicknameSettingView: UIView {
     contentView.addSubview(view)
     view.snp.makeConstraints {
         $0.edges.equalToSuperview()
+        $0.width.equalTo(404)
     }
 
     view.bind(state: NicknameSettingView.State(defaultNickname: "복슬복슬한반달가슴곰"))
