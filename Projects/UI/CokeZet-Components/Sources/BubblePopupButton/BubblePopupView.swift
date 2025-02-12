@@ -17,15 +17,15 @@ public final class BubblePopupView: UIView {
     
     public init(text: String) {
         super.init(frame: .zero)
-        setupView(text: text)
+        addConfigure(text: text)
+        makeConstraints()
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupView(text: "")
+        fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupView(text: String) {
+    private func addConfigure(text: String) {
         textLabel.setAttributed(
             text: text,
             font: Typography.T12.font,
@@ -42,6 +42,9 @@ public final class BubblePopupView: UIView {
         backgroundColor = .Gray500
         layer.cornerRadius = 6
         clipsToBounds = false
+    }
+    
+    private func makeConstraints() {
         // 텍스트 레이블 추가
         addSubview(textLabel)
         

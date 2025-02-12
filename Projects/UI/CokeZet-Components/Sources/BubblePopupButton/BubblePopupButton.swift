@@ -16,15 +16,19 @@ public final class BubblePopupButton: UIButton {
     
     public init(_ text: String) {
         super.init(frame: .zero)
-        self.setImage(.strokedCheckmark, for: .normal)
-        self.tintColor = .black
-        self.clipsToBounds = true
-        self.text = text
+        addConfigure()
         setButtonAction()
+        self.text = text
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func addConfigure() {
+        self.setImage(.strokedCheckmark, for: .normal)
+        self.tintColor = .black
+        self.clipsToBounds = true
     }
 
     private func setButtonAction() {
