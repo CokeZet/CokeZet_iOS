@@ -9,8 +9,7 @@ let project = Project(
             product: .framework,
             bundleId: "CokeZet-iOS.CokeZet-UI",
             infoPlist: .default,
-            sources: ["Sources/**"],
-            resources: ["Sources/**"],
+            sources: [],
             dependencies: [
                 .project(target: "CokeZet-Components", path: "../UI/CokeZet-Components"),
             ]
