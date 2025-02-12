@@ -82,7 +82,11 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
             return CGSize(width: self.view.bounds.width, height: 542)
         } else if indexPath.row == 1 {
             return CGSize(width: self.view.bounds.width, height: 360)
+        } else if indexPath.row == 2 {
+            return CGSize(width: self.view.bounds.width, height: 523)
         }
+        
+        
         return CGSize(width: self.view.bounds.width, height: 542)
     }
 }
