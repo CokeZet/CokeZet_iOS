@@ -42,7 +42,6 @@ public final class BubblePopupView: UIView {
         backgroundColor = .Gray500
         layer.cornerRadius = 6
         clipsToBounds = false
-        
         // 텍스트 레이블 추가
         addSubview(textLabel)
         

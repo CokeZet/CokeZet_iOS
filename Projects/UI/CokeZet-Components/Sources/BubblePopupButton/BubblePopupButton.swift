@@ -43,8 +43,11 @@ public final class BubblePopupButton: UIButton {
         self.bubbleView = bubbleView
         
         // BubblePopupView를 최상위 뷰에 추가
-        guard let rootView = self.superview else { return }
-        rootView.addSubview(bubbleView)
+        if let window = UIApplication.shared.connectedScenes
+            .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
+            .first {
+            window.addSubview(bubbleView)
+        }
         
         // BubblePopupView 위치 설정
         bubbleView.snp.makeConstraints {
@@ -78,6 +81,6 @@ public final class BubblePopupButton: UIButton {
         $0.width.equalTo(20)
     }
     contentView.addArrangedSubview(tool)
-
+    
     return contentView
 }
