@@ -24,6 +24,7 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(ProductOverCell.self, forCellWithReuseIdentifier: "overCell")
         collectionView.register(GraphView.self, forCellWithReuseIdentifier: "GraphView")
+        collectionView.register(PriceComparisonCell.self, forCellWithReuseIdentifier: "PriceComparisonView")
         
         return collectionView
     }()
@@ -55,7 +56,7 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
 
 extension ProductDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -65,6 +66,10 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
             return cell
         } else if indexPath.row == 1 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GraphView", for: indexPath) as? GraphView else { return UICollectionViewCell() }
+            cell.backgroundColor = .Gray800
+            return cell
+        } else if indexPath.row == 2 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PriceComparisonView", for: indexPath) as? PriceComparisonCell else { return UICollectionViewCell() }
             cell.backgroundColor = .Gray800
             return cell
         }
