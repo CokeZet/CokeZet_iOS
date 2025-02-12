@@ -16,8 +16,7 @@ let project = Project(
                 "Resources/**"
             ],
             dependencies: [
-                .project(target: "Third-Party-UI", path: "../../Third-Party-UI"),
-                .project(target: "CokeZet-Utilities", path: "../../Utilities"),
+                .project(target: "CokeZet-DesignSystem", path: "../CokeZet-DesignSystem"),
             ]
         ),
         .target(

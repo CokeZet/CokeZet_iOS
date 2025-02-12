@@ -3,6 +3,7 @@ import ModernRIBs
 import UIKit
 import Then
 import SnapKit
+import CokeZet_Components
 
 protocol ProductDetailPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
@@ -11,12 +12,19 @@ protocol ProductDetailPresentableListener: AnyObject {
 }
 
 final class ProductDetailViewController: UIViewController, ProductDetailPresentable, ProductDetailViewControllable {
-
-    let collectionView: UICollectionView = {
+    
+    lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.register(ProductOverCell.self, forCellWithReuseIdentifier: "overCell")
+        collectionView.register(GraphView.self, forCellWithReuseIdentifier: "GraphView")
+        
         return collectionView
     }()
     
@@ -32,7 +40,6 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
         setupViews()
     }
     
@@ -41,4 +48,36 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
         collectionView.snp.makeConstraints {
             $0.leading.trailing.top.bottom.equalToSuperview()
         }
-    }}
+        
+        collectionView.reloadData()
+    }
+}
+
+extension ProductDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.row == 0 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "overCell", for: indexPath) as? ProductOverCell else { return UICollectionViewCell() }
+            cell.backgroundColor = .Gray800
+            return cell
+        } else if indexPath.row == 1 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GraphView", for: indexPath) as? GraphView else { return UICollectionViewCell() }
+            cell.backgroundColor = .Gray800
+            return cell
+        }
+        
+        return UICollectionViewCell()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if indexPath.row == 0 {
+            return CGSize(width: self.view.bounds.width, height: 542)
+        } else if indexPath.row == 1 {
+            return CGSize(width: self.view.bounds.width, height: 360)
+        }
+        return CGSize(width: self.view.bounds.width, height: 542)
+    }
+}

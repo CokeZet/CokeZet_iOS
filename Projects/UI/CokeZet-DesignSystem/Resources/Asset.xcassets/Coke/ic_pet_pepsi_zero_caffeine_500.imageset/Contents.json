@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_pet_pepsi_zero_caffeine_500.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

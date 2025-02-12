@@ -16,7 +16,7 @@ protocol ProductDetailPresentable: Presentable {
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol ProductDetailListener: AnyObject {
+public protocol ProductDetailListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
