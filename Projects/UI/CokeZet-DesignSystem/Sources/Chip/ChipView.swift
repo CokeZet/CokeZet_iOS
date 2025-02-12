@@ -9,12 +9,59 @@ import UIKit
 
 import SnapKit
 
-final class ChipView: UIView {
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+public enum ChoiceState {
+    case normal // default
+    case active
+
+    var coverColor: UIColor? {
+        switch self {
+        case .normal:
+            return UIColor.clear
+
+        case .active:
+            return UIColor.Red900.withAlphaComponent(0.6)
+
+        }
+    }
+
+    var borderColor: CGColor? {
+        switch self {
+        case .normal:
+            return UIColor.clear.cgColor
+
+        case .active:
+            return UIColor.Red900.cgColor
+
+        }
+    }
+
+    var borderWidth: CGFloat {
+        switch self {
+        case .normal:
+            return .zero
+
+        case .active:
+            return 2
+        }
+    }
+}
+
+public final class ChoiceView: UIView {
+
+    private enum Metric {
+        static let size: CGFloat = 66
+        static let cornerRadius: CGFloat = size / 2
+    }
+
+    private let imageView = UIImageView()
+    private let coverView = UIView()
+
+    public init(state: ChoiceState = .normal) {
+        super.init(frame: .zero)
         self.addConfigure()
         self.makeConstraints()
+        self.setState(state)
     }
 
     @available(*, unavailable)
@@ -23,10 +70,48 @@ final class ChipView: UIView {
     }
 
     private func addConfigure() {
-
+        self.imageView.contentMode = .scaleAspectFit
+        self.clipsToBounds = true
+        self.layer.cornerRadius = Metric.cornerRadius
+        self.coverView.layer.cornerRadius = Metric.cornerRadius
     }
 
     private func makeConstraints() {
+        self.addSubview(imageView)
+        self.addSubview(coverView)
 
+        self.snp.makeConstraints {
+            $0.size.equalTo(Metric.size)
+        }
+
+        self.imageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
+        self.coverView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
+
+    public func setState(_ state: ChoiceState) {
+        self.coverView.layer.borderColor = state.borderColor
+        self.coverView.layer.borderWidth = state.borderWidth
+        self.coverView.backgroundColor = state.coverColor
+    }
+
+    public func setImage(_ image: UIImage?) {
+        self.imageView.image = image
+    }
+}
+
+@available(iOS 17.0, *)
+#Preview(
+    "normal",
+    traits: .sizeThatFitsLayout
+) {
+    let view = ChoiceView()
+
+    view.setImage(CokeZetDesignSystemAsset.icCurly.image)
+
+    return view
 }
