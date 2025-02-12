@@ -31,7 +31,7 @@ public enum ChoiceState {
             return UIColor.clear.cgColor
 
         case .active:
-            return UIColor.Red900.cgColor
+            return UIColor.Red600.cgColor
 
         }
     }
@@ -112,6 +112,19 @@ public final class ChoiceView: UIView {
     let view = ChoiceView()
 
     view.setImage(CokeZetDesignSystemAsset.icCurly.image)
+
+    return view
+}
+
+@available(iOS 17.0, *)
+#Preview(
+    "active",
+    traits: .sizeThatFitsLayout
+) {
+    let view = ChoiceView()
+
+    view.setImage(CokeZetDesignSystemAsset.icCurly.image)
+    view.setState(.active)
 
     return view
 }
