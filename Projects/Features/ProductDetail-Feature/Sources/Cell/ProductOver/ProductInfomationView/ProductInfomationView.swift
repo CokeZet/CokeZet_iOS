@@ -23,11 +23,11 @@ final class ProductInfomationView: UIView {
         $0.alignment = .leading
     }
     
-    private let productTypeLabel = ZetLabel(typography: .T14, textColor: ZetColor.Gray600.color).then {
+    private let productTypeLabel = ZetLabel(typography: .semiBold(.T14), textColor: ZetColor.Gray600.color).then {
         $0.text = "코카콜라 음료"
     }
     
-    private let titleLabel = ZetLabel(typography: .T20, textColor: ZetColor.White.color).then {
+    private let titleLabel = ZetLabel(typography: .semiBold(.T20), textColor: ZetColor.White.color).then {
         $0.text = "코카콜라 제로 190ml (12개)"
     }
     
