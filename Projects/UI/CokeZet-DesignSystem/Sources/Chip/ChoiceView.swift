@@ -1,5 +1,5 @@
 //
-//  ChipView.swift
+//  ChoiceView.swift
 //  CokeZet-DesignSystem
 //
 //  Created by Daye on 2/12/25.
@@ -8,7 +8,6 @@
 import UIKit
 
 import SnapKit
-
 
 public enum ChoiceState {
     case normal // default
