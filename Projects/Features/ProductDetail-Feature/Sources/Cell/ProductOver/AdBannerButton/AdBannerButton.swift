@@ -28,7 +28,7 @@ final class AdBannerButton: UIButton {
         $0.distribution = .fill
     }
     
-    private let descriptLabel = ZetLabel(typography: .T16, textColor: .Gray300).then {
+    private let descriptLabel = ZetLabel(typography: .semiBold(.T16), textColor: .Gray300).then {
         $0.text = "신한카드, 국민카드가 있다면 이 가격에 구입 가능해요!"
         $0.numberOfLines = 2
         $0.lineBreakStrategy = .hangulWordPriority
@@ -41,7 +41,7 @@ final class AdBannerButton: UIButton {
         $0.distribution = .fill
     }
     
-    private let priceLabel = ZetLabel(typography: .T18, textColor: .Red500).then {
+    private let priceLabel = ZetLabel(typography: .semiBold(.T18), textColor: .Red500).then {
         $0.text = "11800".formatWithComma() + "원"
     }
     
