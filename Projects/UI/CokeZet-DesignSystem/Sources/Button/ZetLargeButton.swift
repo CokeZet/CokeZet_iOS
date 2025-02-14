@@ -1,5 +1,5 @@
 //
-//  ZetRoundButton.swift
+//  ZetLargeButton.swift
 //  CokeZet-DesignSystem
 //
 //  Created by Daye on 1/23/25.
@@ -11,7 +11,7 @@ import SnapKit
 
 /// Round Button 컴포넌트 정의
 /// figma: https://www.figma.com/design/2Sd5HIV4AVqvFUEzNpbBgX/SD🥤?node-id=497-17519&t=m3eVZ1aeg9slpf2F-0
-public final class ZetRoundButton: UIButton {
+public final class ZetLargeButton: UIButton {
 
     private enum Metric {
         static let height: CGFloat = 65
@@ -24,7 +24,7 @@ public final class ZetRoundButton: UIButton {
         }
     }
 
-    public init(buttonState: ButtonState = .Primary) {
+    public init(buttonState: ButtonState = .normal) {
         self.buttonState = buttonState
         super.init(frame: .zero)
         self.addConfigure()
@@ -54,7 +54,7 @@ public final class ZetRoundButton: UIButton {
     private func setButtonStyle(_ state: ButtonState) {
         self.backgroundColor = state.backgroundColor
         self.setTitleColor(state.titleColor, for: .normal)
-        self.isEnabled = self.buttonState != .Disabled
+        self.isEnabled = self.buttonState != .disabled
     }
 
     private func setButtonAction() {
@@ -70,13 +70,13 @@ public final class ZetRoundButton: UIButton {
     }
 
     private func handleTouchDown() {
-        if self.buttonState != .Disabled {
-            self.setButtonStyle(.Pressed)
+        if self.buttonState != .disabled {
+            self.setButtonStyle(.pressed)
         }
     }
 
     private func handleTouchUp() {
-        if self.buttonState != .Disabled {
+        if self.buttonState != .disabled {
             self.setButtonStyle(self.buttonState)
         }
     }
@@ -93,7 +93,7 @@ public final class ZetRoundButton: UIButton {
     contentView.spacing = 10
 
     ButtonState.allCases.forEach { state in
-        let button = ZetRoundButton(buttonState: state)
+        let button = ZetLargeButton(buttonState: state)
         button.setTitle("타이틀 - \(state)", for: .normal)
 
         let action = UIAction(handler: { _ in

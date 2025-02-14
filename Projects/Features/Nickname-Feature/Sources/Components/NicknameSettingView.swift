@@ -27,7 +27,7 @@ internal final class NicknameSettingView: UIView {
     private let stackView = UIStackView()
     private let nickNameinputView = NicknameInputView()
     private let descriptionLabel = ZetLabel(typography: .semiBold(.T24), textColor: .White)
-    private let confirmButton = ZetRoundButton(buttonState: .Primary)
+    private let confirmButton = ZetLargeButton(buttonState: .normal)
 
     var selectConfirm: (() -> Void)?
 
@@ -53,8 +53,7 @@ internal final class NicknameSettingView: UIView {
         self.descriptionLabel.textAlignment = .left
 
         self.nickNameinputView.isVaild = { isValid in
-            // TODO: 추후 버튼 컴포넌트 업데이트 시 수정 필요
-            let state: ButtonState = isValid ? .Primary : .Disabled
+            let state: ButtonState = isValid ? .normal : .disabled
 
             self.confirmButton.buttonState = state
         }

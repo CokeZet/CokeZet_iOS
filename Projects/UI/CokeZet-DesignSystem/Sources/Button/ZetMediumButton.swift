@@ -1,5 +1,5 @@
 //
-//  ZetButton.swift
+//  ZetMediumButton.swift
 //  CokeZet-DesignSystem
 //
 //  Created by Daye on 1/23/25.
@@ -11,25 +11,20 @@ import SnapKit
 
 /// Edge Button 컴포넌트 정의
 /// figma: https://www.figma.com/design/2Sd5HIV4AVqvFUEzNpbBgX/SD🥤?node-id=497-17519&t=m3eVZ1aeg9slpf2F-0
-public final class ZetEdgeButton: UIButton {
+public final class ZetMediumButton: UIButton {
 
     private enum Metric {
         static let height: CGFloat = 48
         static let cornerRadius: CGFloat = 10
     }
 
-    private let size: EdgeButtonSize
     public var buttonState: ButtonState {
         didSet {
             self.setButtonStyle(self.buttonState)
         }
     }
 
-    public init(
-        size: EdgeButtonSize = .Default,
-        buttonState: ButtonState = .Primary
-    ) {
-        self.size = size
+    public init(buttonState: ButtonState = .normal) {
         self.buttonState = buttonState
         super.init(frame: .zero)
         self.addConfigure()
@@ -52,7 +47,6 @@ public final class ZetEdgeButton: UIButton {
 
     private func makeConstraints() {
         self.snp.makeConstraints {
-            $0.width.equalTo(self.size.width)
             $0.height.equalTo(Metric.height)
         }
     }
@@ -60,7 +54,7 @@ public final class ZetEdgeButton: UIButton {
     private func setButtonStyle(_ state: ButtonState) {
         self.backgroundColor = state.backgroundColor
         self.setTitleColor(state.titleColor, for: .normal)
-        self.isEnabled = self.buttonState != .Disabled
+        self.isEnabled = self.buttonState != .disabled
     }
 
     private func setButtonAction() {
@@ -76,13 +70,13 @@ public final class ZetEdgeButton: UIButton {
     }
 
     private func handleTouchDown() {
-        if self.buttonState != .Disabled {
-            self.setButtonStyle(.Pressed)
+        if self.buttonState != .disabled {
+            self.setButtonStyle(.pressed)
         }
     }
 
     private func handleTouchUp() {
-        if self.buttonState != .Disabled {
+        if self.buttonState != .disabled {
             self.setButtonStyle(self.buttonState)
         }
     }
@@ -99,7 +93,7 @@ public final class ZetEdgeButton: UIButton {
     contentView.spacing = 10
 
     ButtonState.allCases.forEach { state in
-        let button = ZetEdgeButton(size: .Default, buttonState: state)
+        let button = ZetMediumButton(buttonState: state)
         button.setTitle("타이틀 - \(state)", for: .normal)
 
         let action = UIAction(handler: { _ in
@@ -124,7 +118,7 @@ public final class ZetEdgeButton: UIButton {
     contentView.spacing = 10
 
     EdgeButtonSize.allCases.forEach { size in
-        let button = ZetEdgeButton(size: size, buttonState: .Primary)
+        let button = ZetMediumButton(buttonState: .normal)
         button.setTitle("타이틀 - \(size)", for: .normal)
 
         let action = UIAction(handler: { _ in

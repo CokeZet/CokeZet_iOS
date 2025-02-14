@@ -8,38 +8,28 @@
 import UIKit
 
 public enum ButtonState: CaseIterable {
-    case Primary
-    case Pressed
-    case Normal
-    case Secondary
-    case Disabled
+    case normal
+    case pressed
+    case disabled
 
     var titleColor: UIColor {
         switch self {
-        case .Primary:
+        case .pressed:
             return .White
-        case .Pressed:
+        case .normal:
             return .White
-        case .Normal:
-            return .Black
-        case .Secondary:
-            return .White
-        case .Disabled:
+        case .disabled:
             return .Gray500
         }
     }
 
     var backgroundColor: UIColor {
         switch self {
-        case .Primary:
-            return .Red600
-        case .Pressed:
+        case .pressed:
             return .Red700
-        case .Normal:
-            return .Red50
-        case .Secondary:
-            return .Gray500
-        case .Disabled:
+        case .normal:
+            return .Red600
+        case .disabled:
             return .Gray700
         }
     }
