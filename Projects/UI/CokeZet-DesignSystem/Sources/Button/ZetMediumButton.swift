@@ -16,6 +16,12 @@ public final class ZetMediumButton: UIButton {
     private enum Metric {
         static let height: CGFloat = 48
         static let cornerRadius: CGFloat = 10
+        static let inset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 10,
+            bottom: 0,
+            trailing: 10
+        )
     }
 
     public var buttonState: ButtonState {
@@ -42,6 +48,9 @@ public final class ZetMediumButton: UIButton {
         self.layer.cornerRadius = Metric.cornerRadius
         self.titleLabel?.font = Typography.semiBold(.T18).font
         self.setButtonStyle(self.buttonState)
+        var config = UIButton.Configuration.plain()
+        config.contentInsets = Metric.inset
+        self.configuration = config
         self.setButtonAction()
     }
 
@@ -54,6 +63,7 @@ public final class ZetMediumButton: UIButton {
     private func setButtonStyle(_ state: ButtonState) {
         self.backgroundColor = state.backgroundColor
         self.setTitleColor(state.titleColor, for: .normal)
+        self.setTitleColor(state.titleColor, for: .disabled)
         self.isEnabled = self.buttonState != .disabled
     }
 
@@ -117,17 +127,15 @@ public final class ZetMediumButton: UIButton {
     contentView.alignment = .center
     contentView.spacing = 10
 
-    EdgeButtonSize.allCases.forEach { size in
-        let button = ZetMediumButton(buttonState: .normal)
-        button.setTitle("타이틀 - \(size)", for: .normal)
+    let button = ZetMediumButton(buttonState: .normal)
+    button.setTitle("타이틀", for: .normal)
 
-        let action = UIAction(handler: { _ in
-            print("\(size) clicked!")
-        })
-        button.addAction(action, for: .touchUpInside)
+    let action = UIAction(handler: { _ in
+        print("clicked!")
+    })
+    button.addAction(action, for: .touchUpInside)
 
-        contentView.addArrangedSubview(button)
-    }
+    contentView.addArrangedSubview(button)
 
     return contentView
 }
