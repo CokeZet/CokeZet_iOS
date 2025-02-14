@@ -32,7 +32,7 @@ internal final class NicknameInputView: UIView {
     private let textField = UITextField().then {
         $0.backgroundColor = .clear
         $0.textColor = .White
-        $0.font = Typography.T24.font
+        $0.font = Typography.semiBold(.T24).font
         $0.borderStyle = .none
         $0.tintColor = .White
         $0.textAlignment = .center
@@ -40,7 +40,7 @@ internal final class NicknameInputView: UIView {
     private let underLineView = UIView().then {
         $0.backgroundColor = .White
     }
-    private let sirLabel = ZetLabel(typography: .T24, textColor: .BasicFFFFFF).then {
+    private let sirLabel = ZetLabel(typography: .semiBold(.T24), textColor: .BasicFFFFFF).then {
         $0.text = "님,"
     }
 
@@ -49,7 +49,7 @@ internal final class NicknameInputView: UIView {
         $0.spacing = Metric.vStackSpacing
         $0.alignment = .leading
     }
-    private let countLabel = ZetLabel(typography: .T14, textColor: .Gray500).then {
+    private let countLabel = ZetLabel(typography: .semiBold(.T14), textColor: .Gray500).then {
         $0.text = "0/\(Constant.maxCount)"
     }
 

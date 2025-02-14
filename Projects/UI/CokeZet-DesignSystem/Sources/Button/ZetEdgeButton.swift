@@ -45,7 +45,7 @@ public final class ZetEdgeButton: UIButton {
         self.setContentHuggingPriority(.required, for: .horizontal)
         self.setContentCompressionResistancePriority(.required, for: .horizontal)
         self.layer.cornerRadius = Metric.cornerRadius
-        self.titleLabel?.font = Typography.T18.font
+        self.titleLabel?.font = Typography.semiBold(.T18).font
         self.setButtonStyle(self.buttonState)
         self.setButtonAction()
     }

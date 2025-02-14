@@ -10,20 +10,22 @@ import UIKit
 extension Typography {
     public var font: UIFont {
         switch self {
-        case .T24:
-            return CokeZetDesignSystemFontFamily.Suit.semiBold.font(size: 24)
-        case .T22:
-            return CokeZetDesignSystemFontFamily.Suit.semiBold.font(size: 22)
-        case .T20:
-            return CokeZetDesignSystemFontFamily.Suit.semiBold.font(size: 20)
-        case .T18:
-            return CokeZetDesignSystemFontFamily.Suit.semiBold.font(size: 18)
-        case .T16:
-            return CokeZetDesignSystemFontFamily.Suit.semiBold.font(size: 16)
-        case .T14:
-            return CokeZetDesignSystemFontFamily.Suit.semiBold.font(size: 14)
-        case .T12:
-            return CokeZetDesignSystemFontFamily.Suit.semiBold.font(size: 12)
+        case .extraBold(let scale):
+            return CokeZetDesignSystemFontFamily.Suit.bold.font(size: scale.size)
+        case .bold(let scale):
+            return CokeZetDesignSystemFontFamily.Suit.bold.font(size: scale.size)
+        case .semiBold(let scale):
+            return CokeZetDesignSystemFontFamily.Suit.semiBold.font(size: scale.size)
+        case .medium(let scale):
+            return CokeZetDesignSystemFontFamily.Suit.medium.font(size: scale.size)
         }
+    }
+
+    public var letterSpacing: CGFloat? {
+        return nil
+    }
+
+    public var lineHeight: CGFloat? {
+        return nil
     }
 }
