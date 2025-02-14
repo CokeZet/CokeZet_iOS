@@ -9,75 +9,18 @@ import UIKit
 
 import SnapKit
 
-
-public enum DiscountRateType {
-    /// 제트픽
-    case zetPick
-    /// 역대 최저가
-    case lowest
-    /// 대박
-    case large
-    /// 중박
-    case middle
-    /// 소박
-    case small
-    /// 평범
-    case normal
-
-    var text: String {
-        switch self {
-        case .zetPick:
-            return "제트픽"
-        case .lowest:
-            return "역대 최저가"
-        case .large:
-            return "대박"
-        case .middle:
-            return "중박"
-        case .small:
-            return "소박"
-        case .normal:
-            return "평범"
-        }
-    }
-
-    var textColor: UIColor {
-        switch self {
-        case .zetPick:
-            return .Black
-        case .lowest:
-            return .Red500
-        case .large:
-            return UIColor(red: 235/255, green: 158/255, blue: 9/255, alpha: 1)
-        case .middle:
-            return UIColor(red: 19/255, green: 99/255, blue: 173/255, alpha: 1)
-        case .small:
-            return UIColor(red: 32/255, green: 137/255, blue: 171/255, alpha: 1)
-        case .normal:
-            return .Red50
-        }
-    }
-
-    var typography: UIFont {
-        switch self {
-        case .zetPick:
-            return CokeZetDesignSystemFontFamily.Suit.bold.font(size: 12)
-        default:
-            return Typography.T12.font
-        }
-    }
-
-    var backgroundColor: UIColor? {
-        switch self {
-        case .zetPick:
-            return nil // 그래디언트 처리가 필요해 nil 반환
-        default:
-            return UIColor.Red500.withAlphaComponent(0.12)
-        }
-    }
-}
-
 public final class BadgeDiscountRateView: UIView {
+
+    private enum Metric {
+        static let width: CGFloat = 64
+        static let verticalInset: CGFloat = 6
+        static let cornerRadius: CGFloat = 4
+        static let borderWidth: CGFloat = 1
+    }
+
+    private let label = UILabel()
+    private var borderGradient: CAGradientLayer?
+    private var backgroundGradient: CAGradientLayer?
 
     public init() {
         super.init(frame: .zero)
@@ -90,11 +33,125 @@ public final class BadgeDiscountRateView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func addConfigure() {
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        self.backgroundGradient?.frame = self.bounds
 
+        guard let borderGradient else { return }
+        borderGradient.frame = self.bounds
+
+        guard let shape = borderGradient.mask as? CAShapeLayer else { return }
+        shape.path = UIBezierPath(
+            roundedRect: self.bounds,
+            cornerRadius: Metric.cornerRadius
+        ).cgPath
+    }
+
+    private func addConfigure() {
+        self.label.textAlignment = .center
+        self.layer.cornerRadius = Metric.cornerRadius
+        self.clipsToBounds = true
     }
 
     private func makeConstraints() {
-
+        self.addSubview(label)
+        self.label.snp.makeConstraints {
+            $0.verticalEdges.equalToSuperview().inset(Metric.verticalInset)
+            $0.width.equalTo(Metric.width)
+            $0.horizontalEdges.equalToSuperview()
+        }
     }
+
+    public func setType(_ type: DiscountRateType) {
+        self.label.text = type.text
+        self.label.textColor = type.textColor
+        self.label.font = type.font
+        self.backgroundColor = type.backgroundColor
+
+        if type == .zetPick {
+            self.setGradient()
+        }
+    }
+
+    private func setGradient() {
+        self.borderGradient?.removeFromSuperlayer()
+        self.backgroundGradient?.removeFromSuperlayer()
+
+        let backgroundGradient = CAGradientLayer()
+        backgroundGradient.colors = [
+            UIColor(red: 243/255, green: 78/255, blue: 75/255, alpha: 1).cgColor,
+            UIColor(red: 101/255, green: 115/255, blue: 243/255, alpha: 1).cgColor,
+        ]
+        backgroundGradient.cornerRadius = Metric.cornerRadius
+        backgroundGradient.startPoint = CGPoint(x: 0, y: 0.5)
+        backgroundGradient.endPoint   = CGPoint(x: 1, y: 0.5)
+        self.backgroundGradient = backgroundGradient
+
+        let borderGradient = CAGradientLayer()
+        borderGradient.colors = [
+            UIColor(red: 213/255, green: 29/255, blue: 26/255, alpha: 1).cgColor,
+            UIColor(red: 48/255, green: 66/255, blue: 227/255, alpha: 1).cgColor,
+        ]
+        borderGradient.cornerRadius = Metric.cornerRadius
+        borderGradient.startPoint = CGPoint(x: 0, y: 0.5)
+        borderGradient.endPoint   = CGPoint(x: 1, y: 0.5)
+
+        self.borderGradient = borderGradient
+
+        let shape = CAShapeLayer()
+        shape.lineWidth = Metric.borderWidth
+        shape.path = UIBezierPath(rect: self.bounds).cgPath
+        shape.strokeColor = UIColor.black.cgColor
+        shape.fillColor = UIColor.clear.cgColor
+        shape.cornerRadius = Metric.cornerRadius
+        borderGradient.mask = shape
+
+        self.layer.addSublayer(backgroundGradient)
+        self.layer.addSublayer(borderGradient)
+
+
+        self.bringSubviewToFront(label)
+    }
+}
+
+@available(iOS 17.0, *)
+#Preview(
+    "제트픽",
+    traits: .sizeThatFitsLayout
+) {
+    let contentView = UIView()
+    let view = BadgeDiscountRateView()
+
+    view.setType(.zetPick)
+
+    contentView.addSubview(view)
+
+    view.snp.makeConstraints {
+        $0.center.equalToSuperview()
+    }
+
+    contentView.backgroundColor = .Gray800
+
+    return contentView
+}
+
+@available(iOS 17.0, *)
+#Preview(
+    "대박",
+    traits: .sizeThatFitsLayout
+) {
+    let contentView = UIView()
+    let view = BadgeDiscountRateView()
+
+    view.setType(.large)
+
+    contentView.addSubview(view)
+
+    view.snp.makeConstraints {
+        $0.center.equalToSuperview()
+    }
+
+    contentView.backgroundColor = .Gray800
+
+    return contentView
 }
