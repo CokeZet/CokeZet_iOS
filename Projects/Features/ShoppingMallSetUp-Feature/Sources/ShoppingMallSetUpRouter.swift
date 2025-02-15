@@ -1,6 +1,5 @@
 
 import ModernRIBs
-import Features
 
 protocol ShoppingMallSetUpInteractable: Interactable {
     var router: ShoppingMallSetUpRouting? { get set }

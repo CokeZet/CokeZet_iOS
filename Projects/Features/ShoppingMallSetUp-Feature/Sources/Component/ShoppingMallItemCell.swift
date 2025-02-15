@@ -40,8 +40,10 @@ final class ShoppingMallItemCell: UICollectionViewCell {
     private func addConfigure() {
         self.stackView.axis = .vertical
         self.stackView.spacing = Metric.spacing
+        self.stackView.alignment = .center
 
         self.titleLabel.textColor = .Gray500
+        self.titleLabel.textAlignment = .center
     }
 
     private func makeConstraints() {
