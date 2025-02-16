@@ -62,7 +62,7 @@ final class ShoppingMallListView: UIView {
 }
 
 extension ShoppingMallListView {
-    func collectionViewLayout() -> UICollectionViewLayout {
+    private func collectionViewLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.25),
             heightDimension: .estimated(1)
@@ -136,6 +136,7 @@ extension ShoppingMallListView: UICollectionViewDelegateFlowLayout {
     let view = ShoppingMallListView()
 
     view.bind(list: [
+        ShoppingMallListView.State(image: nil, title: "전체"),
         ShoppingMallListView.State(image: CokeZetDesignSystemAsset.icNaver.image, title: "네이버"),
         ShoppingMallListView.State(image: CokeZetDesignSystemAsset.ic11st.image, title: "11번가"),
         ShoppingMallListView.State(image: CokeZetDesignSystemAsset.icCoupang.image, title: "쿠팡"),

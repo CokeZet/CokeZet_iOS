@@ -18,7 +18,7 @@ final class ShoppingMallItemCell: UICollectionViewCell {
     }
 
     struct State {
-        let image: UIImage
+        let image: UIImage?
         let title: String
     }
 
