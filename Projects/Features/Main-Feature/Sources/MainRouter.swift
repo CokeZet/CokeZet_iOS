@@ -1,6 +1,5 @@
 
 import ModernRIBs
-import Features
 
 protocol MainInteractable: Interactable {
     var router: MainRouting? { get set }
