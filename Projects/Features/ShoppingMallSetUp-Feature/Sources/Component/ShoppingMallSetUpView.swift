@@ -68,7 +68,7 @@ final class ShoppingMallSetUpView: UIView {
     }
 
     func bind(state: State) {
-        self.titleLabel.text = "\(state.nickname)님,\n어떤 쇼핑몰에서\n가격을 탐지할까요?"
+        self.titleLabel.text = "\(state.nickname) 님,\n어떤 쇼핑몰에서\n가격을 탐지할까요?"
         self.listView.bind(list: state.list)
     }
 }
