@@ -95,3 +95,21 @@ public final class FilterView: UIView {
 
     return contentView
 }
+
+@available(iOS 17.0, *)
+#Preview(
+    "disabled",
+    traits: .sizeThatFitsLayout
+) {
+    let contentView = UIView()
+    let view = FilterView()
+    contentView.backgroundColor = .Gray800
+    contentView.addSubview(view)
+    view.snp.makeConstraints {
+        $0.center.equalToSuperview()
+    }
+    view.setText("190ml~210ml")
+    view.setState(.disabled)
+
+    return contentView
+}
