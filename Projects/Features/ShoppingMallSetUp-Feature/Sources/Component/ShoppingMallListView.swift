@@ -40,11 +40,13 @@ final class ShoppingMallListView: UIView {
     }
 
     private func addConfigure() {
+        self.collectionView.backgroundColor = .clear
         self.collectionView.collectionViewLayout = self.collectionViewLayout()
         self.collectionView.registerCell(type: Cell.self)
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         self.collectionView.allowsMultipleSelection = true
+        self.collectionView.isScrollEnabled = false
     }
 
     private func makeConstraints() {
@@ -78,9 +80,9 @@ extension ShoppingMallListView {
             subitems: [item]
         )
 
-
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 20
+        section.contentInsets = .init(top: 16, leading: 0, bottom: 16, trailing: 0)
 
         return UICollectionViewCompositionalLayout(section: section)
     }

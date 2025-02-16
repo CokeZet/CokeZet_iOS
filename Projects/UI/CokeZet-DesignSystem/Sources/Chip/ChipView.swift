@@ -113,6 +113,7 @@ public final class ChoiceView: UIView {
         self.coverView.layer.borderWidth = state.borderWidth
         self.coverView.backgroundColor = state.coverColor
         self.label.textColor = state == .normal ? .Red500 : .White
+        self.label.backgroundColor = state == .normal ? .Gray700 : .clear
     }
 
     public func setImage(_ image: UIImage?) {
