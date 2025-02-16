@@ -17,7 +17,7 @@ final class CardInfoView: UIView {
         static let spacing: CGFloat = 12
         static let infoSpacing: CGFloat = 8
         static let priceSpacing: CGFloat = 4
-        static let imageHeight: CGFloat = 60
+        static let imageHeight: CGFloat = 50
         static let imageContainerSize: CGFloat = 72
     }
 

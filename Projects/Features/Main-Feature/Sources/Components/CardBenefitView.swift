@@ -42,17 +42,20 @@ final class CardBenefitView: UIView {
     private func addConfigure() {
         self.stackView.axis = .horizontal
         self.stackView.spacing = Metric.spacing
+        self.stackView.alignment = .top
 
         self.titleLabel.text = "카드혜택"
 
         self.badgeStackView.axis = .horizontal
         self.badgeStackView.spacing = Metric.badgeSpacing
+        self.badgeStackView.setContentHuggingPriority(.required, for: .horizontal)
     }
 
     private func makeConstraints() {
         self.addSubview(stackView)
         self.stackView.addArrangedSubview(titleLabel)
         self.stackView.addArrangedSubview(badgeStackView)
+        self.stackView.addArrangedSubview(UIView())
 
         self.stackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
