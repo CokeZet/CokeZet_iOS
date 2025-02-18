@@ -58,7 +58,7 @@ public enum DiscountRateType {
     var font: UIFont {
         switch self {
         case .zetPick:
-            return Typography.bold(.T12).font
+            return Typography.extraBold(.T12).font
         default:
             return Typography.semiBold(.T12).font
         }

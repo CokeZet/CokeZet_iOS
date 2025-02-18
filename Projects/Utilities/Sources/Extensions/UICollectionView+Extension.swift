@@ -27,4 +27,47 @@ public extension UICollectionView {
             for: indexPath
         ) as! Cell
     }
+    
+    func registHeaderFooter(
+        type: UICollectionReusableView.Type,
+        kindType: CollectionViewHeaderFooterKind,
+        identifier: String? = nil
+    ) {
+        let kind = kindType.kind
+        let identifier = identifier ?? type.identifier
+        self.register(
+            type,
+            forSupplementaryViewOfKind: kind,
+            withReuseIdentifier: identifier
+        )
+    }
+
+    func dequeueReusableHeaderFooter<Cell: UICollectionReusableView>(
+        withType type: Cell.Type,
+        kindType: CollectionViewHeaderFooterKind,
+        identifier: String? = nil,
+        for indexPath: IndexPath
+    ) -> Cell {
+        let identifier = identifier ?? type.identifier
+        return self.dequeueReusableSupplementaryView(
+            ofKind: kindType.kind,
+            withReuseIdentifier: identifier,
+            for: indexPath
+        ) as! Cell
+    }
 }
+
+public enum CollectionViewHeaderFooterKind {
+    case header
+    case footer
+
+    var kind: String {
+        switch self {
+        case .header:
+            return UICollectionView.elementKindSectionHeader
+        case .footer:
+            return UICollectionView.elementKindSectionFooter
+        }
+    }
+}
+
