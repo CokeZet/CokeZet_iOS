@@ -13,12 +13,12 @@ public final class BadgeDiscountRateView: UIView {
 
     private enum Metric {
         static let width: CGFloat = 64
-        static let verticalInset: CGFloat = 6
+        static let height: CGFloat = 24
         static let cornerRadius: CGFloat = 4
         static let borderWidth: CGFloat = 1
     }
 
-    private let label = UILabel()
+    private let label = ZetLabel(typography: .semiBold(.T12))
     private var borderGradient: CAGradientLayer?
     private var backgroundGradient: CAGradientLayer?
 
@@ -56,9 +56,9 @@ public final class BadgeDiscountRateView: UIView {
     private func makeConstraints() {
         self.addSubview(label)
         self.label.snp.makeConstraints {
-            $0.verticalEdges.equalToSuperview().inset(Metric.verticalInset)
+            $0.height.equalTo(Metric.height)
             $0.width.equalTo(Metric.width)
-            $0.horizontalEdges.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
     }
 
