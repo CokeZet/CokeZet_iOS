@@ -13,13 +13,41 @@ import SnapKit
 
 final class ProductListView: UIView {
 
+    typealias Cell = ProductItemCell
+    typealias Header = ProductListHeaderView
+
     private enum Metric {
-        static let headerHeight: CGFloat = 34
-        static let headerInset: CGFloat = 16
+        static let headerHeight: CGFloat = 34 + (verticalInset * 2)
+        static let verticalInset: CGFloat = 16
+        static let horizontalInset: CGFloat = 20
+        static let headerInset = NSDirectionalEdgeInsets(
+            top: verticalInset,
+            leading: .zero,
+            bottom: verticalInset,
+            trailing: .zero
+        )
+        static let contentInset = NSDirectionalEdgeInsets(
+            top: .zero,
+            leading: horizontalInset,
+            bottom: .zero,
+            trailing: horizontalInset
+        )
+        static let cardHeight: CGFloat = 158
     }
 
     private let headerView = ProductListHeaderView()
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    private let collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: UICollectionViewLayout()
+    )
+
+    private var list: [Cell.State] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,11 +61,63 @@ final class ProductListView: UIView {
     }
 
     private func addConfigure() {
-
+        self.collectionView.backgroundColor = .clear
+        self.collectionView.dataSource = self
+        self.collectionView.registerCell(type: Cell.self)
+        self.collectionView.collectionViewLayout = self.collectionViewLayout(
+            headerHeight: Metric.headerHeight,
+            headerInset: Metric.headerInset,
+            groupSpacing: Metric.verticalInset,
+            contentInset: Metric.contentInset
+        )
+        self.collectionView.registHeaderFooter(type: Header.self, kindType: .header)
     }
 
     private func makeConstraints() {
+        self.addSubview(collectionView)
 
+        self.collectionView.snp.makeConstraints {
+            $0.edges.height.equalToSuperview()
+        }
+    }
+
+    func bind(list: [Cell.State]) {
+        self.list = list
+    }
+
+}
+
+extension ProductListView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.list.count
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        let cell = collectionView.dequeueCell(withType: Cell.self, for: indexPath)
+        cell.bind(state: self.list[indexPath.item])
+
+        return cell
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let header = collectionView.dequeueReusableHeaderFooter(
+                withType: Header.self,
+                kindType: .header,
+                for: indexPath
+            )
+
+            return header
+        }
+
+        return UICollectionReusableView()
     }
 
 }
@@ -49,17 +129,16 @@ extension ProductListView {
         groupSpacing: CGFloat,
         contentInset: NSDirectionalEdgeInsets?
     ) -> UICollectionViewLayout {
-        let minimumValue: CGFloat = 1
 
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(minimumValue)
+            heightDimension: .absolute(Metric.cardHeight)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(minimumValue)
+            heightDimension: .absolute(Metric.cardHeight)
         )
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
@@ -93,4 +172,47 @@ extension ProductListView {
 
         return layout
     }
+}
+
+@available(iOS 17.0, *)
+#Preview(
+    "normal",
+    traits: .sizeThatFitsLayout
+) {
+    let contentView = UIView()
+    contentView.backgroundColor = .Gray800
+
+    let view = ProductListView()
+    contentView.addSubview(view)
+    view.snp.makeConstraints {
+        $0.edges.equalToSuperview()
+    }
+
+    view.bind(
+        list: Array(
+            repeating: ProductItemCell.State(
+                market: CokeZetDesignSystemAsset.icMarket11st.image,
+                info: CardInfoView.State(
+                    image: CokeZetDesignSystemAsset.icCanPepsi355.image,
+                    discountRateType: .zetPick,
+                    productName: "코카 콜라 250ml 24개",
+                    discountRate: 24,
+                    price: 16000,
+                    isDeliveryFee: true
+                ),
+                benefit: CardBenefitView.State(
+                    list: [
+                        CokeZetDesignSystemAsset.icShinhan.image,
+                        CokeZetDesignSystemAsset.icKb.image,
+                        CokeZetDesignSystemAsset.icLotteCard.image,
+                        CokeZetDesignSystemAsset.icHyundai.image,
+                        CokeZetDesignSystemAsset.icSamsung.image,
+                    ]
+                )
+            ),
+            count: 10
+        )
+    )
+
+    return contentView
 }

@@ -11,6 +11,8 @@ import SnapKit
 
 final class ProductItemCell: UICollectionViewCell {
 
+    typealias State = CardView.State
+
     private let cardView = CardView()
 
     override init(frame: CGRect) {
@@ -29,5 +31,9 @@ final class ProductItemCell: UICollectionViewCell {
         self.cardView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+
+    func bind(state: State) {
+        self.cardView.bind(state: state)
     }
 }
