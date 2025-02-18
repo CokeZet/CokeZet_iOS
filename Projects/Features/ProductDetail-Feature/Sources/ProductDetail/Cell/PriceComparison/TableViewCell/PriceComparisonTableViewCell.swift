@@ -20,10 +20,10 @@ final class PriceComparisonTableViewCell: UITableViewCell {
     }
     
     /// 회사 이미지 뷰
-    private let companyImageView: ChoiceView = ChoiceView()
+    private let companyImageView: UIImageView = UIImageView(frame: .zero)
     
     /// 총 가격 라벨
-    private let totalPriceLabel: ZetLabel = ZetLabel(typography: .T18, textColor: .White).then {
+    private let totalPriceLabel: ZetLabel = ZetLabel(typography: .semiBold(.T18), textColor: .White).then {
         $0.text = "16900".formatWithComma() + "원"
     }
     
@@ -35,12 +35,12 @@ final class PriceComparisonTableViewCell: UITableViewCell {
     }
     
     /// 카드 가격 라벨
-    private let cardPriceLabel: ZetLabel = ZetLabel(typography: .T14, textColor: .Gray500).then {
+    private let cardPriceLabel: ZetLabel = ZetLabel(typography: .semiBold(.T14), textColor: .Gray500).then {
         $0.text = "신한카드 " + "18200".formatWithComma() + "원"
     }
     
     /// 배송비 라벨
-    private let shippingFeeLabel: ZetLabel = ZetLabel(typography: .T14, textColor: .Gray500).then {
+    private let shippingFeeLabel: ZetLabel = ZetLabel(typography: .semiBold(.T14), textColor: .Gray500).then {
         $0.text = "배송비 " + "3000".formatWithComma() + "원"
     }
     
@@ -128,7 +128,7 @@ final class PriceComparisonTableViewCell: UITableViewCell {
     /// 셀의 외형 설정
     private func configureAppearance() {
         backgroundColor = .clear
-        contentView.backgroundColor = .Gray600
+        contentView.backgroundColor = .Gray700
         contentView.layer.cornerRadius = 8
         selectionStyle = .none
     }
@@ -137,6 +137,6 @@ final class PriceComparisonTableViewCell: UITableViewCell {
     
     /// 상태를 바인딩하여 UI 업데이트
     public func bind(state: State) {
-        self.companyImageView.setImage(state.image)
+        self.companyImageView.image = state.image
     }
 }

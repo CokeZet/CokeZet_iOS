@@ -27,7 +27,7 @@ public final class PriceComparisonCell: UICollectionViewCell {
         $0.distribution = .fill
     }
     
-    private let titleLabel: ZetLabel = ZetLabel(typography: .T18, textColor: .White).then {
+    private let titleLabel: ZetLabel = ZetLabel(typography: .semiBold(.T18), textColor: .White).then {
         $0.text = "가격비교"
     }
     

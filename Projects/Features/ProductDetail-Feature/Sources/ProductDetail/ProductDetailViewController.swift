@@ -22,9 +22,10 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(ProductOverCell.self, forCellWithReuseIdentifier: "overCell")
+        collectionView.register(ProductOverCell.self, forCellWithReuseIdentifier: "ProductOverCell")
         collectionView.register(GraphView.self, forCellWithReuseIdentifier: "GraphView")
         collectionView.register(PriceComparisonCell.self, forCellWithReuseIdentifier: "PriceComparisonView")
+        collectionView.register(ProductInfomationCell.self, forCellWithReuseIdentifier: "ProductInfomationCell")
         
         return collectionView
     }()
@@ -56,12 +57,12 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
 
 extension ProductDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == 0 {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "overCell", for: indexPath) as? ProductOverCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductOverCell", for: indexPath) as? ProductOverCell else { return UICollectionViewCell() }
             cell.backgroundColor = .Gray800
             return cell
         } else if indexPath.row == 1 {
@@ -70,6 +71,10 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
             return cell
         } else if indexPath.row == 2 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PriceComparisonView", for: indexPath) as? PriceComparisonCell else { return UICollectionViewCell() }
+            cell.backgroundColor = .Gray800
+            return cell
+        } else if indexPath.row == 3 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductInfomationCell", for: indexPath) as? ProductInfomationCell else { return UICollectionViewCell() }
             cell.backgroundColor = .Gray800
             return cell
         }
@@ -84,6 +89,8 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
             return CGSize(width: self.view.bounds.width, height: 360)
         } else if indexPath.row == 2 {
             return CGSize(width: self.view.bounds.width, height: 523)
+        } else if indexPath.row == 3 {
+            return CGSize(width: self.view.bounds.width, height: 290)
         }
         
         
