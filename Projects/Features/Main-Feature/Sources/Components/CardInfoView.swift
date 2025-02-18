@@ -23,7 +23,7 @@ final class CardInfoView: UIView {
 
     struct State {
         let image: UIImage
-//        let badge: BadgeState
+        let discountRateType: DiscountRateType
         let productName: String
         let discountRate: Int
         let price: Int
@@ -35,7 +35,7 @@ final class CardInfoView: UIView {
     private let imageContainerView = UIView()
 
     private let infoStackView = UIStackView()
-    private let badgeView = UIView() // 임시
+    private let badgeView = BadgeDiscountRateView()
     private let productNameLabel = ZetLabel(typography: .semiBold(.T14), textColor: .White)
 
     private let priceStackView = UIStackView()
@@ -65,6 +65,7 @@ final class CardInfoView: UIView {
         self.infoStackView.axis = .vertical
         self.infoStackView.spacing = Metric.infoSpacing
         self.infoStackView.alignment = .leading
+        self.productNameLabel.setContentHuggingPriority(.required, for: .vertical)
 
         self.priceStackView.axis = .horizontal
         self.priceStackView.spacing = Metric.priceSpacing
@@ -103,6 +104,7 @@ final class CardInfoView: UIView {
 
     func bind(state: State) {
         self.imageView.image = state.image
+        self.badgeView.setType(state.discountRateType)
         self.productNameLabel.text = state.productName
         self.discountRateLabel.text = "\(state.discountRate)%"
         self.priceLabel.text = "\(state.price.decimalFormat)원"
@@ -127,6 +129,7 @@ final class CardInfoView: UIView {
     view.bind(
         state: CardInfoView.State(
             image: CokeZetDesignSystemAsset.icCanCoca250.image,
+            discountRateType: .zetPick,
             productName: "코카 콜라 250ml 24개",
             discountRate: 24,
             price: 16000,

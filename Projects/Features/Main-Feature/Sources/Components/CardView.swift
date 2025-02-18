@@ -28,7 +28,7 @@ final class CardView: UIView {
     }
 
     private let containerView = UIView()
-    private let marketBadgeView = UIImageView() // 임시
+    private let marketBadgeView = BadgeMarketView()
 
     private let stackView = UIStackView()
     private let infoView = CardInfoView()
@@ -73,7 +73,6 @@ final class CardView: UIView {
         self.marketBadgeView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.trailing.equalToSuperview().offset(-Metric.horizontalInset)
-            $0.size.equalTo(CGSize(width: 34, height: 40)) // 임시
         }
 
         self.stackView.snp.makeConstraints {
@@ -87,7 +86,7 @@ final class CardView: UIView {
     }
 
     func bind(state: State) {
-        self.marketBadgeView.image = state.market
+        self.marketBadgeView.setImage(state.market)
         self.infoView.bind(state: state.info)
         self.benefitView.bind(state: state.benefit)
     }
@@ -113,6 +112,7 @@ final class CardView: UIView {
             market: CokeZetDesignSystemAsset.icMarket11st.image,
             info: CardInfoView.State(
                 image: CokeZetDesignSystemAsset.icCanPepsi355.image,
+                discountRateType: .zetPick,
                 productName: "코카 콜라 250ml 24개",
                 discountRate: 24,
                 price: 16000,
