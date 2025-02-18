@@ -11,7 +11,7 @@ import CokeZet_DesignSystem
 
 import SnapKit
 
-final class ProductListHeaderView: UIView {
+final class ProductListHeaderView: UICollectionReusableView {
 
     private enum Metric {
         static let cornerRadius: CGFloat = 17
