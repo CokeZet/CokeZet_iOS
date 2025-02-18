@@ -94,12 +94,12 @@ final class PriceInfomationTableViewCell: UITableViewCell {
     
     private func makeConstraints() {
         stackView.snp.makeConstraints {
-            $0.leading.trailing.top.bottom.equalToSuperview()
+            $0.trailing.top.bottom.equalToSuperview()
+            $0.leading.equalToSuperview().offset(4)
         }
         
         typeLabel.snp.makeConstraints {
             $0.width.equalTo(72)
-            $0.leading.equalToSuperview().offset(4)
         }
     }
     
