@@ -69,7 +69,7 @@ final class CardBenefitView: UIView {
         }
 
         state.list.forEach {
-            let badgeView = UIImageView() // 임시
+            let badgeView = UIImageView()
             badgeView.image = $0
 
             badgeView.snp.makeConstraints {
