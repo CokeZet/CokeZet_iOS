@@ -1,5 +1,5 @@
 //
-//  MyCardsListView.swift
+//  MyCardListView.swift
 //  MyCardSetUp-Feature
 //
 //  Created by Daye on 2/18/25.
@@ -12,7 +12,7 @@ import CokeZet_Utilities
 
 import SnapKit
 
-final class MyCardsListView: UIView {
+final class MyCardListView: UIView {
 
     typealias State = MyCardItemCell.State
     typealias Cell = MyCardItemCell
@@ -63,7 +63,7 @@ final class MyCardsListView: UIView {
     }
 }
 
-extension MyCardsListView {
+extension MyCardListView {
     private func collectionViewLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.25),
@@ -88,7 +88,7 @@ extension MyCardsListView {
     }
 }
 
-extension MyCardsListView: UICollectionViewDataSource {
+extension MyCardListView: UICollectionViewDataSource {
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
@@ -111,7 +111,7 @@ extension MyCardsListView: UICollectionViewDataSource {
     }
 }
 
-extension MyCardsListView: UICollectionViewDelegateFlowLayout {
+extension MyCardListView: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
@@ -134,19 +134,19 @@ extension MyCardsListView: UICollectionViewDelegateFlowLayout {
     "normal",
     traits: .sizeThatFitsLayout
 ) {
-    let view = MyCardsListView()
+    let view = MyCardListView()
 
     view.backgroundColor = .Gray800
 
     view.bind(list: [
-        MyCardsListView.State(image: nil, title: "전체"),
-        MyCardsListView.State(image: CokeZetDesignSystemAsset.icNh.image, title: "농협"),
-        MyCardsListView.State(image: CokeZetDesignSystemAsset.icKb.image, title: "국민"),
-        MyCardsListView.State(image: CokeZetDesignSystemAsset.icShinhan.image, title: "신한"),
-        MyCardsListView.State(image: CokeZetDesignSystemAsset.icLotteCard.image, title: "롯데"),
-        MyCardsListView.State(image: CokeZetDesignSystemAsset.icHana.image, title: "하나"),
-        MyCardsListView.State(image: CokeZetDesignSystemAsset.icSamsung.image, title: "삼성"),
-        MyCardsListView.State(image: CokeZetDesignSystemAsset.icHyundai.image, title: "현대"),
+        MyCardListView.State(image: nil, title: "전체"),
+        MyCardListView.State(image: CokeZetDesignSystemAsset.icNh.image, title: "농협"),
+        MyCardListView.State(image: CokeZetDesignSystemAsset.icKb.image, title: "국민"),
+        MyCardListView.State(image: CokeZetDesignSystemAsset.icShinhan.image, title: "신한"),
+        MyCardListView.State(image: CokeZetDesignSystemAsset.icLotteCard.image, title: "롯데"),
+        MyCardListView.State(image: CokeZetDesignSystemAsset.icHana.image, title: "하나"),
+        MyCardListView.State(image: CokeZetDesignSystemAsset.icSamsung.image, title: "삼성"),
+        MyCardListView.State(image: CokeZetDesignSystemAsset.icHyundai.image, title: "현대"),
     ])
 
     return view
