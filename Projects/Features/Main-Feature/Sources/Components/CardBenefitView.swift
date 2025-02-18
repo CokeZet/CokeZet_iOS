@@ -63,6 +63,11 @@ final class CardBenefitView: UIView {
     }
 
     func bind(state: State) {
+        self.badgeStackView.arrangedSubviews.forEach { subview in
+            badgeStackView.removeArrangedSubview(subview)
+            subview.removeFromSuperview()
+        }
+
         state.list.forEach {
             let badgeView = UIImageView() // 임시
             badgeView.image = $0
