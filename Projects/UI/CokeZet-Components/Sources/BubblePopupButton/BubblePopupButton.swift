@@ -25,6 +25,10 @@ public final class BubblePopupButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        removeBubbleView()
+    }
+    
     private func addConfigure() {
         self.setImage(.strokedCheckmark, for: .normal)
         self.tintColor = .black
