@@ -14,10 +14,11 @@ import CokeZet_DesignSystem
 /// figma: https://www.figma.com/design/2Sd5HIV4AVqvFUEzNpbBgX/SD%F0%9F%A5%A4?node-id=557-14171&t=AJTf2WXskCeRDQuP-4
 public final class ToolTip: UIView {
     let stackView: UIStackView = UIStackView(frame: .zero)
-    let label: ZetLabel = ZetLabel(typography: .T14, textColor: .Purple500)
+    let label: ZetLabel = ZetLabel(typography: .semiBold(.T14), textColor: .Purple500)
+    let imageView: UIImageView = UIImageView(frame: .zero)
     
     private enum Metric {
-        static let width: CGFloat = 69
+        static let width: CGFloat = 89
         static let height: CGFloat = 32
         static let cornerRadius: CGFloat = height/2
         static let alertImage: UIImage = CokeZetDesignSystemAsset.alertCircle.image
@@ -44,8 +45,9 @@ public final class ToolTip: UIView {
         self.setContentHuggingPriority(.required, for: .horizontal)
         self.setContentCompressionResistancePriority(.required, for: .horizontal)
         self.layer.cornerRadius = Metric.cornerRadius
+        imageView.image = Metric.alertImage
         
-        [label].forEach {
+        [imageView, label].forEach {
             stackView.addArrangedSubview($0)
         }
         stackView.spacing = 4
@@ -57,6 +59,10 @@ public final class ToolTip: UIView {
         self.snp.makeConstraints {
             $0.width.equalTo(Metric.width)
             $0.height.equalTo(Metric.height)
+        }
+        
+        imageView.snp.makeConstraints {
+            $0.width.height.equalTo(16)
         }
         
         stackView.snp.makeConstraints {

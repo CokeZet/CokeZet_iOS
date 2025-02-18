@@ -87,19 +87,19 @@ public class ZetLabel: UILabel {
     let contentView = UIStackView()
     contentView.axis = .vertical
     let labelT24 = ZetLabel(
-        typography: .T24,
+        typography: .extraBold(.T24),
         textColor: .Basic222222
     )
     labelT24.text = "ZET와 함께 제로콜라 최저가 탐색"
 
     let labelT22 = ZetLabel(
-        typography: .T22,
+        typography: .bold(.T22),
         textColor: .Primary296DEA
     )
     labelT22.text = "ZET와 함께 제로콜라 최저가 탐색"
 
     let labelT20 = ZetLabel(
-        typography: .T20,
+        typography: .semiBold(.T20),
         textColor: .AdditionalDE0000
     )
     labelT20.text = "ZET와 함께 제로콜라 최저가 탐색"
@@ -119,7 +119,7 @@ public class ZetLabel: UILabel {
     let contentView = UIStackView()
     contentView.axis = .vertical
     let labelT24 = ZetLabel(
-        typography: .T24,
+        typography: .medium(.T24),
         textColor: .Basic666666
     )
     labelT24.numberOfLines = 2

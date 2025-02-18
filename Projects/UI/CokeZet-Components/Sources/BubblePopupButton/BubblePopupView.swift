@@ -10,7 +10,7 @@ import CokeZet_DesignSystem
 
 public final class BubblePopupView: UIView {
     // 텍스트를 표시할 UILabel
-    public let textLabel = ZetLabel(typography: .T12, textColor: .White).then {
+    public let textLabel = ZetLabel(typography: .medium(.T12), textColor: .White).then {
         $0.numberOfLines = 2
         $0.textAlignment = .left
     }
@@ -28,7 +28,7 @@ public final class BubblePopupView: UIView {
     private func addConfigure(text: String) {
         textLabel.setAttributed(
             text: text,
-            font: Typography.T12.font,
+            font: Typography.medium(.T12).font,
             color: .white,
             letterSpacing: -0.02,
             lineHeight: 18,
@@ -59,7 +59,7 @@ public final class BubblePopupView: UIView {
     public func setText(_ text: String) {
         textLabel.setAttributed(
             text: text,
-            font: Typography.T12.font,
+            font: Typography.medium(.T12).font,
             color: .white,
             letterSpacing: -0.02,
             lineHeight: 18,

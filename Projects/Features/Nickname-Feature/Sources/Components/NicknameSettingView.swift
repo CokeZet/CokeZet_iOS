@@ -26,7 +26,7 @@ internal final class NicknameSettingView: UIView {
 
     private let stackView = UIStackView()
     private let nickNameinputView = NicknameInputView()
-    private let descriptionLabel = ZetLabel(typography: .T24, textColor: .White)
+    private let descriptionLabel = ZetLabel(typography: .semiBold(.T24), textColor: .White)
     private let confirmButton = ZetRoundButton(buttonState: .Primary)
 
     var selectConfirm: (() -> Void)?
