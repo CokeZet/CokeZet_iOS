@@ -51,9 +51,11 @@ public final class ChoiceView: UIView {
     private enum Metric {
         static let size: CGFloat = 66
         static let cornerRadius: CGFloat = size / 2
+        static let borderWidth: CGFloat = 1
     }
 
     private let imageView = UIImageView()
+    private let label = ZetLabel(typography: .semiBold(.T16), textColor: .Red500)
     private let coverView = UIView()
 
     public init(state: ChoiceState = .normal) {
@@ -73,17 +75,30 @@ public final class ChoiceView: UIView {
         self.clipsToBounds = true
         self.layer.cornerRadius = Metric.cornerRadius
         self.coverView.layer.cornerRadius = Metric.cornerRadius
+
+        self.label.text = "ALL"
+        self.label.textAlignment = .center
+        self.label.layer.cornerRadius = Metric.cornerRadius
+        self.label.backgroundColor = .Gray700
+        self.label.layer.borderColor = UIColor(red: 57/255, green: 57/255, blue: 57/255, alpha: 1).cgColor
+        self.label.layer.borderWidth = Metric.borderWidth
+        self.label.isHidden = true
     }
 
     private func makeConstraints() {
         self.addSubview(imageView)
         self.addSubview(coverView)
+        self.addSubview(label)
 
         self.snp.makeConstraints {
             $0.size.equalTo(Metric.size)
         }
 
         self.imageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
+        self.label.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
 
@@ -96,10 +111,13 @@ public final class ChoiceView: UIView {
         self.coverView.layer.borderColor = state.borderColor
         self.coverView.layer.borderWidth = state.borderWidth
         self.coverView.backgroundColor = state.coverColor
+        self.label.textColor = state == .normal ? .Red500 : .White
+        self.label.backgroundColor = state == .normal ? .Gray700 : .clear
     }
 
     public func setImage(_ image: UIImage?) {
         self.imageView.image = image
+        self.label.isHidden = image != nil
     }
 }
 
