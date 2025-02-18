@@ -21,7 +21,6 @@ final class MyCardSetUpView: UIView {
     }
 
     struct State {
-        let nickname: String
         let list: [MyCardListView.State]
     }
 
@@ -106,7 +105,6 @@ final class MyCardSetUpView: UIView {
 
     view.bind(
         state: MyCardSetUpView.State(
-            nickname: "복슬복슬한반달가슴곰",
             list: [
                 MyCardListView.State(image: nil, title: "전체"),
                 MyCardListView.State(image: CokeZetDesignSystemAsset.icNh.image, title: "농협"),
