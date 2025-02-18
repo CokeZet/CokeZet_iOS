@@ -8,7 +8,7 @@ protocol MainPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
-    func moveDetail()
+    func productDetailAttach()
 }
 
 final class MainViewController: UIViewController, MainPresentable, MainViewControllable {
@@ -22,7 +22,7 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
         $0.backgroundColor = .black
         let touchDownAction = UIAction(handler: { [weak self] _ in
             guard let self else { return }
-            listener?.moveDetail()
+            listener?.productDetailAttach()
         })
         
         $0.addAction(touchDownAction, for: .touchDown)

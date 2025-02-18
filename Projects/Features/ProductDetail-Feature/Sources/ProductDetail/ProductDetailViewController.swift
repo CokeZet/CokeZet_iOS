@@ -9,6 +9,8 @@ protocol ProductDetailPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
+    
+    func swipeToBack()
 }
 
 final class ProductDetailViewController: UIViewController, ProductDetailPresentable, ProductDetailViewControllable {
@@ -43,6 +45,17 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        
+        // 스와이프 제스처 추가
+        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDown(_:)))
+        swipeDownGesture.direction = .right
+        view.addGestureRecognizer(swipeDownGesture)
+    }
+    
+    // 스와이프 동작 처리
+    @objc private func handleSwipeDown(_ gesture: UISwipeGestureRecognizer) {
+        // 화면 닫기
+        listener?.swipeToBack()
     }
     
     func setupViews() {

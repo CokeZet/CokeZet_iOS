@@ -30,9 +30,25 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable>, 
     }
     
     func attachProductDetail() {
-        let productDetailRouting = productDetailBuildable.build(withListener: interactor)
-        presentWithPushTransition(productDetailRouting.viewControllable, animated: true)
-        attachChild(productDetailRouting)
+        if productDetailRouting != nil {
+            return
+        }
+        
+        
+        let router = productDetailBuildable.build(withListener: interactor)
+        presentWithPushTransition(router.viewControllable, animated: true)
+        attachChild(router)
+        self.productDetailRouting = router
+    }
+    
+    func deatchProductDetail() {
+        guard let router = productDetailRouting else {
+            return
+        }
+        
+        viewController.dismiss(completion: nil)
+        self.productDetailRouting = nil
+        detachChild(router)
     }
     
     private func presentWithPushTransition(_ viewControllable: ViewControllable, animated: Bool) {
