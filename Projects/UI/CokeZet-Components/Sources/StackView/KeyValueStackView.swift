@@ -20,6 +20,8 @@ public final class KeyValueStackView: UIStackView {
     
     let imageView: UIImageView = UIImageView(frame: .zero)
     
+    var toolTip: ToolTip?
+    
     public init() {
         super.init(frame: .zero)
         self.addConfigure()
@@ -119,14 +121,19 @@ public final class KeyValueStackView: UIStackView {
     }
     
     public func addToolTip() {
-        let emptyView = UIView()
-        emptyView.snp.makeConstraints {
-            $0.width.equalTo(4)
-        }
-        let toolTip = ToolTip()
-        
-        [emptyView, toolTip].forEach {
-            self.addArrangedSubview($0)
+        if let toolTip {
+            print("ToolTip is already exist")
+        } else {
+            let emptyView = UIView()
+            emptyView.snp.makeConstraints {
+                $0.width.equalTo(4)
+            }
+            
+            toolTip = ToolTip()
+            
+            [emptyView, toolTip!].forEach {
+                self.addArrangedSubview($0)
+            }
         }
     }
 }

@@ -111,24 +111,30 @@ public final class PriceComparisonCell: UICollectionViewCell {
         moreButton.addAction(touchDownAction, for: .touchUpInside)
     }
     
-    let imageList = [
-        CokeZetDesignSystemAsset.icGmarket.image,
-        CokeZetDesignSystemAsset.icCoupang.image,
-        CokeZetDesignSystemAsset.ic11st.image,
-        CokeZetDesignSystemAsset.icNaver.image,
-        CokeZetDesignSystemAsset.icCurly.image,
-    ]
+    var list = [PriceComparisonTableViewCell.State]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
+    public struct State {
+        let cellData: [PriceComparisonTableViewCell.State]
+    }
+    
+    public func bind(_ state: State) {
+        list = state.cellData
+    }
 }
 
 extension PriceComparisonCell: UITableViewDelegate, UITableViewDataSource {
-
+    
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        return list.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PriceComparisonTableViewCell") as? PriceComparisonTableViewCell else { return UITableViewCell() }
-        cell.bind(state: PriceComparisonTableViewCell.State(image: imageList[indexPath.row]))
+        cell.bind(state: list[indexPath.row])
         return cell
     }
 }

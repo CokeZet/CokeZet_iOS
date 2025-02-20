@@ -7,6 +7,7 @@
 
 import UIKit
 import CokeZet_DesignSystem
+import CokeZet_Components
 
 final class PriceComparisonTableViewCell: UITableViewCell {
     
@@ -23,9 +24,7 @@ final class PriceComparisonTableViewCell: UITableViewCell {
     private let companyImageView: UIImageView = UIImageView(frame: .zero)
     
     /// 총 가격 라벨
-    private let totalPriceLabel: ZetLabel = ZetLabel(typography: .semiBold(.T18), textColor: .White).then {
-        $0.text = "16900".formatWithComma() + "원"
-    }
+    private let totalPriceLabel: ZetLabel = ZetLabel(typography: .semiBold(.T18), textColor: .White)
     
     /// 오른쪽 스택뷰: 카드 가격과 배송비 라벨을 포함
     private let rightStackView: UIStackView = UIStackView(frame: .zero).then {
@@ -35,14 +34,10 @@ final class PriceComparisonTableViewCell: UITableViewCell {
     }
     
     /// 카드 가격 라벨
-    private let cardPriceLabel: ZetLabel = ZetLabel(typography: .semiBold(.T14), textColor: .Gray500).then {
-        $0.text = "신한카드 " + "18200".formatWithComma() + "원"
-    }
+    private let cardPriceLabel: ZetLabel = ZetLabel(typography: .semiBold(.T14), textColor: .Gray500)
     
     /// 배송비 라벨
-    private let shippingFeeLabel: ZetLabel = ZetLabel(typography: .semiBold(.T14), textColor: .Gray500).then {
-        $0.text = "배송비 " + "3000".formatWithComma() + "원"
-    }
+    private let shippingFeeLabel: ZetLabel = ZetLabel(typography: .semiBold(.T14), textColor: .Gray500)
     
     // MARK: - Constants
     
@@ -60,6 +55,9 @@ final class PriceComparisonTableViewCell: UITableViewCell {
     /// 셀의 상태를 나타내는 구조체
     public struct State {
         let image: UIImage
+        let totalPrice: String
+        let cardPrice: String
+        let shippingFee: String
     }
     
     // MARK: - Initializers
@@ -138,5 +136,27 @@ final class PriceComparisonTableViewCell: UITableViewCell {
     /// 상태를 바인딩하여 UI 업데이트
     public func bind(state: State) {
         self.companyImageView.image = state.image
+        self.totalPriceLabel.text = setKeyValue(state.totalPrice, .normal)
+        self.cardPriceLabel.text = setKeyValue(state.cardPrice)
+        self.shippingFeeLabel.text = setKeyValue(state.shippingFee, .deliveryPrice)
+    }
+    
+    private func setKeyValue(_ value: String, _ type: KeyValueType = .cardSale) -> String {
+        var text = ""
+        
+        switch type {
+        case .cardSale:
+            // "카드사 가격"으로 가정
+            var creditCardSale = value.components(separatedBy: " ")
+            creditCardSale[1] = creditCardSale[1].replacingOccurrences(of: "원", with: "").formatWithComma()
+            text = creditCardSale.joined(separator: " ") + "원"
+        case .deliveryPrice:
+            let deliveryPrice = value.replacingOccurrences(of: "원", with: "").formatWithComma()
+            text = "배송비 " + deliveryPrice + "원"
+        case .normal:
+            text = value.formatWithComma() + "원"
+        }
+        
+        return text
     }
 }

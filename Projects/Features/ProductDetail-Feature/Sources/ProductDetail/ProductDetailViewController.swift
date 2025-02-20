@@ -30,6 +30,9 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
         collectionView.register(GraphView.self, forCellWithReuseIdentifier: "GraphView")
         collectionView.register(PriceComparisonCell.self, forCellWithReuseIdentifier: "PriceComparisonView")
         collectionView.register(ProductInfomationCell.self, forCellWithReuseIdentifier: "ProductInfomationCell")
+        collectionView.register(ProductImageHeader.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: "ProductImageHeader")
         
         return collectionView
     }()
@@ -66,11 +69,29 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
             $0.leading.trailing.top.bottom.equalToSuperview()
         }
     }
+    
+    let imageList = [
+        CokeZetDesignSystemAsset.icGmarket.image,
+        CokeZetDesignSystemAsset.icCoupang.image,
+        CokeZetDesignSystemAsset.ic11st.image,
+        CokeZetDesignSystemAsset.icNaver.image,
+        CokeZetDesignSystemAsset.icCurly.image,
+    ]
 }
 
 extension ProductDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: self.view.bounds.width, height: 180)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "ProductImageHeader", for: indexPath) as? ProductImageHeader else { return UICollectionReusableView() }
+        header.bind(.init(cokeImage: CokeZetDesignSystemAsset.icCanPepsi190.image, badgeType: .zetPick))
+        return header
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -100,6 +121,18 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
         } else if indexPath.row == 2 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PriceComparisonView", for: indexPath) as? PriceComparisonCell else { return UICollectionViewCell() }
             cell.backgroundColor = .Gray800
+            cell.bind(
+                .init(
+                    cellData:
+                        imageList.map {
+                            return PriceComparisonTableViewCell.State(image: $0,
+                                                                      totalPrice: "16900",
+                                                                      cardPrice: "신한카드 18200",
+                                                                      shippingFee: "3000")
+                        }
+                    
+                )
+            )
             cell.addMoreButtonAction { [weak self] in
                 guard let self else { return }
                 self.listener?.attachMoreView()

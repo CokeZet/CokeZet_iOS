@@ -17,7 +17,7 @@ protocol PriceComparisonMorePresentableListener: AnyObject {
 }
 
 final class PriceComparisonMoreViewController: UIViewController, PriceComparisonMorePresentable, PriceComparisonMoreViewControllable {
-
+    
     weak var listener: PriceComparisonMorePresentableListener?
     
     private lazy var tableView = UITableView().then {
@@ -69,7 +69,13 @@ extension PriceComparisonMoreViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PriceComparisonTableViewCell") as? PriceComparisonTableViewCell else { return UITableViewCell() }
-        cell.bind(state: .init(image: CokeZetDesignSystemAsset.icNaver.image))
+        cell.bind(state:
+                .init(
+                    image: CokeZetDesignSystemAsset.icNaver.image,
+                    totalPrice: "16900",
+                    cardPrice: "신한카드 18200",
+                    shippingFee: "3000")
+        )
         return cell
     }
     
