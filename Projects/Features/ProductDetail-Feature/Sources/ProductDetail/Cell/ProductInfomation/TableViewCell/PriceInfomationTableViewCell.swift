@@ -42,6 +42,11 @@ final class PriceInfomationTableViewCell: UITableViewCell {
     
     private var _borderFlag: BorderType = .both
     
+    struct State {
+        var typeText: String
+        var describeText: String
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupBorders()
@@ -108,5 +113,10 @@ final class PriceInfomationTableViewCell: UITableViewCell {
         describeLabel.text = "음료"
         selectionStyle = .none
         backgroundColor = .clear
+    }
+    
+    public func bind(_ state: State) {
+        typeLabel.text = state.typeText
+        describeLabel.text = state.describeText
     }
 }

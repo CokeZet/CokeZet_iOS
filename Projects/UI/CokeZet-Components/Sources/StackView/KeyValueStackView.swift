@@ -15,11 +15,11 @@ import CokeZet_DesignSystem
 /// figma: https://www.figma.com/design/2Sd5HIV4AVqvFUEzNpbBgX/SD%F0%9F%A5%A4?node-id=1245-10476&t=CXFXuqoYu6hHFjZ8-4
 public final class KeyValueStackView: UIStackView {
     let keyLabel: ZetLabel = ZetLabel(typography: .semiBold(.T14), textColor: .Gray500)
-
+    
     let valueLabel: ZetLabel = ZetLabel(typography: .semiBold(.T14), textColor: .White)
-
+    
     let imageView: UIImageView = UIImageView(frame: .zero)
-
+    
     public init() {
         super.init(frame: .zero)
         self.addConfigure()
@@ -39,7 +39,7 @@ public final class KeyValueStackView: UIStackView {
             self.addArrangedSubview($0)
         }
     }
-
+    
     private func makeConstraints() {
         keyLabel.snp.makeConstraints {
             $0.width.equalTo(68)
@@ -51,7 +51,7 @@ public final class KeyValueStackView: UIStackView {
         }
     }
     
-    public func setKeyValue(_ key: String, _ value: String, _ type: KeyValueType = .normal) -> KeyValueStackView {
+    public func setKeyValue(_ key: String, _ value: String, _ type: KeyValueType = .normal) {
         keyLabel.text = key
         var text = ""
         
@@ -70,38 +70,37 @@ public final class KeyValueStackView: UIStackView {
         }
         
         valueLabel.text = text
-        return self
     }
     
-    public func setLargeValue() -> KeyValueStackView {
+    public func setLargeValue() {
         let numberPart = valueLabel.text?.replacingOccurrences(of: "원", with: "") ?? "0"
         let formattedNumber = numberPart.formatWithComma()
         let unitPart = "원"
-
+        
         let combinedText = "\(formattedNumber)\(unitPart)"
-
+        
         // NSMutableAttributedString 생성
         let attributedString = NSMutableAttributedString(string: combinedText)
-
+        
         // 숫자 부분에 fontSize: 24 적용
         let numberRange = (combinedText as NSString).range(of: formattedNumber)
         attributedString.addAttribute(.font,
                                       value: Typography.semiBold(.T24).font,
                                       range: numberRange)
-
+        
         // "원" 부분에 fontSize: 14 적용
         let unitRange = (combinedText as NSString).range(of: unitPart)
         attributedString.addAttribute(.font,
                                       value: Typography.semiBold(.T16).font,
                                       range: unitRange)
-
+        
         // "원"의 시작 위치를 계산
         let kernRange = NSRange(location: unitRange.location - 1, length: 1)
         // 숫자와 "원" 사이에만 2px 간격 추가
         attributedString.addAttribute(.kern,
                                       value: 2,
                                       range: kernRange)
-
+        
         // 모든 텍스트에 빨간색 적용
         attributedString.addAttribute(.foregroundColor,
                                       value: ZetColor.Red500.color,
@@ -109,19 +108,17 @@ public final class KeyValueStackView: UIStackView {
                                                      length: combinedText.count))
         
         valueLabel.attributedText = attributedString
-        return self
     }
     
-    public func setImage(_ image: UIImage) -> KeyValueStackView {
+    public func setImage(_ image: UIImage) {
         valueLabel.removeFromSuperview()
         
         self.addArrangedSubview(imageView)
         
         imageView.image = image
-        return self
     }
     
-    public func addToolTip() -> KeyValueStackView {
+    public func addToolTip() {
         let emptyView = UIView()
         emptyView.snp.makeConstraints {
             $0.width.equalTo(4)
@@ -131,8 +128,6 @@ public final class KeyValueStackView: UIStackView {
         [emptyView, toolTip].forEach {
             self.addArrangedSubview($0)
         }
-        
-        return self
     }
 }
 
@@ -149,26 +144,27 @@ public final class KeyValueStackView: UIStackView {
     contentView.backgroundColor = ZetColor.Gray800.color
     
     let stackView = KeyValueStackView()
-        .setKeyValue("최저가", "13000원")
-        .setLargeValue()
+    
+    stackView.setKeyValue("최저가", "13000원")
+    stackView.setLargeValue()
     
     let stackView2 = KeyValueStackView()
-        .setKeyValue("100ml", "193원")
+    stackView2.setKeyValue("100ml", "193원")
     
     let stackView3 = KeyValueStackView()
-        .setKeyValue("판매처", "")
-        .setImage(CokeZetDesignSystemAsset.alertCircle.image)
+    stackView3.setKeyValue("판매처", "")
+    stackView3.setImage(CokeZetDesignSystemAsset.alertCircle.image)
     
     let stackView4 = KeyValueStackView()
-        .setKeyValue("배송비", "3000원", .deliveryPrice)
+    stackView4.setKeyValue("배송비", "3000원", .deliveryPrice)
     
     let stackView5 = KeyValueStackView()
-        .setKeyValue("카드할인", "신한카드 12300원", .cardSale)
-        .addToolTip()
+    stackView5.setKeyValue("카드할인", "신한카드 12300원", .cardSale)
+    stackView5.addToolTip()
     
     [stackView, stackView2, stackView3, stackView4, stackView5].forEach {
         contentView.addArrangedSubview($0)
     }
-
+    
     return contentView
 }

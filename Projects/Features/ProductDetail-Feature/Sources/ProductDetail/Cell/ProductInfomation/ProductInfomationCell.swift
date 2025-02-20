@@ -31,6 +31,16 @@ public final class ProductInfomationCell: UICollectionViewCell {
         addConfigure()
     }
     
+    private var state: State?
+    
+    public struct State {
+        var foodType: String
+        var packType: String
+        var capacity: String
+        var quantity: String
+        var features: [String]
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -61,6 +71,10 @@ public final class ProductInfomationCell: UICollectionViewCell {
     private func addConfigure() {
         
     }
+    
+    public func bind(_ state: State) {
+        self.state = state
+    }
 }
 
 extension ProductInfomationCell: UITableViewDelegate, UITableViewDataSource {
@@ -74,6 +88,23 @@ extension ProductInfomationCell: UITableViewDelegate, UITableViewDataSource {
             cell.borderSetup(.both)
         } else {
             cell.borderSetup(.bottom)
+        }
+        
+        if let state {
+            switch indexPath.row {
+            case 0:
+                cell.bind(.init(typeText: "식품 유형", describeText: state.foodType))
+            case 1:
+                cell.bind(.init(typeText: "포장 형태", describeText: state.packType))
+            case 2:
+                cell.bind(.init(typeText: "용량", describeText: state.capacity))
+            case 3:
+                cell.bind(.init(typeText: "개수", describeText: state.quantity))
+            case 4:
+                cell.bind(.init(typeText: "특징", describeText: state.features.joined(separator: ", ")))
+            default:
+                break
+            }
         }
         return cell
     }

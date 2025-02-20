@@ -103,6 +103,14 @@ public final class PriceComparisonCell: UICollectionViewCell {
         clipsToBounds = false
     }
     
+    public func addMoreButtonAction(_ action: @escaping () -> ()) {
+        let touchDownAction = UIAction(handler: { _ in
+            action()
+        })
+        
+        moreButton.addAction(touchDownAction, for: .touchUpInside)
+    }
+    
     let imageList = [
         CokeZetDesignSystemAsset.icGmarket.image,
         CokeZetDesignSystemAsset.icCoupang.image,

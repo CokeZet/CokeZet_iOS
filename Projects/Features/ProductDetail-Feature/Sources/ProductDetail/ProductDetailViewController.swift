@@ -4,6 +4,7 @@ import UIKit
 import Then
 import SnapKit
 import CokeZet_Components
+import CokeZet_DesignSystem
 
 protocol ProductDetailPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
@@ -11,6 +12,7 @@ protocol ProductDetailPresentableListener: AnyObject {
     // interactor class.
     
     func swipeToBack()
+    func attachMoreView()
 }
 
 final class ProductDetailViewController: UIViewController, ProductDetailPresentable, ProductDetailViewControllable {
@@ -19,7 +21,7 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = ZetColor.Gray900.color
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
@@ -63,8 +65,6 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
         collectionView.snp.makeConstraints {
             $0.leading.trailing.top.bottom.equalToSuperview()
         }
-        
-        collectionView.reloadData()
     }
 }
 
@@ -77,6 +77,21 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
         if indexPath.row == 0 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductOverCell", for: indexPath) as? ProductOverCell else { return UICollectionViewCell() }
             cell.backgroundColor = .Gray800
+            cell.bind(
+                .init(
+                    infomationState: ProductInfomationView.State(priceText: "13000",
+                                                                 permlPrice: "193",
+                                                                 sellerImage: CokeZetDesignSystemAsset.icKb.image,
+                                                                 shipFeetext: "3000",
+                                                                 carddiscountText: "신한카드 12300"),
+                    buyButtonAction: {
+                        print("Buy 버튼 클릭 클릭")
+                    },
+                    adBannerButtonAction: {
+                        print("Banner 버튼 클릭 클릭")
+                    })
+            )
+            
             return cell
         } else if indexPath.row == 1 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GraphView", for: indexPath) as? GraphView else { return UICollectionViewCell() }
@@ -85,9 +100,14 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
         } else if indexPath.row == 2 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PriceComparisonView", for: indexPath) as? PriceComparisonCell else { return UICollectionViewCell() }
             cell.backgroundColor = .Gray800
+            cell.addMoreButtonAction { [weak self] in
+                guard let self else { return }
+                self.listener?.attachMoreView()
+            }
             return cell
         } else if indexPath.row == 3 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductInfomationCell", for: indexPath) as? ProductInfomationCell else { return UICollectionViewCell() }
+            cell.bind(.init(foodType: "음료", packType: "캔류", capacity: "190ml", quantity: "12캔", features: ["무가당", "무설탕"]))
             cell.backgroundColor = .Gray800
             return cell
         }

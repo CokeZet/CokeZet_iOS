@@ -9,6 +9,8 @@ import ModernRIBs
 
 protocol ProductDetailRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func attachPriceComparisonMore()
+    func detachPriceComparisonMore()
 }
 
 protocol ProductDetailPresentable: Presentable {
@@ -45,5 +47,13 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     
     func swipeToBack() {
         listener?.productDetailDidTapClose()
+    }
+    
+    func attachMoreView() {
+        router?.attachPriceComparisonMore()
+    }
+    
+    func detachMoreView() {
+        router?.detachPriceComparisonMore()
     }
 }

@@ -55,7 +55,7 @@ final class AdBannerButton: UIButton {
     }
     
     private let shopImageView = UIImageView().then {
-        $0.image = .strokedCheckmark
+        $0.image = CokeZetDesignSystemAsset.icNaver.image
         $0.layer.cornerRadius = Layout.imageSize.height / 2
         $0.clipsToBounds = true
     }

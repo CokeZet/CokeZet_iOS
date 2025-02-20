@@ -21,10 +21,7 @@ public class ProductOverCell: UICollectionViewCell {
     
     private let buyButton = ZetRoundButton(buttonState: .Primary).then {
         $0.setTitle("최저가로 구매하기", for: .normal)
-        let action = UIAction(handler: { _ in
-            print("ProductOverView Buy Button clicked!")
-        })
-        $0.addAction(action, for: .touchUpInside)
+
     }
     
     private let adBannerButton = AdBannerButton(frame: .zero).then {
@@ -32,6 +29,12 @@ public class ProductOverCell: UICollectionViewCell {
             print("Banner Button clicked!")
         })
         $0.addAction(action, for: .touchUpInside)
+    }
+    
+    public struct State {
+        var infomationState: ProductInfomationView.State
+        var buyButtonAction: () -> ()
+        var adBannerButtonAction: () -> ()
     }
     
     // MARK: - Constants
@@ -90,6 +93,23 @@ public class ProductOverCell: UICollectionViewCell {
         let mask = CAShapeLayer()
         mask.path = path.cgPath
         layer.mask = mask
+    }
+    
+    public func bind(_ state: State) {
+        infomationView.bind(state.infomationState)
+        
+        let BuyAction = UIAction(handler: { _ in
+            print("ProductOverView Buy Button clicked!")
+            state.buyButtonAction()
+        })
+        buyButton.addAction(BuyAction, for: .touchUpInside)
+        
+        let BannerAction = UIAction(handler: { _ in
+            print("ProductOverView Buy Button clicked!")
+            state.adBannerButtonAction()
+        })
+        adBannerButton.addAction(BannerAction, for: .touchUpInside)
+        
     }
 }
 

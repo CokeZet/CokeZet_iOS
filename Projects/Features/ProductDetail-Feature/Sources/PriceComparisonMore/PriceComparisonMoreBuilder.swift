@@ -1,0 +1,43 @@
+//
+//  PriceComparisonMoreBuilder.swift
+//  ProductDetail-Feature
+//
+//  Created by 김진우 on 2/18/25.
+//
+
+import ModernRIBs
+
+public protocol PriceComparisonMoreDependency: Dependency {
+    // TODO: Declare the set of dependencies required by this RIB, but cannot be
+    // created by this RIB.
+}
+
+final class PriceComparisonMoreComponent: Component<PriceComparisonMoreDependency> {
+
+    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+}
+
+// MARK: - Builder
+
+public protocol PriceComparisonMoreBuildable: Buildable {
+    func build(withListener listener: PriceComparisonMoreListener) -> PriceComparisonMoreRouting
+}
+
+final class PriceComparisonMoreBuilder: Builder<PriceComparisonMoreDependency>, PriceComparisonMoreBuildable {
+
+    override init(dependency: PriceComparisonMoreDependency) {
+        super.init(dependency: dependency)
+    }
+
+    func build(withListener listener: PriceComparisonMoreListener) -> PriceComparisonMoreRouting {
+        let component = PriceComparisonMoreComponent(dependency: dependency)
+        let viewController = PriceComparisonMoreViewController()
+        let interactor = PriceComparisonMoreInteractor(presenter: viewController)
+        interactor.listener = listener
+        
+        return PriceComparisonMoreRouter(
+            interactor: interactor,
+            viewController: viewController
+        )
+    }
+}

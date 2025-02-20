@@ -12,7 +12,7 @@ public protocol ProductDetailDependency: Dependency {
     // created by this RIB.
 }
 
-final class ProductDetailComponent: Component<ProductDetailDependency> {
+final class ProductDetailComponent: Component<ProductDetailDependency>, PriceComparisonMoreDependency {
     
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
@@ -35,9 +35,12 @@ public final class ProductDetailBuilder: Builder<ProductDetailDependency>, Produ
         let interactor = ProductDetailInteractor(presenter: viewController)
         interactor.listener = listener
         
+        let priceViewController = PriceComparisonMoreBuilder(dependency: component)
+        
         return ProductDetailRouter(
             interactor: interactor,
-            viewController: viewController
+            viewController: viewController,
+            priceComparisonMoreBuildable: priceViewController
         )
     }
 }
