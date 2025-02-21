@@ -13,8 +13,7 @@ let project = Project(
                 "Sources/**",
             ],
             dependencies: [
-                .project(target: "CokeZet-Core", path: "../../Core"),
-                .project(target: "CokeZet-UI", path: "../../UI")
+                .project(target: "ProductDetail-Feature", path: "../ProductDetail-Feature/")
             ]
         ),
         .target(

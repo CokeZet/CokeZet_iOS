@@ -12,7 +12,7 @@ import PackageDescription
             "lottie-ios": .staticFramework,
             "Then": .staticFramework,
             "SnapKit": .staticFramework,
-            "ModernRIBs": .staticFramework
+            "ModernRIBs": .framework
         ]
     )
 #endif
