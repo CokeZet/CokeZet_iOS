@@ -1,5 +1,5 @@
 //
-//  ProductImageHeader.swift
+//  ProductImageCell.swift
 //  ProductDetail-Feature
 //
 //  Created by 김진우 on 2/20/25.
@@ -8,7 +8,7 @@
 import UIKit
 import CokeZet_DesignSystem
 
-final class ProductImageHeader: UICollectionReusableView {
+final class ProductImageCell: UICollectionViewCell {
     let cokeImageView: UIImageView = UIImageView().then {
         $0.backgroundColor = ZetColor.Gray900.color
         $0.contentMode = .scaleAspectFit
