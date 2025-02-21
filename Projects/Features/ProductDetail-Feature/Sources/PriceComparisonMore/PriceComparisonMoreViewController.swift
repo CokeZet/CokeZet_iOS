@@ -28,6 +28,12 @@ final class PriceComparisonMoreViewController: UIViewController, PriceComparison
         $0.rowHeight = 88
     }
     
+    var dataSource: [PriceComparisonTableViewCell.State] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
     init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -56,6 +62,12 @@ final class PriceComparisonMoreViewController: UIViewController, PriceComparison
         }
     }
     
+    func setPriceComparisonData(_ data: [PriceComparisonTableViewCell.State]) {
+        for i in 0..<3 {
+            dataSource += data
+        }
+    }
+    
 }
 
 extension PriceComparisonMoreViewController: UITableViewDelegate {
@@ -64,18 +76,12 @@ extension PriceComparisonMoreViewController: UITableViewDelegate {
 
 extension PriceComparisonMoreViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return dataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PriceComparisonTableViewCell") as? PriceComparisonTableViewCell else { return UITableViewCell() }
-        cell.bind(state:
-                .init(
-                    image: CokeZetDesignSystemAsset.icNaver.image,
-                    totalPrice: "16900",
-                    cardPrice: "신한카드 18200",
-                    shippingFee: "3000")
-        )
+        cell.bind(state: dataSource[indexPath.row])
         return cell
     }
     

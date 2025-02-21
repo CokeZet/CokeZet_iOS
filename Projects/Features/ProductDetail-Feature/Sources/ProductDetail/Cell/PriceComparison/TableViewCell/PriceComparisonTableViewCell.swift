@@ -9,7 +9,7 @@ import UIKit
 import CokeZet_DesignSystem
 import CokeZet_Components
 
-final class PriceComparisonTableViewCell: UITableViewCell {
+public final class PriceComparisonTableViewCell: UITableViewCell {
     
     // MARK: - UI Components
     
@@ -75,7 +75,7 @@ final class PriceComparisonTableViewCell: UITableViewCell {
     
     // MARK: - Lifecycle
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         
         // 셀의 contentView에 패딩 적용

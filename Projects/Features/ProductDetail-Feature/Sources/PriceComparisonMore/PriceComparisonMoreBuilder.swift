@@ -6,15 +6,22 @@
 //
 
 import ModernRIBs
+import Combine
 
 public protocol PriceComparisonMoreDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
     // created by this RIB.
+    var productList: CurrentValueSubject<[PriceComparisonTableViewCell.State], Never> { get }
 }
 
-final class PriceComparisonMoreComponent: Component<PriceComparisonMoreDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+final class PriceComparisonMoreComponent: Component<PriceComparisonMoreDependency>, PriceComparisonMoreInteractorDependency {
+    var productList: CurrentValueSubject<[PriceComparisonTableViewCell.State], Never> { dependency.productList }
+    
+    override init(
+        dependency: PriceComparisonMoreDependency
+    ) {
+        super.init(dependency: dependency)
+    }
 }
 
 // MARK: - Builder
@@ -32,7 +39,7 @@ final class PriceComparisonMoreBuilder: Builder<PriceComparisonMoreDependency>, 
     func build(withListener listener: PriceComparisonMoreListener) -> PriceComparisonMoreRouting {
         let component = PriceComparisonMoreComponent(dependency: dependency)
         let viewController = PriceComparisonMoreViewController()
-        let interactor = PriceComparisonMoreInteractor(presenter: viewController)
+        let interactor = PriceComparisonMoreInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         
         return PriceComparisonMoreRouter(

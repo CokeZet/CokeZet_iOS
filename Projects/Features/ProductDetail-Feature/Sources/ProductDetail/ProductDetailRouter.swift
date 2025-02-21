@@ -44,7 +44,6 @@ final class ProductDetailRouter: LaunchRouter<ProductDetailInteractable, Product
             return
         }
         
-//        viewController.dismiss(completion: nil)
         self.priceComparisonMoreRouting = nil
         detachChild(router)
     }
