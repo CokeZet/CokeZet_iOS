@@ -11,6 +11,9 @@ import CokeZet_DesignSystem
 import CokeZet_Components
 
 public final class PriceComparisonCell: UICollectionViewCell {
+    
+    typealias Cell = PriceComparisonTableViewCell
+    
     private let paddingView: UIView = UIView(frame: .zero).then {
         $0.isUserInteractionEnabled = true
     }
@@ -40,7 +43,7 @@ public final class PriceComparisonCell: UICollectionViewCell {
         $0.delegate = self
         $0.rowHeight = 88
         $0.backgroundColor = .clear
-        $0.register(PriceComparisonTableViewCell.self, forCellReuseIdentifier: "PriceComparisonTableViewCell")
+        $0.registerCell(type: PriceComparisonTableViewCell.self)
     }
     
     // MARK: - Constants
@@ -133,7 +136,7 @@ extension PriceComparisonCell: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PriceComparisonTableViewCell") as? PriceComparisonTableViewCell else { return UITableViewCell() }
+        let cell = tableView.dequeueCell(withType: Cell.self, for: indexPath)
         cell.bind(state: list[indexPath.row])
         return cell
     }

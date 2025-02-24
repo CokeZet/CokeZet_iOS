@@ -17,15 +17,17 @@ protocol PriceComparisonMorePresentableListener: AnyObject {
 }
 
 final class PriceComparisonMoreViewController: UIViewController, PriceComparisonMorePresentable, PriceComparisonMoreViewControllable {
+    typealias Cell = PriceComparisonTableViewCell
     
     weak var listener: PriceComparisonMorePresentableListener?
     
     private lazy var tableView = UITableView().then {
         $0.delegate = self
         $0.dataSource = self
-        $0.register(PriceComparisonTableViewCell.self, forCellReuseIdentifier: "PriceComparisonTableViewCell")
         $0.backgroundColor = .clear
         $0.rowHeight = 88
+        
+        $0.registerCell(type: Cell.self)
     }
     
     var dataSource: [PriceComparisonTableViewCell.State] = [] {
@@ -80,7 +82,7 @@ extension PriceComparisonMoreViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PriceComparisonTableViewCell") as? PriceComparisonTableViewCell else { return UITableViewCell() }
+        let cell = tableView.dequeueCell(withType: Cell.self, for: indexPath)
         cell.bind(state: dataSource[indexPath.row])
         return cell
     }

@@ -37,7 +37,7 @@ public final class ProductInfomationCell: UICollectionViewCell {
     private lazy var tableView: UITableView = UITableView(frame: .zero, style: .plain).then {
         $0.delegate = self
         $0.dataSource = self
-        $0.register(PriceInfomationTableViewCell.self, forCellReuseIdentifier: "PriceInfomationTableViewCell")
+        $0.registerCell(type: PriceInfomationTableViewCell.self)
         $0.backgroundColor = .clear
         $0.rowHeight = 38
     }
@@ -91,7 +91,7 @@ extension ProductInfomationCell: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PriceInfomationTableViewCell") as? PriceInfomationTableViewCell else { return UITableViewCell() }
+        let cell = tableView.dequeueCell(withType: PriceInfomationTableViewCell.self, for: indexPath)
         if indexPath.row == 0 {
             cell.borderSetup(.both)
         } else {
