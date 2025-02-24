@@ -14,13 +14,16 @@ public protocol ProductDetailDependency: Dependency {
 }
 
 final class ProductDetailComponent: Component<ProductDetailDependency>, PriceComparisonMoreDependency, TransportHomeInteractorDependency {
+    var cellDataPublisher: CurrentValueSubject<ProductDetailViewController.State, Never>
+    
     var productList: CurrentValueSubject<[PriceComparisonTableViewCell.State], Never>
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
     
     override init(
         dependency: ProductDetailDependency
     ) {
-        self.productList = CurrentValueSubject<[PriceComparisonTableViewCell.State], Never>(PriceComparisonDataPublisher.cellData)
+        self.cellDataPublisher = CurrentValueSubject<ProductDetailViewController.State, Never>(PriceComparisonDataPublisher.state)
+        self.productList = CurrentValueSubject<[PriceComparisonTableViewCell.State], Never>(PriceComparisonDataPublisher.state.PriceComparisonCellData.cellData)
         super.init(dependency: dependency)
     }
 }

@@ -33,6 +33,7 @@ public class ProductOverCell: UICollectionViewCell {
     
     public struct State {
         var infomationState: ProductInfomationView.State
+        var adBannerState: AdBannerButton.State
         var buyButtonAction: () -> ()
         var adBannerButtonAction: () -> ()
     }
@@ -97,6 +98,7 @@ public class ProductOverCell: UICollectionViewCell {
     
     public func bind(_ state: State) {
         infomationView.bind(state.infomationState)
+        adBannerButton.bind(state.adBannerState)
         
         let BuyAction = UIAction(handler: { _ in
             print("ProductOverView Buy Button clicked!")

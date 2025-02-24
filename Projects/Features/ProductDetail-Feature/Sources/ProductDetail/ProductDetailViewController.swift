@@ -17,12 +17,20 @@ protocol ProductDetailPresentableListener: AnyObject {
 
 final class ProductDetailViewController: UIViewController, ProductDetailPresentable, ProductDetailViewControllable {
     
-    enum DetailSection: Int, CaseIterable {
+    enum Section: Int, CaseIterable {
         case productImage = 0
         case productOver = 1
         case graphView = 2
         case priceComparison = 3
         case productInfo = 4
+    }
+    
+    public struct State {
+        var ProductImageCellData: ProductImageCell.State
+        var ProductOverCellData: ProductOverCell.State
+        var GraphViewData: [GraphView.State]
+        var PriceComparisonCellData: PriceComparisonCell.State
+        var ProductInfomationCellData: ProductInfomationCell.State
     }
     
     lazy var collectionView: UICollectionView = {
@@ -34,18 +42,19 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(ProductOverCell.self, forCellWithReuseIdentifier: "ProductOverCell")
-        collectionView.register(GraphView.self, forCellWithReuseIdentifier: "GraphView")
-        collectionView.register(PriceComparisonCell.self, forCellWithReuseIdentifier: "PriceComparisonView")
-        collectionView.register(ProductInfomationCell.self, forCellWithReuseIdentifier: "ProductInfomationCell")
-        collectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: "ProductImageCell")
+        
+        collectionView.registerCell(type: ProductOverCell.self)
+        collectionView.registerCell(type: GraphView.self)
+        collectionView.registerCell(type: PriceComparisonCell.self)
+        collectionView.registerCell(type: ProductInfomationCell.self)
+        collectionView.registerCell(type: ProductImageCell.self)
         
         return collectionView
     }()
     
     weak var listener: ProductDetailPresentableListener?
     
-    var PriceComparisonCellData: [PriceComparisonTableViewCell.State] = [] {
+    var cellData: State? {
         didSet {
             collectionView.reloadData()
         }
@@ -82,8 +91,8 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
         }
     }
     
-    func setCellData(_ data: [PriceComparisonTableViewCell.State]) {
-        PriceComparisonCellData = data
+    func setCellData(_ data: State) {
+        cellData = data
     }
 }
 
@@ -93,12 +102,14 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
+        guard cellData != nil else { return 0 }
+        
         return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let section = DetailSection(rawValue: indexPath.section) else { return UICollectionViewCell() }
+        guard let section = Section(rawValue: indexPath.section) else { return UICollectionViewCell() }
         
         switch section {
         case .productImage:
@@ -116,7 +127,7 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        guard let section = DetailSection(rawValue: indexPath.section) else { return CGSize(width: 0, height: 0) }
+        guard let section = Section(rawValue: indexPath.section) else { return CGSize(width: 0, height: 0) }
         
         switch section {
         case .productImage:
@@ -140,57 +151,34 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
     
     /// 첫 번째 셀: ProductImageCell 구성
     private func configuredProductImageCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductImageCell", for: indexPath) as? ProductImageCell else {
-            return UICollectionViewCell()
-        }
-        cell.bind(.init(cokeImage: CokeZetDesignSystemAsset.icCanPepsi190.image, badgeType: .zetPick))
+        guard let cellData else { return UICollectionViewCell() }
+        let cell = collectionView.dequeueCell(withType: ProductImageCell.self, for: indexPath)
+        cell.bind(cellData.ProductImageCellData)
         return cell
     }
     
     /// 두 번째 셀: ProductOverCell 구성
     private func configuredProductOverCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductOverCell", for: indexPath) as? ProductOverCell else {
-            return UICollectionViewCell()
-        }
+        guard let cellData else { return UICollectionViewCell() }
+        let cell = collectionView.dequeueCell(withType: ProductOverCell.self, for: indexPath)
         cell.backgroundColor = .Gray800
-        cell.bind(
-            .init(
-                infomationState: ProductInfomationView.State(priceText: "13000",
-                                                             permlPrice: "193",
-                                                             sellerImage: CokeZetDesignSystemAsset.icKb.image,
-                                                             shipFeetext: "3000",
-                                                             carddiscountText: "신한카드 12300"),
-                buyButtonAction: {
-                    print("Buy 버튼 클릭 클릭")
-                },
-                adBannerButtonAction: {
-                    print("Banner 버튼 클릭 클릭")
-                }
-            )
-        )
+        cell.bind(cellData.ProductOverCellData)
         return cell
     }
     
     /// 세 번째 셀: GraphView 구성
     private func configuredGraphViewCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GraphView", for: indexPath) as? GraphView else {
-            return UICollectionViewCell()
-        }
+        let cell = collectionView.dequeueCell(withType: GraphView.self, for: indexPath)
         cell.backgroundColor = .Gray800
         return cell
     }
     
     /// 네 번째 셀: PriceComparisonCell 구성
     private func configuredPriceComparisonCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PriceComparisonView", for: indexPath) as? PriceComparisonCell else {
-            return UICollectionViewCell()
-        }
+        guard let cellData else { return UICollectionViewCell() }
+        let cell = collectionView.dequeueCell(withType: PriceComparisonCell.self, for: indexPath)
         cell.backgroundColor = .Gray800
-        cell.bind(
-            .init(
-                cellData: PriceComparisonCellData
-            )
-        )
+        cell.bind(cellData.PriceComparisonCellData)
         
         cell.addMoreButtonAction { [weak self] in
             guard let self = self else { return }
@@ -201,11 +189,10 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
     
     /// 다섯 번째 셀: ProductInfomationCell 구성
     private func configuredProductInfomationCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductInfomationCell", for: indexPath) as? ProductInfomationCell else {
-            return UICollectionViewCell()
-        }
+        guard let cellData else { return UICollectionViewCell() }
+        let cell = collectionView.dequeueCell(withType: ProductInfomationCell.self, for: indexPath)
         cell.backgroundColor = .Gray800
-        cell.bind(.init(foodType: "음료", packType: "캔류", capacity: "190ml", quantity: "12캔", features: ["무가당", "무설탕"]))
+        cell.bind(cellData.ProductInfomationCellData)
         return cell
     }
 }

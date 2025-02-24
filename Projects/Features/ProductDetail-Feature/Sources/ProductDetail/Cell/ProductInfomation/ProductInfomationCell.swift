@@ -10,6 +10,24 @@ import CokeZet_DesignSystem
 
 public final class ProductInfomationCell: UICollectionViewCell {
     
+    public struct State {
+        var foodType: String
+        var packType: String
+        var capacity: String
+        var quantity: String
+        var features: [String]
+    }
+    
+    enum Cell: Int, CaseIterable {
+        case foodType
+        case packType
+        case capacity
+        case quantity
+        case features
+    }
+    
+    private var state: State?
+    
     private let paddingView: UIView = UIView()
     
     private let titleLabel: ZetLabel = ZetLabel(typography: .semiBold(.T18), textColor: .White).then {
@@ -29,16 +47,6 @@ public final class ProductInfomationCell: UICollectionViewCell {
         setupLayout()
         makeConstraints()
         addConfigure()
-    }
-    
-    private var state: State?
-    
-    public struct State {
-        var foodType: String
-        var packType: String
-        var capacity: String
-        var quantity: String
-        var features: [String]
     }
     
     required init?(coder: NSCoder) {
@@ -91,16 +99,16 @@ extension ProductInfomationCell: UITableViewDelegate, UITableViewDataSource {
         }
         
         if let state {
-            switch indexPath.row {
-            case 0:
+            switch Cell(rawValue: indexPath.row) {
+            case .foodType:
                 cell.bind(.init(typeText: "식품 유형", describeText: state.foodType))
-            case 1:
+            case .packType:
                 cell.bind(.init(typeText: "포장 형태", describeText: state.packType))
-            case 2:
+            case .capacity:
                 cell.bind(.init(typeText: "용량", describeText: state.capacity))
-            case 3:
+            case .quantity:
                 cell.bind(.init(typeText: "개수", describeText: state.quantity))
-            case 4:
+            case .features:
                 cell.bind(.init(typeText: "특징", describeText: state.features.joined(separator: ", ")))
             default:
                 break

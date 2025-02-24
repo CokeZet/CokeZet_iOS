@@ -16,6 +16,11 @@ import SwiftUI
 
 final class AdBannerButton: UIButton {
     
+    public struct State {
+        let descriptText: String
+        let priceText: String
+    }
+    
     // MARK: - UI Components
     private let box = UIView().then {
         $0.isUserInteractionEnabled = false
@@ -29,7 +34,6 @@ final class AdBannerButton: UIButton {
     }
     
     private let descriptLabel = ZetLabel(typography: .semiBold(.T16), textColor: .Gray300).then {
-        $0.text = "신한카드, 국민카드가 있다면 이 가격에 구입 가능해요!"
         $0.numberOfLines = 2
         $0.lineBreakStrategy = .hangulWordPriority
     }
@@ -41,9 +45,7 @@ final class AdBannerButton: UIButton {
         $0.distribution = .fill
     }
     
-    private let priceLabel = ZetLabel(typography: .semiBold(.T18), textColor: .Red500).then {
-        $0.text = "11800".formatWithComma() + "원"
-    }
+    private let priceLabel = ZetLabel(typography: .semiBold(.T18), textColor: .Red500)
     
     private let tooltip = ToolTip()
     
@@ -149,5 +151,11 @@ final class AdBannerButton: UIButton {
         arrowImageView.snp.makeConstraints {
             $0.size.equalTo(Layout.arrowSize)
         }
+    }
+    
+    // MARK: - Bind
+    public func bind(_ state: State) {
+        descriptLabel.text = state.descriptText
+        priceLabel.text = state.priceText
     }
 }

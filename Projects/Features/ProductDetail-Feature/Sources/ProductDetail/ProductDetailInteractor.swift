@@ -18,7 +18,7 @@ protocol ProductDetailRouting: ViewableRouting {
 protocol ProductDetailPresentable: Presentable {
     var listener: ProductDetailPresentableListener? { get set }
     // TODO: Declare methods the interactor can invoke the presenter to present data.
-    func setCellData(_ data: [PriceComparisonTableViewCell.State])
+    func setCellData(_ data: ProductDetailViewController.State)
 }
 
 public protocol ProductDetailListener: AnyObject {
@@ -27,7 +27,7 @@ public protocol ProductDetailListener: AnyObject {
 }
 
 protocol TransportHomeInteractorDependency {
-    var productList: CurrentValueSubject<[PriceComparisonTableViewCell.State], Never> { get }
+    var cellDataPublisher: CurrentValueSubject<ProductDetailViewController.State, Never> { get }
 }
 
 final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresentable>, ProductDetailInteractable, ProductDetailPresentableListener {
@@ -53,7 +53,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         super.didBecomeActive()
         // TODO: Implement business logic here.
         dependency
-            .productList
+            .cellDataPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] data in
                 self?.presenter.setCellData(data)

@@ -12,16 +12,21 @@ import SnapKit
 
 public final class GraphView: UICollectionViewCell {
     // 그래프 데이터 모델
-    struct PriceData {
+    public struct State {
         let price: Int
         let date: String
+        
+        public init(price: Int, date: String) {
+            self.price = price
+            self.date = date
+        }
     }
 
     // 그래프 데이터 배열
-    private var priceData: [PriceData] = [
-        PriceData(price: 11500, date: "23.11.07"),
-        PriceData(price: 11000, date: "23.11.12"),
-        PriceData(price: 13000, date: "23.11.28")
+    private var priceData: [State] = [
+        State(price: 11500, date: "23.11.07"),
+        State(price: 11000, date: "23.11.12"),
+        State(price: 13000, date: "23.11.28")
     ]
 
     // 그래프를 그릴 뷰
@@ -233,25 +238,25 @@ public final class GraphView: UICollectionViewCell {
         switch sender.tag {
         case 0:
             priceData = [
-                PriceData(price: 11500, date: "23.11.07"),
-                PriceData(price: 11000, date: "23.11.12"),
-                PriceData(price: 7000, date: "23.11.07"),
-                PriceData(price: 13000, date: "23.11.28")
+                State(price: 11500, date: "23.11.07"),
+                State(price: 11000, date: "23.11.12"),
+                State(price: 7000, date: "23.11.07"),
+                State(price: 13000, date: "23.11.28")
             ]
         case 1:
             priceData = [
-                PriceData(price: 12000, date: "23.10.01"),
-                PriceData(price: 11000, date: "23.10.15"),
-                PriceData(price: 11500, date: "23.11.01"),
-                PriceData(price: 13000, date: "23.11.28")
+                State(price: 12000, date: "23.10.01"),
+                State(price: 11000, date: "23.10.15"),
+                State(price: 11500, date: "23.11.01"),
+                State(price: 13000, date: "23.11.28")
             ]
         case 2:
             priceData = [
-                PriceData(price: 10000, date: "23.08.01"),
-                PriceData(price: 11000, date: "23.09.01"),
-                PriceData(price: 11500, date: "23.10.01"),
-                PriceData(price: 12000, date: "23.11.01"),
-                PriceData(price: 13000, date: "23.11.28")
+                State(price: 10000, date: "23.08.01"),
+                State(price: 11000, date: "23.09.01"),
+                State(price: 11500, date: "23.10.01"),
+                State(price: 12000, date: "23.11.01"),
+                State(price: 13000, date: "23.11.28")
             ]
         default:
             break
