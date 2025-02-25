@@ -1,5 +1,5 @@
 //
-//  AccordianItemView.swift
+//  AccordionItemView.swift
 //  Main-Feature
 //
 //  Created by Daye on 2/25/25.
@@ -11,7 +11,7 @@ import CokeZet_DesignSystem
 
 import SnapKit
 
-final class AccordianItemView: UIView {
+final class AccordionItemView: UIView {
     private enum Metric {
         static let spacing: CGFloat = 16
         static let width: CGFloat = 49
@@ -68,11 +68,11 @@ final class AccordianItemView: UIView {
     "normal_초기선택 O",
     traits: .sizeThatFitsLayout
 ) {
-    let view = AccordianItemView()
+    let view = AccordionItemView()
     view.backgroundColor = .Gray800
 
     view.bind(
-        state: AccordianItemView.State(
+        state: AccordionItemView.State(
             title: "쇼핑몰",
             list: [
                 FilterListView.State(title: "쿠팡", isSelected: true),

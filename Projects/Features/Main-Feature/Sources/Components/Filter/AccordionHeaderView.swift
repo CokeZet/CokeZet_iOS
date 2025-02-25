@@ -1,5 +1,5 @@
 //
-//  AccordianHeaderView.swift
+//  AccordionHeaderView.swift
 //  Main-Feature
 //
 //  Created by Daye on 2/25/25.
@@ -11,7 +11,7 @@ import CokeZet_DesignSystem
 
 import SnapKit
 
-final class AccordianHeaderView: UIView {
+final class AccordionHeaderView: UIView {
 
     private enum Metric {
         static let spacing: CGFloat = 66
@@ -97,7 +97,7 @@ final class AccordianHeaderView: UIView {
     "normal",
     traits: .sizeThatFitsLayout
 ) {
-    let view = AccordianHeaderView()
+    let view = AccordionHeaderView()
     view.backgroundColor = .Gray800
 
     view.bind(title: "최저가 탐색 조건 설정")

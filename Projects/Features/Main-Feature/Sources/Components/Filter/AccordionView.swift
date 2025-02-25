@@ -1,5 +1,5 @@
 //
-//  AccordianContentView.swift
+//  AccordionView.swift
 //  Main-Feature
 //
 //  Created by Daye on 2/25/25.
@@ -9,15 +9,20 @@ import UIKit
 
 import SnapKit
 
-final class AccordianContentView: UIView {
+final class AccordionView: UIView {
 
-    typealias State = AccordianItemView.State
+    typealias State = AccordionItemView.State
 
     private enum Metric {
-        static let spacing: CGFloat = 16
+        static let spacing: CGFloat = 14
     }
 
     private let stackView = UIStackView()
+    private let headerView = AccordionHeaderView()
+    private let contentView = AccordionContentView()
+
+    private var isExpanded: Bool = true
+    var selectFolded: ((Bool) -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,10 +38,19 @@ final class AccordianContentView: UIView {
     private func addConfigure() {
         self.stackView.axis = .vertical
         self.stackView.spacing = Metric.spacing
+
+        self.headerView.selectExpanded = { [weak self] isExpanded in
+            self?.isExpanded = isExpanded
+            self?.contentView.isHidden = !isExpanded
+            self?.selectFolded?(isExpanded)
+        }
     }
 
     private func makeConstraints() {
         self.addSubview(stackView)
+
+        self.stackView.addArrangedSubview(headerView)
+        self.stackView.addArrangedSubview(contentView)
 
         self.stackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -44,11 +58,30 @@ final class AccordianContentView: UIView {
     }
 
     func bind(list: [State]) {
-        for item in list {
-            let view = AccordianItemView()
-            view.bind(state: item)
-            self.stackView.addArrangedSubview(view)
-        }
+        self.headerView.bind(title: "최저가 탐색 조건 설정")
+        self.contentView.bind(list: list)
+    }
+
+    func openAccordian() {
+        guard !self.isExpanded else { return }
+
+        self.isExpanded = true
+        self.headerView.setExpanded(self.isExpanded)
+        self.contentView.isHidden = !self.isExpanded
+
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+    }
+
+    func closeAccordian() {
+        guard self.isExpanded else { return }
+
+        self.isExpanded = false
+        self.headerView.setExpanded(self.isExpanded)
+        self.contentView.isHidden = !self.isExpanded
+
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
 }
 
@@ -57,12 +90,12 @@ final class AccordianContentView: UIView {
     "normal",
     traits: .sizeThatFitsLayout
 ) {
-    let view = AccordianContentView()
+    let view = AccordionView()
     view.backgroundColor = .Gray800
 
     view.bind(
         list: Array(
-            repeating: AccordianItemView.State(
+            repeating: AccordionItemView.State(
                 title: "쇼핑몰",
                 list: [
                     FilterListView.State(title: "쿠팡", isSelected: true),
