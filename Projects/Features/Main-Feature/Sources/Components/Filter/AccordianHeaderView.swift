@@ -86,6 +86,10 @@ final class AccordianHeaderView: UIView {
     func bind(title: String) {
         self.titleLabel.text = title
     }
+
+    func setExpanded(_ isExpanded: Bool) {
+        self.isExpanded = isExpanded
+    }
 }
 
 @available(iOS 17.0, *)
