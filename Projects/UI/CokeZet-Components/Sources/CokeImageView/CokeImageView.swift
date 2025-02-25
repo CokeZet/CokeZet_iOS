@@ -9,8 +9,8 @@ import CokeZet_DesignSystem
 import UIKit
 
 public final class CokeImageView: UIImageView {
-    var leftCokeImage: UIImage?
-    var rightCokeImage: UIImage?
+    var leftCokeImage: UIImage
+    var rightCokeImage: UIImage
     var leftAngle: CGFloat
     var rightAngle: CGFloat
     
@@ -20,15 +20,15 @@ public final class CokeImageView: UIImageView {
     let cokeType: CokeType
     
     public struct State {
-        let leftCokeImage: UIImage?
-        let rightCokeImage: UIImage?
+        let leftCokeImage: UIImage
+        let rightCokeImage: UIImage
         
         // 투명도 옵션 추가 (기본값 1.0, 완전 불투명)
         let leftCokeAlpha: CGFloat
         let rightCokeAlpha: CGFloat
         
-        public init(leftCokeImage: UIImage?,
-                    rightCokeImage: UIImage?) {
+        public init(leftCokeImage: UIImage,
+                    rightCokeImage: UIImage) {
             self.leftCokeImage = leftCokeImage
             self.rightCokeImage = rightCokeImage
             self.leftCokeAlpha = 0.5
@@ -59,8 +59,8 @@ public final class CokeImageView: UIImageView {
     /// 이미지 합성 작업 후 UIImageView의 image 프로퍼티에 할당합니다.
     public func imageSetup() {
         let image = combineImages(
-            left: leftCokeImage!,
-            right: rightCokeImage!,
+            left: leftCokeImage,
+            right: rightCokeImage,
             leftRotationDegrees: leftAngle,
             rightRotationDegrees: rightAngle,
             leftAlpha: leftAlpha,
