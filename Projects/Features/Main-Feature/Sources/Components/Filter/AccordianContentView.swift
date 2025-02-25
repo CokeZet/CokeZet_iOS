@@ -1,0 +1,82 @@
+//
+//  AccordianContentView.swift
+//  Main-Feature
+//
+//  Created by Daye on 2/25/25.
+//
+
+import UIKit
+
+import SnapKit
+
+final class AccordianContentView: UIView {
+
+    typealias State = AccordianItemView.State
+
+    private enum Metric {
+        static let spacing: CGFloat = 16
+    }
+
+    private let stackView = UIStackView()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.addConfigure()
+        self.makeConstraints()
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func addConfigure() {
+        self.stackView.axis = .vertical
+        self.stackView.spacing = Metric.spacing
+    }
+
+    private func makeConstraints() {
+        self.addSubview(stackView)
+
+        self.stackView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+
+    func bind(list: [State]) {
+        for item in list {
+            let view = AccordianItemView()
+            view.bind(state: item)
+            self.stackView.addArrangedSubview(view)
+        }
+    }
+}
+
+@available(iOS 17.0, *)
+#Preview(
+    "normal",
+    traits: .sizeThatFitsLayout
+) {
+    let view = AccordianContentView()
+    view.backgroundColor = .Gray800
+
+    view.bind(
+        list: Array(
+            repeating: AccordianItemView.State(
+                title: "쇼핑몰",
+                list: [
+                    FilterListView.State(title: "쿠팡", isSelected: true),
+                    FilterListView.State(title: "G마켓", isSelected: false),
+                    FilterListView.State(title: "11번가", isSelected: false),
+                    FilterListView.State(title: "네이버", isSelected: false),
+                    FilterListView.State(title: "마켓컬리", isSelected: false),
+                    FilterListView.State(title: "마켓컬리", isSelected: false)
+                ]
+            ),
+            count: 5
+        )
+
+    )
+
+    return view
+}
