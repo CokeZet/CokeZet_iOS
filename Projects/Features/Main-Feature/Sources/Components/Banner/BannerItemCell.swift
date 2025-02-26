@@ -21,8 +21,8 @@ final class BannerItemCell: UICollectionViewCell {
         static let inset: CGFloat = 12
         static let logoSize = CGSize(width: 45, height: 24)
 
-        static let titleTop: CGFloat = 4
-        static let descriptionTop: CGFloat = 8
+        static let titleTop: CGFloat = 3
+        static let descriptionTop: CGFloat = 5
     }
 
     struct State {
