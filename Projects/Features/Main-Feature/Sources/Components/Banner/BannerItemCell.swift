@@ -50,6 +50,11 @@ final class BannerItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.cokeView.subviews.forEach { $0.removeFromSuperview() }
+    }
+
     private func addConfigure() {
         self.contentView.backgroundColor = .Gray700
         self.contentView.layer.cornerRadius = 8

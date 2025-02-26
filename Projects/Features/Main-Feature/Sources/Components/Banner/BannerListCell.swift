@@ -168,14 +168,21 @@ extension BannerListCell {
                 logoImage: CokeZetDesignSystemAsset.icGs25.image,
                 title: "[1+1] 펩시(디카페인) 라임 355ml",
                 description: "개당 2000원",
-                cokeImage: CokeZetDesignSystemAsset.icCanPepsiZeroCaffeine355.image,
+                cokeImage: CokeZetDesignSystemAsset.icPetCoca500.image,
+                bottleType: .pet
+            ),
+            BannerItemCell.State(
+                logoImage: CokeZetDesignSystemAsset.icGs25.image,
+                title: "[1+1] 펩시(디카페인) 라임 355ml",
+                description: "개당 2000원",
+                cokeImage: CokeZetDesignSystemAsset.icCanCocaLemon190.image,
                 bottleType: .can
             ),
             BannerItemCell.State(
                 logoImage: CokeZetDesignSystemAsset.icGs25.image,
                 title: "[1+1] 펩시(디카페인) 라임 355ml",
                 description: "개당 2000원",
-                cokeImage: CokeZetDesignSystemAsset.icCanPepsiZeroCaffeine355.image,
+                cokeImage: CokeZetDesignSystemAsset.icCanCocaLemon190.image,
                 bottleType: .can
             )
         ]
