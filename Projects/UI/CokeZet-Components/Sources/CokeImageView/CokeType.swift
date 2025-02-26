@@ -5,7 +5,7 @@
 //  Created by 김진우 on 2/25/25.
 //
 
-enum CokeType {
+public enum CokeType {
     case can
     case pet
 }
