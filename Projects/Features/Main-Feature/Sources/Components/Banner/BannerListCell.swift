@@ -1,5 +1,5 @@
 //
-//  BannerListView.swift
+//  BannerListCell.swift
 //  Main-Feature
 //
 //  Created by Daye on 2/26/25.
