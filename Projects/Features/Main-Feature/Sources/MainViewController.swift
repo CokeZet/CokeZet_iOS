@@ -8,12 +8,24 @@ protocol MainPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
+    func productDetailAttach()
 }
 
 final class MainViewController: UIViewController, MainPresentable, MainViewControllable {
 
     let label: UILabel = UILabel().then {
         $0.text = "안녕하세요 Main 입니다."
+    }
+    
+    lazy var button: UIButton = UIButton().then {
+        $0.setTitle("테스트용 버튼", for: .normal)
+        $0.backgroundColor = .black
+        let touchDownAction = UIAction(handler: { [weak self] _ in
+            guard let self else { return }
+            listener?.productDetailAttach()
+        })
+        
+        $0.addAction(touchDownAction, for: .touchDown)
     }
     
     weak var listener: MainPresentableListener?
@@ -33,8 +45,16 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
     }
     
     func setupViews() {
-        self.view.addSubview(label)
+        [label, button].forEach {
+            self.view.addSubview($0)
+        }
+        
         label.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
+        }
+        
+        button.snp.makeConstraints {
+            $0.top.equalTo(label.snp.bottom).offset(10)
+            $0.centerX.equalToSuperview()
         }
     }}

@@ -39,22 +39,22 @@ final class ProductInfomationView: UIView {
     }
     
     private let minimumPriceStackView = KeyValueStackView()
-        .setKeyValue("최저가", "13000원")
-        .setLargeValue()
     
     private let pricePer100mlStackView = KeyValueStackView()
-        .setKeyValue("100ml", "193원")
     
     private let sellerStackView = KeyValueStackView()
-        .setKeyValue("판매처", "")
-        .setImage(CokeZetDesignSystemAsset.alertCircle.image)
     
     private let shippingFeeStackView = KeyValueStackView()
-        .setKeyValue("배송비", "3000원", .deliveryPrice)
     
     private let cardDiscountStackView = KeyValueStackView()
-        .setKeyValue("카드할인", "신한카드 12300원", .cardSale)
-        .addToolTip()
+    
+    public struct State {
+        var priceText: String
+        var permlPrice: String
+        var sellerImage: UIImage
+        var shipFeetext: String
+        var carddiscountText: String
+    }
     
     // MARK: - Constants
     private enum Layout {
@@ -101,5 +101,21 @@ final class ProductInfomationView: UIView {
             $0.top.equalTo(titleStackView.snp.bottom).offset(Layout.productStackTopSpacing)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+    }
+    
+    public func bind(_ state: State) {
+        minimumPriceStackView.setKeyValue("최저가", state.priceText)
+        minimumPriceStackView.setLargeValue()
+        
+        pricePer100mlStackView.setKeyValue("100ml당", state.permlPrice)
+        
+        sellerStackView.setKeyValue("판매처", "")
+        sellerStackView.setImage(state.sellerImage)
+        
+        shippingFeeStackView.setKeyValue("배송비", state.shipFeetext, .deliveryPrice)
+        
+        cardDiscountStackView.setKeyValue("카드할인", state.carddiscountText, .cardSale)
+        cardDiscountStackView.addToolTip()
+        
     }
 }

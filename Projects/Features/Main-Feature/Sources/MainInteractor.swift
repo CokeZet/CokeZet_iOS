@@ -9,6 +9,8 @@ import ModernRIBs
 
 protocol MainRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func attachProductDetail()
+    func deatchProductDetail()
 }
 
 protocol MainPresentable: Presentable {
@@ -16,7 +18,7 @@ protocol MainPresentable: Presentable {
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol MainListener: AnyObject {
+public protocol MainListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
@@ -41,4 +43,13 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         super.willResignActive()
         // TODO: Pause any business logic.
     }
+    
+    func productDetailAttach() {
+        router?.attachProductDetail()
+    }
+    
+    func productDetailDidTapClose() {
+        router?.deatchProductDetail()
+    }
+    
 }

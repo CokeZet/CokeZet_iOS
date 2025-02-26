@@ -9,6 +9,7 @@ import ModernRIBs
 import UIKit
 import Then
 import SnapKit
+import CokeZet_DesignSystem
 
 protocol RootPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
@@ -33,8 +34,8 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
-        setupViews()
+        self.view.backgroundColor = ZetColor.Black.color
+//        setupViews()
     }
     
     func setupViews() {
@@ -42,5 +43,9 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
         label.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
         }
+    }
+    
+    func setViewController(_ viewController: ViewControllable) {
+        addChild(viewController.uiviewController)
     }
 }
