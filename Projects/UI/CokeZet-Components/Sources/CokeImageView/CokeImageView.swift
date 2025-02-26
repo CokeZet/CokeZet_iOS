@@ -36,12 +36,12 @@ public final class CokeImageView: UIImageView {
         }
     }
     
-    init(_ state: State, _ cokeType: CokeType = .can) {
+    public init(_ state: State, _ cokeType: CokeType = .can) {
         self.leftCokeImage = state.leftCokeImage
         self.rightCokeImage = state.rightCokeImage
         self.cokeType = cokeType
         if cokeType == .can {
-            self.leftAngle = -10
+            self.leftAngle = -11
             self.rightAngle = 24
         } else {
             self.leftAngle = 0
@@ -95,7 +95,7 @@ public final class CokeImageView: UIImageView {
         var imageScale: CGFloat = 0
         switch cokeType {
         case .can:
-            imageScale = 1.4
+            imageScale = 1.3
         case .pet:
             imageScale = 0.7
             leftFlag.toggle()
@@ -151,7 +151,7 @@ public final class CokeImageView: UIImageView {
         
         switch cokeType {
         case .can:
-            (lx, ly) = (-35, -45)
+            (lx, ly) = (-40, -30)
             (rx, ry) = (15, 40)
         case .pet:
             (lx, ly) = (-30, 0)
@@ -197,8 +197,8 @@ public final class CokeImageView: UIImageView {
                                    rightCokeImage: CokeZetDesignSystemAsset.icPetPepsi500.image),
                              .pet)
     
-    let tool2 = CokeImageView(.init(leftCokeImage: CokeZetDesignSystemAsset.icCanPepsi355.image,
-                                   rightCokeImage: CokeZetDesignSystemAsset.icCanPepsi355.image),
+    let tool2 = CokeImageView(.init(leftCokeImage: CokeZetDesignSystemAsset.icCanPepsiZeroCaffeine355.image,
+                                   rightCokeImage: CokeZetDesignSystemAsset.icCanPepsiZeroCaffeine355.image),
                              .can)
     
     tool.snp.makeConstraints {
