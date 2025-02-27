@@ -9,7 +9,7 @@ import UIKit
 
 import CokeZet_Utilities
 
-public class ZetLabel: UILabel {
+open class ZetLabel: UILabel {
 
     private let typography: Typography
 
@@ -60,7 +60,7 @@ public class ZetLabel: UILabel {
     }
 
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
