@@ -27,7 +27,7 @@ final class MyCardSetUpView: UIView {
     private let titleLabel = ZetLabel(typography: .semiBold(.T24), textColor: .White)
     private let listView = MyCardListView()
     private let descriptionLabel = ZetLabel(typography: .medium(.T12), textColor: .Gray500)
-    private let confirmButton = ZetRoundButton(buttonState: .Disabled)
+    private let confirmButton = ZetLargeButton(buttonState: .disabled)
 
     override init(frame: CGRect) {
         super.init(frame: frame)

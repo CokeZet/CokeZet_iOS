@@ -19,7 +19,7 @@ public class ProductOverCell: UICollectionViewCell {
     // MARK: - UI Components
     private let infomationView = ProductInfomationView(frame: .zero)
     
-    private let buyButton = ZetRoundButton(buttonState: .Primary).then {
+    private let buyButton = ZetLargeButton(buttonState: .normal).then {
         $0.setTitle("최저가로 구매하기", for: .normal)
 
     }

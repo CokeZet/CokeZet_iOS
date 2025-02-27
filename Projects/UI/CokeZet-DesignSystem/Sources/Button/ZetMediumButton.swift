@@ -1,5 +1,5 @@
 //
-//  ZetButton.swift
+//  ZetMediumButton.swift
 //  CokeZet-DesignSystem
 //
 //  Created by Daye on 1/23/25.
@@ -11,26 +11,34 @@ import SnapKit
 
 /// Edge Button 컴포넌트 정의
 /// figma: https://www.figma.com/design/2Sd5HIV4AVqvFUEzNpbBgX/SD🥤?node-id=497-17519&t=m3eVZ1aeg9slpf2F-0
-public final class ZetEdgeButton: UIButton {
+public final class ZetMediumButton: UIButton {
 
     private enum Metric {
         static let height: CGFloat = 48
         static let cornerRadius: CGFloat = 10
+        static let inset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 10,
+            bottom: 0,
+            trailing: 10
+        )
     }
 
-    private let size: EdgeButtonSize
     public var buttonState: ButtonState {
         didSet {
-            self.setButtonStyle(self.buttonState)
+            self.setButtonStyle(self.buttonState, normalColor: self.normalColor)
         }
     }
 
+    private var normalColor: ButtonState.Color = .red
+
     public init(
-        size: EdgeButtonSize = .Default,
-        buttonState: ButtonState = .Primary
+        buttonState: ButtonState = .normal,
+        normalColor: ButtonState.Color = .red
     ) {
-        self.size = size
+        self.normalColor = normalColor
         self.buttonState = buttonState
+
         super.init(frame: .zero)
         self.addConfigure()
         self.makeConstraints()
@@ -46,21 +54,27 @@ public final class ZetEdgeButton: UIButton {
         self.setContentCompressionResistancePriority(.required, for: .horizontal)
         self.layer.cornerRadius = Metric.cornerRadius
         self.titleLabel?.font = Typography.semiBold(.T18).font
-        self.setButtonStyle(self.buttonState)
+        self.setButtonStyle(self.buttonState, normalColor: self.normalColor)
+        var config = UIButton.Configuration.plain()
+        config.contentInsets = Metric.inset
+        self.configuration = config
         self.setButtonAction()
     }
 
     private func makeConstraints() {
         self.snp.makeConstraints {
-            $0.width.equalTo(self.size.width)
             $0.height.equalTo(Metric.height)
         }
     }
 
-    private func setButtonStyle(_ state: ButtonState) {
-        self.backgroundColor = state.backgroundColor
-        self.setTitleColor(state.titleColor, for: .normal)
-        self.isEnabled = self.buttonState != .Disabled
+    private func setButtonStyle(
+        _ state: ButtonState,
+        normalColor: ButtonState.Color
+    ) {
+        self.backgroundColor = state.backgroundColor(normalColor)
+        self.setTitleColor(state.titleColor(normalColor), for: .normal)
+        self.setTitleColor(state.titleColor(normalColor), for: .disabled)
+        self.isEnabled = self.buttonState != .disabled
     }
 
     private func setButtonAction() {
@@ -76,14 +90,14 @@ public final class ZetEdgeButton: UIButton {
     }
 
     private func handleTouchDown() {
-        if self.buttonState != .Disabled {
-            self.setButtonStyle(.Pressed)
+        if self.buttonState != .disabled {
+            self.setButtonStyle(.pressed, normalColor: self.normalColor)
         }
     }
 
     private func handleTouchUp() {
-        if self.buttonState != .Disabled {
-            self.setButtonStyle(self.buttonState)
+        if self.buttonState != .disabled {
+            self.setButtonStyle(self.buttonState, normalColor: self.normalColor)
         }
     }
 }
@@ -99,7 +113,7 @@ public final class ZetEdgeButton: UIButton {
     contentView.spacing = 10
 
     ButtonState.allCases.forEach { state in
-        let button = ZetEdgeButton(size: .Default, buttonState: state)
+        let button = ZetMediumButton(buttonState: state)
         button.setTitle("타이틀 - \(state)", for: .normal)
 
         let action = UIAction(handler: { _ in
@@ -115,7 +129,7 @@ public final class ZetEdgeButton: UIButton {
 
 @available(iOS 17.0, *)
 #Preview(
-    "button size",
+    "button state_white",
     traits: .sizeThatFitsLayout
 ) {
     let contentView = UIStackView()
@@ -123,12 +137,12 @@ public final class ZetEdgeButton: UIButton {
     contentView.alignment = .center
     contentView.spacing = 10
 
-    EdgeButtonSize.allCases.forEach { size in
-        let button = ZetEdgeButton(size: size, buttonState: .Primary)
-        button.setTitle("타이틀 - \(size)", for: .normal)
+    ButtonState.allCases.forEach { state in
+        let button = ZetMediumButton(buttonState: state, normalColor: .white)
+        button.setTitle("타이틀 - \(state)", for: .normal)
 
         let action = UIAction(handler: { _ in
-            print("\(size) clicked!")
+            print("\(state) clicked!")
         })
         button.addAction(action, for: .touchUpInside)
 
@@ -138,4 +152,28 @@ public final class ZetEdgeButton: UIButton {
     return contentView
 }
 
+@available(iOS 17.0, *)
+#Preview(
+    "button state_gray",
+    traits: .sizeThatFitsLayout
+) {
+    let contentView = UIStackView()
+    contentView.axis = .vertical
+    contentView.alignment = .center
+    contentView.spacing = 10
+
+    ButtonState.allCases.forEach { state in
+        let button = ZetMediumButton(buttonState: state, normalColor: .gray)
+        button.setTitle("타이틀 - \(state)", for: .normal)
+
+        let action = UIAction(handler: { _ in
+            print("\(state) clicked!")
+        })
+        button.addAction(action, for: .touchUpInside)
+
+        contentView.addArrangedSubview(button)
+    }
+
+    return contentView
+}
 

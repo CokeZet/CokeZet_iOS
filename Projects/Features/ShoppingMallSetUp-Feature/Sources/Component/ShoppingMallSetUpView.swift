@@ -26,7 +26,7 @@ final class ShoppingMallSetUpView: UIView {
 
     private let titleLabel = ZetLabel(typography: .semiBold(.T24), textColor: .White)
     private let listView = ShoppingMallListView()
-    private let confirmButton = ZetRoundButton(buttonState: .Disabled)
+    private let confirmButton = ZetLargeButton(buttonState: .disabled)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
