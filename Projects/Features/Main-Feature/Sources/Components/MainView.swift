@@ -75,6 +75,7 @@ final class MainView: UIView {
         self.collectionView.registerCell(type: ProductListHeaderCell.self)
         self.collectionView.registerCell(type: ProductItemCell.self)
         self.collectionView.registHeaderFooter(type: ProductFilterHeaderView.self, kindType: .header)
+        self.collectionView.registHeaderFooter(type: ProductListFooterView.self, kindType: .footer)
         self.collectionView.dataSource = self
     }
 
@@ -138,25 +139,44 @@ extension MainView: UICollectionViewDataSource {
         at indexPath: IndexPath
     ) -> UICollectionReusableView {
         let section = Section(rawValue: indexPath.section)
-        guard section == .product, kind == UICollectionView.elementKindSectionHeader else {
-            return UICollectionReusableView()
-        }
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
 
-        let header = collectionView.dequeueReusableHeaderFooter(
-            withType: ProductFilterHeaderView.self,
-            kindType: .header,
-            for: indexPath
-        )
-        header.backgroundColor = .Gray800
-        header.selectFolded = { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
+            guard section == .product else { return UICollectionReusableView() }
+
+            let header = collectionView.dequeueReusableHeaderFooter(
+                withType: ProductFilterHeaderView.self,
+                kindType: .header,
+                for: indexPath
+            )
+            header.backgroundColor = .Gray800
+            header.selectFolded = { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
             }
+
+            header.bind(list: self.state.filterList)
+
+            return header
+
+        case UICollectionView.elementKindSectionFooter:
+
+            guard section == .product else { return UICollectionReusableView() }
+
+            let footer = collectionView.dequeueReusableHeaderFooter(
+                withType: ProductListFooterView.self,
+                kindType: .footer,
+                for: indexPath
+            )
+
+            return footer
+
+        default:
+            return UICollectionReusableView()
+
         }
 
-        header.bind(list: self.state.filterList)
-
-        return header
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -193,6 +213,13 @@ extension MainView {
             trailing: .zero
         )
         static let productGroupSpacing: CGFloat = 16
+        static let footerHeight: CGFloat = 46 + 20 + 16
+        static let footerInset = NSDirectionalEdgeInsets(
+            top: 20,
+            leading: 20,
+            bottom: 16,
+            trailing: 20
+        )
     }
 
     private func collectionViewLayout() -> UICollectionViewLayout {
@@ -281,7 +308,18 @@ extension MainView {
         header.contentInsets = Metric.headerInset
         header.pinToVisibleBounds = true
 
-        section.boundarySupplementaryItems = [header]
+        let footerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(Metric.footerHeight)
+        )
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: footerSize,
+            elementKind: UICollectionView.elementKindSectionFooter,
+            alignment: .bottom
+        )
+        footer.contentInsets = Metric.footerInset
+
+        section.boundarySupplementaryItems = [header, footer]
 
 
         return section
@@ -302,7 +340,8 @@ extension MainView {
     contentView.addSubview(view)
 
     view.snp.makeConstraints {
-        $0.edges.equalTo(contentView.safeAreaLayoutGuide)
+        $0.top.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide)
+        $0.bottom.equalToSuperview()
     }
 
     view.bind(.init(
