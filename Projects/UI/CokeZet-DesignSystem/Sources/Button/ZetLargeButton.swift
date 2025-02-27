@@ -20,12 +20,19 @@ public final class ZetLargeButton: UIButton {
 
     public var buttonState: ButtonState {
         didSet {
-            self.setButtonStyle(self.buttonState)
+            self.setButtonStyle(self.buttonState, normalColor: self.normalColor)
         }
     }
 
-    public init(buttonState: ButtonState = .normal) {
+    private var normalColor: ButtonState.Color = .red
+
+    public init(
+        buttonState: ButtonState = .normal,
+        normalColor: ButtonState.Color = .red
+    ) {
+        self.normalColor = normalColor
         self.buttonState = buttonState
+
         super.init(frame: .zero)
         self.addConfigure()
         self.makeConstraints()
@@ -41,7 +48,7 @@ public final class ZetLargeButton: UIButton {
         self.setContentCompressionResistancePriority(.required, for: .horizontal)
         self.layer.cornerRadius = Metric.cornerRadius
         self.titleLabel?.font = Typography.semiBold(.T18).font
-        self.setButtonStyle(self.buttonState)
+        self.setButtonStyle(self.buttonState, normalColor: self.normalColor)
         self.setButtonAction()
     }
 
@@ -51,9 +58,13 @@ public final class ZetLargeButton: UIButton {
         }
     }
 
-    private func setButtonStyle(_ state: ButtonState) {
-        self.backgroundColor = state.backgroundColor
-        self.setTitleColor(state.titleColor, for: .normal)
+    private func setButtonStyle(
+        _ state: ButtonState,
+        normalColor: ButtonState.Color
+    ) {
+        self.backgroundColor = state.backgroundColor(normalColor)
+        self.setTitleColor(state.titleColor(normalColor), for: .normal)
+        self.setTitleColor(state.titleColor(normalColor), for: .disabled)
         self.isEnabled = self.buttonState != .disabled
     }
 
@@ -71,13 +82,13 @@ public final class ZetLargeButton: UIButton {
 
     private func handleTouchDown() {
         if self.buttonState != .disabled {
-            self.setButtonStyle(.pressed)
+            self.setButtonStyle(.pressed, normalColor: self.normalColor)
         }
     }
 
     private func handleTouchUp() {
         if self.buttonState != .disabled {
-            self.setButtonStyle(self.buttonState)
+            self.setButtonStyle(self.buttonState, normalColor: self.normalColor)
         }
     }
 }
@@ -93,7 +104,7 @@ public final class ZetLargeButton: UIButton {
     contentView.spacing = 10
 
     ButtonState.allCases.forEach { state in
-        let button = ZetLargeButton(buttonState: state)
+        let button = ZetLargeButton(buttonState: state, normalColor: .gray)
         button.setTitle("타이틀 - \(state)", for: .normal)
 
         let action = UIAction(handler: { _ in
@@ -101,6 +112,64 @@ public final class ZetLargeButton: UIButton {
         })
         button.addAction(action, for: .touchUpInside)
         
+        button.snp.makeConstraints {
+            $0.width.equalTo(334)
+        }
+
+        contentView.addArrangedSubview(button)
+    }
+
+    return contentView
+}
+
+@available(iOS 17.0, *)
+#Preview(
+    "button state_red",
+    traits: .sizeThatFitsLayout
+) {
+    let contentView = UIStackView()
+    contentView.axis = .vertical
+    contentView.alignment = .center
+    contentView.spacing = 10
+
+    ButtonState.allCases.forEach { state in
+        let button = ZetLargeButton(buttonState: state, normalColor: .red)
+        button.setTitle("타이틀 - \(state)", for: .normal)
+
+        let action = UIAction(handler: { _ in
+            print("\(state) clicked!")
+        })
+        button.addAction(action, for: .touchUpInside)
+
+        button.snp.makeConstraints {
+            $0.width.equalTo(334)
+        }
+
+        contentView.addArrangedSubview(button)
+    }
+
+    return contentView
+}
+
+@available(iOS 17.0, *)
+#Preview(
+    "button state_white",
+    traits: .sizeThatFitsLayout
+) {
+    let contentView = UIStackView()
+    contentView.axis = .vertical
+    contentView.alignment = .center
+    contentView.spacing = 10
+
+    ButtonState.allCases.forEach { state in
+        let button = ZetLargeButton(buttonState: state, normalColor: .white)
+        button.setTitle("타이틀 - \(state)", for: .normal)
+
+        let action = UIAction(handler: { _ in
+            print("\(state) clicked!")
+        })
+        button.addAction(action, for: .touchUpInside)
+
         button.snp.makeConstraints {
             $0.width.equalTo(334)
         }

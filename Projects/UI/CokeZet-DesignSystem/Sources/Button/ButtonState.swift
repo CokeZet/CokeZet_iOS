@@ -12,25 +12,55 @@ public enum ButtonState: CaseIterable {
     case pressed
     case disabled
 
-    var titleColor: UIColor {
-        switch self {
-        case .pressed:
-            return .White
-        case .normal:
-            return .White
-        case .disabled:
+    func titleColor(_ color: Color) -> UIColor {
+        switch color {
+        case .red, .gray:
+            guard self == .disabled else { return .White }
+            return .Gray500
+
+        case .white:
+            guard self == .disabled else { return .black }
             return .Gray500
         }
     }
 
-    var backgroundColor: UIColor {
-        switch self {
-        case .pressed:
-            return .Red700
-        case .normal:
-            return .Red600
-        case .disabled:
-            return .Gray700
+    func backgroundColor(_ color: Color) -> UIColor {
+        switch color {
+        case .red:
+            switch self {
+            case .pressed:
+                return .Red700
+            case .normal:
+                return .Red600
+            case .disabled:
+                return .Gray700
+            }
+
+        case .white:
+            switch self {
+            case .pressed:
+                return .Red50
+            case .normal:
+                return .Red200
+            case .disabled:
+                return .Gray700
+            }
+            
+        case .gray:
+            switch self {
+            case .pressed:
+                return .Gray500
+            case .normal:
+                return .Gray600
+            case .disabled:
+                return .Gray700
+            }
         }
+    }
+
+    public enum Color {
+        case red
+        case white
+        case gray
     }
 }
