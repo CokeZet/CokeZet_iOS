@@ -29,6 +29,8 @@ final class MainView: UIView {
         collectionViewLayout: UICollectionViewLayout()
     )
 
+    private let refreshControl = UIRefreshControl()
+
     private var state: State = .init(
         bannerList: [],
         filterList: [],
@@ -37,10 +39,12 @@ final class MainView: UIView {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                self.refreshControl.endRefreshing()
             }
         }
     }
 
+    var refresh: (() async -> Void)?
     var selectFolded: ((Bool) -> Void)?
 
     override init(frame: CGRect) {
@@ -55,6 +59,16 @@ final class MainView: UIView {
     }
 
     private func addConfigure() {
+        let action = UIAction { [weak self] _ in
+            guard let self else { return }
+            Task {
+                await self.refresh?()
+            }
+        }
+        self.refreshControl.addAction(action, for: .valueChanged)
+        self.refreshControl.tintColor = .Red300
+
+        self.collectionView.refreshControl = self.refreshControl
         self.collectionView.backgroundColor = .Gray800
         self.collectionView.collectionViewLayout = self.collectionViewLayout()
         self.collectionView.registerCell(type: BannerListCell.self)
@@ -178,7 +192,6 @@ extension MainView {
             bottom: .zero,
             trailing: .zero
         )
-        static let cardHeight: CGFloat = 158
         static let productGroupSpacing: CGFloat = 16
     }
 
@@ -285,6 +298,7 @@ extension MainView {
     let contentView = UIView()
     let view = MainView()
 
+    contentView.backgroundColor = .Gray800
     contentView.addSubview(view)
 
     view.snp.makeConstraints {
