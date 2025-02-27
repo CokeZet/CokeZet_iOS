@@ -21,7 +21,7 @@ final class MainView: UIView {
     struct State {
         let bannerList: [BannerListCell.State]
         let filterList: [AccordionView.State]
-        let productList: [ProductListCell.State]
+        let productList: [ProductItemCell.State]
     }
 
     private let collectionView = UICollectionView(
