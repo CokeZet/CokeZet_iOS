@@ -39,9 +39,9 @@ public enum ButtonState: CaseIterable {
         case .white:
             switch self {
             case .pressed:
-                return .Red50
-            case .normal:
                 return .Red200
+            case .normal:
+                return .Red50
             case .disabled:
                 return .Gray700
             }
