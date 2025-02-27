@@ -1,31 +1,39 @@
 //
-//  ZetRoundButton.swift
+//  ZetSmallButton.swift
 //  CokeZet-DesignSystem
 //
-//  Created by Daye on 1/23/25.
+//  Created by Daye on 2/27/25.
 //
 
 import UIKit
 
 import SnapKit
 
-/// Round Button 컴포넌트 정의
+/// Small Button 컴포넌트 정의
 /// figma: https://www.figma.com/design/2Sd5HIV4AVqvFUEzNpbBgX/SD🥤?node-id=497-17519&t=m3eVZ1aeg9slpf2F-0
-public final class ZetRoundButton: UIButton {
+public final class ZetSmallButton: UIButton {
 
     private enum Metric {
-        static let height: CGFloat = 65
-        static let cornerRadius: CGFloat = height/2
+        static let height: CGFloat = 36
+        static let cornerRadius: CGFloat = 4
+        static let borderWidth: CGFloat = 1
+        static let inset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 10,
+            bottom: 0,
+            trailing: 10
+        )
     }
 
-    public var buttonState: ButtonState {
+    public var buttonState: SmallButtonState {
         didSet {
             self.setButtonStyle(self.buttonState)
         }
     }
 
-    public init(buttonState: ButtonState = .Primary) {
+    public init(buttonState: SmallButtonState = .normal) {
         self.buttonState = buttonState
+
         super.init(frame: .zero)
         self.addConfigure()
         self.makeConstraints()
@@ -40,8 +48,12 @@ public final class ZetRoundButton: UIButton {
         self.setContentHuggingPriority(.required, for: .horizontal)
         self.setContentCompressionResistancePriority(.required, for: .horizontal)
         self.layer.cornerRadius = Metric.cornerRadius
-        self.titleLabel?.font = Typography.semiBold(.T18).font
+        self.titleLabel?.font = Typography.semiBold(.T16).font
         self.setButtonStyle(self.buttonState)
+        var config = UIButton.Configuration.plain()
+        config.baseForegroundColor = self.buttonState.titleColor
+        config.contentInsets = Metric.inset
+        self.configuration = config
         self.setButtonAction()
     }
 
@@ -51,10 +63,13 @@ public final class ZetRoundButton: UIButton {
         }
     }
 
-    private func setButtonStyle(_ state: ButtonState) {
+    private func setButtonStyle(_ state: SmallButtonState) {
         self.backgroundColor = state.backgroundColor
+        self.layer.borderColor = state.borderColor?.cgColor
+        self.layer.borderWidth = Metric.borderWidth
         self.setTitleColor(state.titleColor, for: .normal)
-        self.isEnabled = self.buttonState != .Disabled
+        self.setTitleColor(state.titleColor, for: .disabled)
+        self.isEnabled = self.buttonState != .disabled
     }
 
     private func setButtonAction() {
@@ -70,13 +85,13 @@ public final class ZetRoundButton: UIButton {
     }
 
     private func handleTouchDown() {
-        if self.buttonState != .Disabled {
-            self.setButtonStyle(.Pressed)
+        if self.buttonState != .disabled {
+            self.setButtonStyle(.pressed)
         }
     }
 
     private func handleTouchUp() {
-        if self.buttonState != .Disabled {
+        if self.buttonState != .disabled {
             self.setButtonStyle(self.buttonState)
         }
     }
@@ -92,18 +107,16 @@ public final class ZetRoundButton: UIButton {
     contentView.alignment = .center
     contentView.spacing = 10
 
-    ButtonState.allCases.forEach { state in
-        let button = ZetRoundButton(buttonState: state)
+    contentView.backgroundColor = .Gray800
+
+    SmallButtonState.allCases.forEach { state in
+        let button = ZetSmallButton(buttonState: state)
         button.setTitle("타이틀 - \(state)", for: .normal)
 
         let action = UIAction(handler: { _ in
             print("\(state) clicked!")
         })
         button.addAction(action, for: .touchUpInside)
-        
-        button.snp.makeConstraints {
-            $0.width.equalTo(334)
-        }
 
         contentView.addArrangedSubview(button)
     }
