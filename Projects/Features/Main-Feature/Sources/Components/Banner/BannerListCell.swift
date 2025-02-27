@@ -49,6 +49,7 @@ final class BannerListCell: UICollectionViewCell {
     }
 
     private func addConfigure() {
+        self.collectionView.backgroundColor = .clear
         self.collectionView.collectionViewLayout = self.collectionViewLayout()
         self.collectionView.registerCell(type: Cell.self)
         self.collectionView.dataSource = self
@@ -120,13 +121,13 @@ extension BannerListCell: UICollectionViewDelegate {
 extension BannerListCell {
     func collectionViewLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
+            widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(86)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
+            widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(86)
         )
         let group = NSCollectionLayoutGroup.horizontal(

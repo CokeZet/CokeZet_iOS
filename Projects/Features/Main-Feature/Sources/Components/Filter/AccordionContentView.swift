@@ -44,6 +44,7 @@ final class AccordionContentView: UIView {
     }
 
     func bind(list: [State]) {
+        self.stackView.subviews.forEach { $0.removeFromSuperview() }
         for item in list {
             let view = AccordionItemView()
             view.bind(state: item)

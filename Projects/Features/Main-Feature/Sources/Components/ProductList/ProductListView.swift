@@ -11,10 +11,11 @@ import CokeZet_DesignSystem
 
 import SnapKit
 
-final class ProductListView: UIView {
+final class ProductListCell: UICollectionViewCell {
 
     typealias Cell = ProductItemCell
-    typealias Header = ProductListHeaderView
+    typealias State = Cell.State
+    typealias Header = ProductListHeaderCell
 
     private enum Metric {
         static let headerHeight: CGFloat = 34 + (verticalInset * 2)
@@ -35,13 +36,13 @@ final class ProductListView: UIView {
         static let cardHeight: CGFloat = 158
     }
 
-    private let headerView = ProductListHeaderView()
+    private let headerView = ProductListHeaderCell()
     private let collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewLayout()
     )
 
-    private var list: [Cell.State] = [] {
+    private var list: [State] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
@@ -74,20 +75,20 @@ final class ProductListView: UIView {
     }
 
     private func makeConstraints() {
-        self.addSubview(collectionView)
+        self.contentView.addSubview(collectionView)
 
         self.collectionView.snp.makeConstraints {
             $0.edges.height.equalToSuperview()
         }
     }
 
-    func bind(list: [Cell.State]) {
+    func bind(list: [State]) {
         self.list = list
     }
 
 }
 
-extension ProductListView: UICollectionViewDataSource {
+extension ProductListCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.list.count
     }
@@ -122,7 +123,7 @@ extension ProductListView: UICollectionViewDataSource {
 
 }
 
-extension ProductListView {
+extension ProductListCell {
     func collectionViewLayout(
         headerHeight: CGFloat?,
         headerInset: NSDirectionalEdgeInsets?,
@@ -182,7 +183,7 @@ extension ProductListView {
     let contentView = UIView()
     contentView.backgroundColor = .Gray800
 
-    let view = ProductListView()
+    let view = ProductListCell()
     contentView.addSubview(view)
     view.snp.makeConstraints {
         $0.edges.equalToSuperview()
