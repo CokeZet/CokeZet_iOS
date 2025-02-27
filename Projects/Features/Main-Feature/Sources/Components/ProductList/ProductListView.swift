@@ -1,5 +1,5 @@
 //
-//  ProductListHeaderView.swift
+//  ProductListView.swift
 //  Main-Feature
 //
 //  Created by Daye on 2/16/25.
@@ -11,7 +11,7 @@ import CokeZet_DesignSystem
 
 import SnapKit
 
-final class ProductListCell: UICollectionViewCell {
+final class ProductListView: UICollectionViewCell {
 
     typealias Cell = ProductItemCell
     typealias State = Cell.State
@@ -88,7 +88,7 @@ final class ProductListCell: UICollectionViewCell {
 
 }
 
-extension ProductListCell: UICollectionViewDataSource {
+extension ProductListView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.list.count
     }
@@ -123,7 +123,7 @@ extension ProductListCell: UICollectionViewDataSource {
 
 }
 
-extension ProductListCell {
+extension ProductListView {
     func collectionViewLayout(
         headerHeight: CGFloat?,
         headerInset: NSDirectionalEdgeInsets?,
@@ -183,7 +183,7 @@ extension ProductListCell {
     let contentView = UIView()
     contentView.backgroundColor = .Gray800
 
-    let view = ProductListCell()
+    let view = ProductListView()
     contentView.addSubview(view)
     view.snp.makeConstraints {
         $0.edges.equalToSuperview()
