@@ -4,6 +4,8 @@ import UIKit
 import Then
 import SnapKit
 
+import CokeZet_DesignSystem
+
 protocol NicknamePresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
@@ -30,7 +32,7 @@ final class NicknameViewController: UIViewController, NicknamePresentable, Nickn
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .Gray800
         setupViews()
     }
 

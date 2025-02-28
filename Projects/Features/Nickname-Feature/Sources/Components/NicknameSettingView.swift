@@ -18,12 +18,14 @@ internal final class NicknameSettingView: UIView {
         static let bottomInset: CGFloat = 17
         static let leadingInset: CGFloat = 20
         static let spacing: CGFloat = 24
+        static let pageHeight: CGFloat = 68
     }
 
     struct State {
         let defaultNickname: String
     }
 
+    private let pageLabel = ZetLabel(typography: .semiBold(.T20), textColor: .Gray600)
     private let stackView = UIStackView()
     private let nickNameinputView = NicknameInputView()
     private let descriptionLabel = ZetLabel(typography: .semiBold(.T24), textColor: .White)
@@ -43,6 +45,8 @@ internal final class NicknameSettingView: UIView {
     }
 
     private func addConfigure() {
+        self.pageLabel.text = "1/3"
+
         self.backgroundColor = .Gray800
 
         self.stackView.axis = .vertical
@@ -66,14 +70,21 @@ internal final class NicknameSettingView: UIView {
     }
 
     private func makeConstraints() {
+        self.addSubview(pageLabel)
         self.addSubview(stackView)
         self.stackView.addArrangedSubview(nickNameinputView)
         self.stackView.addArrangedSubview(descriptionLabel)
 
         self.addSubview(confirmButton)
 
+        self.pageLabel.snp.makeConstraints {
+            $0.top.equalTo(self.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().offset(Metric.leadingInset)
+            $0.height.equalTo(Metric.pageHeight)
+        }
+
         self.stackView.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide).offset(Metric.topInset)
+            $0.top.equalTo(self.pageLabel.snp.bottom).offset(Metric.topInset)
             $0.leading.equalToSuperview().offset(Metric.leadingInset)
         }
 

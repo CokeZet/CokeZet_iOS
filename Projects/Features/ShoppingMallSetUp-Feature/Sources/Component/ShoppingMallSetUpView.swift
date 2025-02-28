@@ -17,6 +17,7 @@ final class ShoppingMallSetUpView: UIView {
         static let horizontalInset: CGFloat = 20
         static let topInset: CGFloat = 24
         static let bottomInset: CGFloat = 16
+        static let pageHeight: CGFloat = 68
     }
 
     struct State {
@@ -24,6 +25,7 @@ final class ShoppingMallSetUpView: UIView {
         let list: [ShoppingMallListView.State]
     }
 
+    private let pageLabel = ZetLabel(typography: .semiBold(.T20), textColor: .Gray600)
     private let titleLabel = ZetLabel(typography: .semiBold(.T24), textColor: .White)
     private let listView = ShoppingMallListView()
     private let confirmButton = ZetLargeButton(buttonState: .disabled)
@@ -40,18 +42,28 @@ final class ShoppingMallSetUpView: UIView {
     }
 
     private func addConfigure() {
+        self.pageLabel.text = "1/3"
+
         self.titleLabel.numberOfLines = 0
+        
         self.confirmButton.setTitle("계속하기", for: .normal)
         self.confirmButton.setTitle("계속하기", for: .disabled)
     }
 
     private func makeConstraints() {
+        self.addSubview(pageLabel)
         self.addSubview(titleLabel)
         self.addSubview(listView)
         self.addSubview(confirmButton)
 
+        self.pageLabel.snp.makeConstraints {
+            $0.top.equalTo(self.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().offset(Metric.horizontalInset)
+            $0.height.equalTo(Metric.pageHeight)
+        }
+
         self.titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(Metric.topInset)
+            $0.top.equalTo(self.pageLabel.snp.bottom).offset(Metric.topInset)
             $0.horizontalEdges.equalToSuperview().inset(Metric.horizontalInset)
         }
 
