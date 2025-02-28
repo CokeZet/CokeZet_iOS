@@ -87,7 +87,8 @@ final class MainView: UIView {
         self.addSubview(collectionView)
 
         self.collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(self.safeAreaLayoutGuide)
+            $0.bottom.horizontalEdges.equalToSuperview()
             $0.height.equalToSuperview()
         }
     }
