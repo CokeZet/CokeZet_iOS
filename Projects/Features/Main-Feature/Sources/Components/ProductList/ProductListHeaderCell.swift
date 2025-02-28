@@ -48,6 +48,7 @@ final class ProductListHeaderCell: UICollectionViewCell {
         self.layer.borderColor = UIColor.Gray700.cgColor
 
         self.label.text = "*100ml당 가격이 낮은 순으로 소개해 드려요."
+        self.contentView.clipsToBounds = true
     }
 
     private func makeConstraints() {
