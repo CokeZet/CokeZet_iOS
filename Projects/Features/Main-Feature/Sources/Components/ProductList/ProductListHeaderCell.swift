@@ -28,7 +28,7 @@ final class ProductListHeaderCell: UICollectionViewCell {
         ],
         typography: .semiBold(.T14),
         textColor: .Gray500,
-        duration: 3
+        duration: 5
     )
 
     override init(frame: CGRect) {
