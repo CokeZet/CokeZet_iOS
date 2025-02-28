@@ -24,7 +24,12 @@ final class AccordionView: UIView {
     private let contentView = AccordionContentView()
 
     private var isExpanded: Bool = true
-    var selectFolded: ((Bool) -> Void)?
+    var selectFolded: ((Bool) -> Void)? 
+    var selectItem: ((IndexPath) -> Void)? {
+        didSet {
+            self.contentView.didSelectItem = self.selectItem
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)

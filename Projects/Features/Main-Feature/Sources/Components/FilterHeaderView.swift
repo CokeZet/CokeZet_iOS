@@ -21,6 +21,12 @@ final class ProductFilterHeaderView: UICollectionReusableView {
         }
     }
 
+    var selectItem: ((IndexPath) -> Void)? {
+        didSet {
+            self.headerView.selectItem = self.selectItem
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.makeConstraints()

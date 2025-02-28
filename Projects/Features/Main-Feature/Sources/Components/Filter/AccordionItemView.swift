@@ -26,6 +26,12 @@ final class AccordionItemView: UIView {
     private let titleLabel = ZetLabel(typography: .semiBold(.T14), textColor: .Gray500)
     private let fileterListView = FilterListView()
 
+    var didSelectItem: ((Int) -> Void)? {
+        didSet {
+            self.fileterListView.didSelectItem = self.didSelectItem
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addConfigure()

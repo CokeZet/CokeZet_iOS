@@ -45,7 +45,10 @@ final class MainView: UIView {
     }
 
     var refresh: (() async -> Void)?
-    var selectFolded: ((Bool) -> Void)?
+    var selectBanner: ((IndexPath) -> Void)?
+    var selectFilter: ((IndexPath) -> Void)?
+    var selectProduct: ((IndexPath) -> Void)?
+    var selectMore: (() -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -77,6 +80,7 @@ final class MainView: UIView {
         self.collectionView.registHeaderFooter(type: ProductFilterHeaderView.self, kindType: .header)
         self.collectionView.registHeaderFooter(type: ProductListFooterView.self, kindType: .footer)
         self.collectionView.dataSource = self
+        self.collectionView.delegate = self
     }
 
     private func makeConstraints() {
@@ -107,6 +111,10 @@ extension MainView: UICollectionViewDataSource {
                 for: indexPath
             )
             cell.bind(list: self.state.bannerList)
+
+            cell.selectItem = { [weak self] indexPath in
+                self?.selectBanner?(indexPath)
+            }
 
             return cell
 
@@ -155,6 +163,9 @@ extension MainView: UICollectionViewDataSource {
                     self?.collectionView.reloadData()
                 }
             }
+            header.selectItem = { [weak self] item in
+                self?.selectFilter?(item)
+            }
 
             header.bind(list: self.state.filterList)
 
@@ -198,6 +209,28 @@ extension MainView: UICollectionViewDataSource {
 
         case .none:
             return 0
+        }
+    }
+}
+
+extension MainView: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        let section = Section(rawValue: indexPath.section)
+
+        switch section {
+        case .banner:
+            return
+
+        case .product:
+            // 0번에 "100ml당 낮은 순으로 소개해 드려요"가 포함되어 있어 -1 한 값으로 전달
+            let indexPath = IndexPath(item: indexPath.item - 1, section: 0)
+            self.selectProduct?(indexPath)
+
+        case .none:
+            return
         }
     }
 }
@@ -414,6 +447,18 @@ extension MainView {
             count: 10
         ))
     )
+
+    view.selectBanner = { index in
+        print("banner \(index)")
+    }
+
+    view.selectProduct = { index in
+        print("product \(index)")
+    }
+
+    view.selectFilter = { index in
+        print("filter \(index)")
+    }
 
     return contentView
 }

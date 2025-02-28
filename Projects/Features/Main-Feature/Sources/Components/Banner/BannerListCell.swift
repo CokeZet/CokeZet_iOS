@@ -27,6 +27,8 @@ final class BannerListCell: UICollectionViewCell {
 
     private let indicatorView = BannerIndicatorView()
 
+    var selectItem: ((IndexPath) -> Void)?
+
     private var list: [State] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -101,6 +103,14 @@ extension BannerListCell: UICollectionViewDataSource {
 }
 
 extension BannerListCell: UICollectionViewDelegate {
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        self.selectItem?(indexPath)
+    }
+
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let contentOffsetX = scrollView.contentOffset.x
         let width = scrollView.bounds.width
