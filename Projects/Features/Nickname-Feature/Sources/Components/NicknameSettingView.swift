@@ -78,7 +78,7 @@ internal final class NicknameSettingView: UIView {
         self.addSubview(confirmButton)
 
         self.pageLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalTo(self.safeAreaLayoutGuide)
             $0.horizontalEdges.equalToSuperview().offset(Metric.leadingInset)
             $0.height.equalTo(Metric.pageHeight)
         }
