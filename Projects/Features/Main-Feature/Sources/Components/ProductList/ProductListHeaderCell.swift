@@ -1,5 +1,5 @@
 //
-//  ProductListHeaderView.swift
+//  ProductListHeaderCell.swift
 //  Main-Feature
 //
 //  Created by Daye on 2/16/25.
@@ -11,7 +11,7 @@ import CokeZet_DesignSystem
 
 import SnapKit
 
-final class ProductListHeaderView: UICollectionReusableView {
+final class ProductListHeaderCell: UICollectionViewCell {
 
     private enum Metric {
         static let cornerRadius: CGFloat = 17

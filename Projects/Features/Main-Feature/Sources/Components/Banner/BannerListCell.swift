@@ -27,6 +27,8 @@ final class BannerListCell: UICollectionViewCell {
 
     private let indicatorView = BannerIndicatorView()
 
+    var selectItem: ((IndexPath) -> Void)?
+
     private var list: [State] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -49,6 +51,7 @@ final class BannerListCell: UICollectionViewCell {
     }
 
     private func addConfigure() {
+        self.collectionView.backgroundColor = .clear
         self.collectionView.collectionViewLayout = self.collectionViewLayout()
         self.collectionView.registerCell(type: Cell.self)
         self.collectionView.dataSource = self
@@ -100,6 +103,14 @@ extension BannerListCell: UICollectionViewDataSource {
 }
 
 extension BannerListCell: UICollectionViewDelegate {
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        self.selectItem?(indexPath)
+    }
+
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let contentOffsetX = scrollView.contentOffset.x
         let width = scrollView.bounds.width
@@ -120,13 +131,13 @@ extension BannerListCell: UICollectionViewDelegate {
 extension BannerListCell {
     func collectionViewLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
+            widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(86)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
+            widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(86)
         )
         let group = NSCollectionLayoutGroup.horizontal(

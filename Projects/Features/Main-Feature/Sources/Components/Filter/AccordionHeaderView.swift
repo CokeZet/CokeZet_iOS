@@ -68,6 +68,7 @@ final class AccordionHeaderView: UIView {
         self.stackView.addArrangedSubview(titleLabel)
         self.stackView.addArrangedSubview(UIView())
         self.stackView.addArrangedSubview(toggleButton)
+        self.stackView.addArrangedSubview(UIView())
 
         self.stackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -75,6 +76,7 @@ final class AccordionHeaderView: UIView {
 
         self.toggleButton.snp.makeConstraints {
             $0.size.equalTo(Metric.toggleSize)
+            $0.trailing.equalToSuperview().offset(-20)
         }
     }
 

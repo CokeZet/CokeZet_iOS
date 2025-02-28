@@ -1,5 +1,5 @@
 //
-//  ProductListHeaderView.swift
+//  ProductListView.swift
 //  Main-Feature
 //
 //  Created by Daye on 2/16/25.
@@ -11,10 +11,11 @@ import CokeZet_DesignSystem
 
 import SnapKit
 
-final class ProductListView: UIView {
+final class ProductListView: UICollectionViewCell {
 
     typealias Cell = ProductItemCell
-    typealias Header = ProductListHeaderView
+    typealias State = Cell.State
+    typealias Header = ProductListHeaderCell
 
     private enum Metric {
         static let headerHeight: CGFloat = 34 + (verticalInset * 2)
@@ -35,13 +36,13 @@ final class ProductListView: UIView {
         static let cardHeight: CGFloat = 158
     }
 
-    private let headerView = ProductListHeaderView()
+    private let headerView = ProductListHeaderCell()
     private let collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewLayout()
     )
 
-    private var list: [Cell.State] = [] {
+    private var list: [State] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
@@ -74,14 +75,14 @@ final class ProductListView: UIView {
     }
 
     private func makeConstraints() {
-        self.addSubview(collectionView)
+        self.contentView.addSubview(collectionView)
 
         self.collectionView.snp.makeConstraints {
             $0.edges.height.equalToSuperview()
         }
     }
 
-    func bind(list: [Cell.State]) {
+    func bind(list: [State]) {
         self.list = list
     }
 

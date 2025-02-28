@@ -25,6 +25,9 @@ final class AccordionContentView: UIView {
         self.makeConstraints()
     }
 
+    /// Chips 선택 시 index 방출 closure
+    var didSelectItem: ((IndexPath) -> Void)?
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -44,9 +47,17 @@ final class AccordionContentView: UIView {
     }
 
     func bind(list: [State]) {
-        for item in list {
+        self.stackView.subviews.forEach { $0.removeFromSuperview() }
+
+        for (index, item) in list.enumerated() {
             let view = AccordionItemView()
             view.bind(state: item)
+
+            view.didSelectItem = { [weak self] itemIndex in
+                let indexPath = IndexPath(row: itemIndex, section: index)
+                self?.didSelectItem?(indexPath)
+            }
+
             self.stackView.addArrangedSubview(view)
         }
     }
@@ -77,6 +88,10 @@ final class AccordionContentView: UIView {
         )
 
     )
+
+    view.didSelectItem = { (indexPath) in
+        print(indexPath)
+    }
 
     return view
 }

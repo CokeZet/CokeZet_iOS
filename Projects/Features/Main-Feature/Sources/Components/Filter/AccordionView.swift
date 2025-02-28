@@ -14,7 +14,9 @@ final class AccordionView: UIView {
     typealias State = AccordionItemView.State
 
     private enum Metric {
-        static let spacing: CGFloat = 14
+        static let spacing: CGFloat = 24
+        static let top: CGFloat = 24
+        static let bottom: CGFloat = 20
     }
 
     private let stackView = UIStackView()
@@ -22,7 +24,12 @@ final class AccordionView: UIView {
     private let contentView = AccordionContentView()
 
     private var isExpanded: Bool = true
-    var selectFolded: ((Bool) -> Void)?
+    var selectFolded: ((Bool) -> Void)? 
+    var selectItem: ((IndexPath) -> Void)? {
+        didSet {
+            self.contentView.didSelectItem = self.selectItem
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,7 +60,9 @@ final class AccordionView: UIView {
         self.stackView.addArrangedSubview(contentView)
 
         self.stackView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview().offset(Metric.top)
+            $0.bottom.equalToSuperview().offset(-Metric.bottom)
+            $0.horizontalEdges.equalToSuperview()
         }
     }
 
