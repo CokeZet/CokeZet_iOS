@@ -7,6 +7,7 @@
 
 import UIKit
 
+import CokeZet_Components
 import CokeZet_DesignSystem
 
 import SnapKit
@@ -20,7 +21,15 @@ final class ProductListHeaderCell: UICollectionViewCell {
         static let horizontalInset: CGFloat = 12
     }
 
-    private let label = ZetLabel(typography: .semiBold(.T14), textColor: .Gray500)
+    private let label = RollingLabel(
+        textList: [
+            "*100ml당 가격이 낮은 순으로 소개해 드려요.",
+            "*배송비가 있는 경우 가격에 포함하여 알려드려요."
+        ],
+        typography: .semiBold(.T14),
+        textColor: .Gray500,
+        duration: 3
+    )
 
     override init(frame: CGRect) {
         super.init(frame: frame)
