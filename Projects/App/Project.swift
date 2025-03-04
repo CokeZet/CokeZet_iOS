@@ -7,7 +7,8 @@ let project = Project(
             name: "CokeZet-App",
             destinations: .iOS,
             product: .app,
-            bundleId: "CokeZet-iOS.CokeZet-App",
+            bundleId: "CokeZet.CokeZet-App",
+            deploymentTargets: .iOS("16.0"),
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchStoryboardName": "LaunchScreen.storyboard",

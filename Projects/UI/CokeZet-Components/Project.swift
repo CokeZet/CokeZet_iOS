@@ -7,7 +7,8 @@ let project = Project(
             name: "CokeZet-Components",
             destinations: .iOS,
             product: .framework,
-            bundleId: "CokeZet-iOS.CokeZet-Components",
+            bundleId: "CokeZet.CokeZet-Components",
+            deploymentTargets: .iOS("16.0"),
             infoPlist: .default,
             sources: [
                 "Sources/**",
@@ -23,7 +24,8 @@ let project = Project(
             name: "Components-Test",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "io.tuist.CokeZet-iOS.CokeZet-Components-Test",
+            bundleId: "io.tuist.CokeZet.CokeZet-Components-Test",
+            deploymentTargets: .iOS("16.0"),
             sources: ["Tests/**"],
             resources: [],
             dependencies: [.target(name: "CokeZet-Components")]

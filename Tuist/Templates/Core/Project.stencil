@@ -7,7 +7,7 @@ let project = Project(
             name: "CokeZet-{{name}}",
             destinations: .iOS,
             product: .framework,
-            bundleId: "CokeZet-iOS.CokeZet-{{name}}",
+            bundleId: "CokeZet.CokeZet-{{name}}",
             infoPlist: .default,
             sources: [
                 "Sources/**",
@@ -19,7 +19,7 @@ let project = Project(
             name: "{{name}}-Test",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "io.tuist.CokeZet-iOS.CokeZet-{{name}}-Test",
+            bundleId: "io.tuist.CokeZet.CokeZet-{{name}}-Test",
             sources: ["Tests/**"],
             resources: [],
             dependencies: [.target(name: "CokeZet-{{name}}")]

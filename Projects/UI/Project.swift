@@ -7,7 +7,8 @@ let project = Project(
             name: "CokeZet-UI",
             destinations: .iOS,
             product: .framework,
-            bundleId: "CokeZet-iOS.CokeZet-UI",
+            bundleId: "CokeZet.CokeZet-UI",
+            deploymentTargets: .iOS("16.0"),
             infoPlist: .default,
             sources: [],
             dependencies: [
