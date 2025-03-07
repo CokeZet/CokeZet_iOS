@@ -9,14 +9,13 @@ import UIKit
 import CokeZet_DesignSystem
 import SnapKit
 
-/// 필요에 따라 LeftItem, RightItem을 선언하여 변경할 수 있도록 케이스 선언
-
 protocol BaseViewControllerDelegate {
     func backButtonTapped()
     func alarmButtonTapped()
     func userButtonTapped()
 }
 
+/// 구현 시 필요에 따라 left Item, alarm, user func를 override 하여, 수정해야함.
 open class BaseViewController: UIViewController, BaseViewControllerDelegate {
     open var navigationBarType: NavigationBarType
     
