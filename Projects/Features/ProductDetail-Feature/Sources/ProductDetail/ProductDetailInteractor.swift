@@ -66,7 +66,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         // TODO: Pause any business logic.
     }
     
-    func swipeToBack() {
+    func backAction() {
         listener?.productDetailDidTapClose()
     }
     
