@@ -9,7 +9,7 @@ protocol {{name}}Presentable: Presentable {
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol {{name}}Listener: AnyObject {
+public protocol {{name}}Listener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 

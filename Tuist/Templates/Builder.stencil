@@ -1,6 +1,6 @@
 import ModernRIBs
 
-protocol {{name}}Dependency: Dependency {
+public protocol {{name}}Dependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
     // created by this RIB.
 }
@@ -12,17 +12,17 @@ final class {{name}}Component: Component<{{name}}Dependency> {
 
 // MARK: - Builder
 
-protocol {{name}}Buildable: Buildable {
-    func build(withListener listener: {{name}}Listener) -> {{name}}Routing
+public protocol {{name}}Buildable: Buildable {
+    func build(withListener listener: {{name}}Listener) -> ViewableRouting
 }
 
 final class {{name}}Builder: Builder<{{name}}Dependency>, {{name}}Buildable {
     
-    override init(dependency: {{name}}Dependency) {
+    public override init(dependency: {{name}}Dependency) {
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: {{name}}Listener) -> {{name}}Routing {
+    public func build(withListener listener: {{name}}Listener) -> ViewableRouting {
         let component = {{name}}Component(dependency: dependency)
         let viewController = {{name}}ViewController()
         let interactor = {{name}}Interactor(presenter: viewController)
