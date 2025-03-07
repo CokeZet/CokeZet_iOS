@@ -15,9 +15,10 @@ protocol RootPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
+    func backButtonTaped()
 }
 
-final class RootViewController: UIViewController, RootPresentable, RootViewControllable {
+final class RootViewController: UINavigationController, RootPresentable, RootViewControllable {
     let label: UILabel = UILabel().then {
         $0.text = "안녕하세요"
     }
@@ -35,7 +36,10 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = ZetColor.Black.color
-//        setupViews()
+    }
+    
+    @objc func backButtonTaped() {
+        listener?.backButtonTaped()
     }
     
     func setupViews() {
@@ -46,6 +50,7 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
     }
     
     func setViewController(_ viewController: ViewControllable) {
-        addChild(viewController.uiviewController)
+        let viewController = viewController.uiviewController
+        super.pushViewController(viewController, animated: true)
     }
 }

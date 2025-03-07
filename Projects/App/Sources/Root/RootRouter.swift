@@ -9,18 +9,23 @@ import ModernRIBs
 import Main_Feature
 import CokeZet_Utilities
 import CokeZet_Core
+import Foundation
 
 protocol RootInteractable: Interactable, MainListener {
     var router: RootRouting? { get set }
     var listener: RootListener? { get set }
+    var presentationDelegateProxy: AdaptivePresentationControllerDelegateProxy { get }
 }
 
 protocol RootViewControllable: ViewControllable {
     // TODO: Declare methods the router invokes to manipulate the view hierarchy.
+    func setViewController(_ viewController: ViewControllable)
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
     private let mainBuildable: MainBuildable
+    private var mainRouting: Routing?
+    
     private let transitioningDelegate: PushModalPresentationController
     
     init(
@@ -35,14 +40,17 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     }
     
     func attachMain() {
-        let mainRouting = mainBuildable.build(withListener: interactor)
-        presentWithPushTransition(mainRouting.viewControllable, animated: true)
-        attachChild(mainRouting)
+        if mainRouting != nil { return }
+        
+        let router = mainBuildable.build(withListener: interactor)
+        mainRouting = router
+        attachChild(router)
+        
+        viewController.setViewController(router.viewControllable)
     }
     
-    private func presentWithPushTransition(_ viewControllable: ViewControllable, animated: Bool) {
-        viewControllable.uiviewController.modalPresentationStyle = .custom
-        viewControllable.uiviewController.transitioningDelegate = transitioningDelegate
-        viewController.present(viewControllable, animated: true, completion: nil)
+    func moveToBack() {
+        print("pop")
+        viewController.popViewController(animated: true)
     }
 }
