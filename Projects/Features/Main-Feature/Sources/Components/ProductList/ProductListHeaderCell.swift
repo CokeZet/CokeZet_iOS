@@ -23,8 +23,8 @@ final class ProductListHeaderCell: UICollectionViewCell {
 
     private let label = RollingLabel(
         textList: [
-            "*100ml당 가격이 낮은 순으로 소개해 드려요.",
-            "*배송비가 있는 경우 가격에 포함하여 알려드려요."
+            "100ml당 가격이 낮은 순으로 소개해 드려요.",
+            "배송비가 있는 경우 가격에 포함하여 알려드려요."
         ],
         typography: .semiBold(.T14),
         textColor: .Gray500,
@@ -47,8 +47,8 @@ final class ProductListHeaderCell: UICollectionViewCell {
         self.layer.borderWidth = Metric.borderWidth
         self.layer.borderColor = UIColor.Gray700.cgColor
 
-        self.label.text = "*100ml당 가격이 낮은 순으로 소개해 드려요."
-        self.contentView.clipsToBounds = true
+        self.label.text = "100ml당 가격이 낮은 순으로 소개해 드려요."
+        self.clipsToBounds = true
     }
 
     private func makeConstraints() {
