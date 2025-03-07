@@ -53,6 +53,6 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable>, 
     private func presentWithPushTransition(_ viewControllable: ViewControllable, animated: Bool) {
         viewControllable.uiviewController.modalPresentationStyle = .custom
         viewControllable.uiviewController.transitioningDelegate = transitioningDelegate
-        viewController.present(viewControllable, animated: true, completion: nil)
+        viewController.pushViewController(viewControllable, animated: true)
     }
 }

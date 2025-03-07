@@ -5,6 +5,7 @@ import Then
 import SnapKit
 
 import CokeZet_DesignSystem
+import CokeZet_Components
 
 protocol MainPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
@@ -13,7 +14,7 @@ protocol MainPresentableListener: AnyObject {
     func productDetailAttach()
 }
 
-final class MainViewController: UIViewController, MainPresentable, MainViewControllable {
+class MainViewController: BaseViewController, MainPresentable, MainViewControllable {
 
     let contentView = MainView()
 
@@ -43,7 +44,7 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
         self.bind()
     }
 
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .Gray800
     }
