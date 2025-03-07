@@ -42,7 +42,7 @@ public final class ProductDetailBuilder: Builder<ProductDetailDependency>, Produ
     
     public func build(withListener listener: ProductDetailListener) -> ViewableRouting {
         let component = ProductDetailComponent(dependency: dependency)
-        let viewController = ProductDetailViewController()
+        let viewController = ProductDetailViewController(navigationBarType: .Back)
         let interactor = ProductDetailInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         

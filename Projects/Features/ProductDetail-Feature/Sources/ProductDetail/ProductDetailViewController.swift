@@ -61,8 +61,8 @@ final class ProductDetailViewController: BaseViewController, ProductDetailPresen
         }
     }
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
+    override init(navigationBarType: NavigationBarType) {
+        super.init(navigationBarType: navigationBarType)
     }
     
     required init?(coder: NSCoder) {
@@ -84,13 +84,6 @@ final class ProductDetailViewController: BaseViewController, ProductDetailPresen
         collectionView.snp.makeConstraints {
             $0.leading.trailing.top.bottom.equalToSuperview()
         }
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: CokeZetDesignSystemAsset.chevronLeft.image.withRenderingMode(.alwaysOriginal),
-            style: .plain,
-            target: self,
-            action: #selector(backButtonTapped)
-        )
     }
     
     func setCellData(_ data: State) {

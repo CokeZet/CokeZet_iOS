@@ -31,8 +31,8 @@ class MainViewController: BaseViewController, MainPresentable, MainViewControlla
 
     weak var listener: MainPresentableListener?
 
-    init() {
-        super.init(nibName: nil, bundle: nil)
+    override init(navigationBarType: NavigationBarType) {
+        super.init(navigationBarType: navigationBarType)
     }
 
     required init?(coder: NSCoder) {

@@ -7,7 +7,6 @@
 
 import UIKit
 import ModernRIBs
-import CokeZet_DesignSystem
 
 public final class NavigationControllerable: ViewControllable {
     
@@ -17,7 +16,7 @@ public final class NavigationControllerable: ViewControllable {
     public init(root: ViewControllable) {
         let navigation = UINavigationController(rootViewController: root.uiviewController)
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = ZetColor.Gray800.color
+        appearance.backgroundColor = UIColor(red: 30/255, green: 30/255, blue: 30/255, alpha: 1)
         
         navigation.navigationBar.standardAppearance = appearance
         navigation.navigationBar.scrollEdgeAppearance = appearance

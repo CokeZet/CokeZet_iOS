@@ -19,9 +19,6 @@ protocol RootPresentableListener: AnyObject {
 }
 
 final class RootViewController: UINavigationController, RootPresentable, RootViewControllable {
-    let label: UILabel = UILabel().then {
-        $0.text = "안녕하세요"
-    }
     
     weak var listener: RootPresentableListener?
     
@@ -36,17 +33,18 @@ final class RootViewController: UINavigationController, RootPresentable, RootVie
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = ZetColor.Black.color
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = UIColor(red: 30/255, green: 30/255, blue: 30/255, alpha: 1)
+        
+        navigationBar.standardAppearance = appearance
+        navigationBar.scrollEdgeAppearance = appearance
+        navigationBar.isTranslucent = false
+        navigationBar.scrollEdgeAppearance = navigationBar.standardAppearance
     }
     
     @objc func backButtonTaped() {
         listener?.backButtonTaped()
-    }
-    
-    func setupViews() {
-        self.view.addSubview(label)
-        label.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
-        }
     }
     
     func setViewController(_ viewController: ViewControllable) {
