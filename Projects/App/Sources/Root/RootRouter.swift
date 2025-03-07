@@ -48,9 +48,4 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         
         viewController.setViewController(router.viewControllable)
     }
-    
-    func moveToBack() {
-        print("pop")
-        viewController.popViewController(animated: true)
-    }
 }

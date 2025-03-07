@@ -15,7 +15,6 @@ protocol RootPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
-    func backButtonTaped()
 }
 
 final class RootViewController: UINavigationController, RootPresentable, RootViewControllable {
@@ -41,10 +40,6 @@ final class RootViewController: UINavigationController, RootPresentable, RootVie
         navigationBar.scrollEdgeAppearance = appearance
         navigationBar.isTranslucent = false
         navigationBar.scrollEdgeAppearance = navigationBar.standardAppearance
-    }
-    
-    @objc func backButtonTaped() {
-        listener?.backButtonTaped()
     }
     
     func setViewController(_ viewController: ViewControllable) {
