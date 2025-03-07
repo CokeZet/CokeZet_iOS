@@ -98,7 +98,6 @@ open class BaseViewController: UIViewController, BaseViewControllerDelegate {
     /// Navigation Controller에서 이전 화면으로 돌아가는 액션
     @objc open func backButtonTapped() {
         print("Back Button Tapped")
-        navigationController?.popViewController(animated: true)
     }
     
     @objc open func alarmButtonTapped() {

@@ -78,7 +78,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
             return
         }
         
-//        viewController.popViewController(animated: true)
+        viewController.popViewController(animated: true)
         self.settingRouting = nil
         detachChild(router)
     }

@@ -45,7 +45,7 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable>, 
             return
         }
         
-        viewController.dismiss(completion: nil)
+        viewController.popViewController(animated: true)
         self.productDetailRouting = nil
         detachChild(router)
     }
