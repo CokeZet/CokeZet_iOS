@@ -36,6 +36,7 @@ public final class MainBuilder: Builder<MainDependency>, MainBuildable {
         let viewController = MainViewController(navigationBarType: .Home)
         let interactor = MainInteractor(presenter: viewController)
         let productDetailBuilder = ProductDetailBuilder(dependency: component)
+        interactor.listener = listener
         
         return MainRouter(
             interactor: interactor,

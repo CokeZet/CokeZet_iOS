@@ -20,6 +20,8 @@ protocol MainPresentable: Presentable {
 
 public protocol MainListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+    func attachAlarm()
+    func attachUser()
 }
 
 final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteractable, MainPresentableListener {
@@ -52,4 +54,11 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         router?.deatchProductDetail()
     }
     
+    func alarmButtonTapped() {
+        listener?.attachAlarm()
+    }
+    
+    func userButtonTapped() {
+        listener?.attachUser()
+    }
 }

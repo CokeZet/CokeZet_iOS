@@ -24,6 +24,8 @@ protocol ProductDetailPresentable: Presentable {
 public protocol ProductDetailListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
     func productDetailDidTapClose()
+    func userButtonTapped()
+    func alarmButtonTapped()
 }
 
 protocol TransportHomeInteractorDependency {
@@ -76,5 +78,13 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     
     func detachMoreView() {
         router?.detachPriceComparisonMore()
+    }
+    
+    func userButtonTapped() {
+        listener?.userButtonTapped()
+    }
+    
+    func alarmButtonTapped() {
+        listener?.alarmButtonTapped()
     }
 }

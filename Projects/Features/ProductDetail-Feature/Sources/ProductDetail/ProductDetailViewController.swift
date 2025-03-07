@@ -14,6 +14,8 @@ protocol ProductDetailPresentableListener: AnyObject {
     
     func backAction()
     func attachMoreView()
+    func userButtonTapped()
+    func alarmButtonTapped()
 }
 
 final class ProductDetailViewController: BaseViewController, ProductDetailPresentable, ProductDetailViewControllable {
@@ -76,7 +78,6 @@ final class ProductDetailViewController: BaseViewController, ProductDetailPresen
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        listener?.backAction()
     }
     
     func setupViews() {
@@ -93,6 +94,16 @@ final class ProductDetailViewController: BaseViewController, ProductDetailPresen
     override func backButtonTapped() {
         super.backButtonTapped()
         listener?.backAction()
+    }
+    
+    override func userButtonTapped() {
+        super.userButtonTapped()
+        listener?.userButtonTapped()
+    }
+    
+    override func alarmButtonTapped() {
+        super.alarmButtonTapped()
+        listener?.alarmButtonTapped()
     }
 }
 

@@ -12,6 +12,8 @@ protocol MainPresentableListener: AnyObject {
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
     func productDetailAttach()
+    func alarmButtonTapped()
+    func userButtonTapped()
 }
 
 class MainViewController: BaseViewController, MainPresentable, MainViewControllable {
@@ -141,6 +143,16 @@ class MainViewController: BaseViewController, MainPresentable, MainViewControlla
                 ),
                 count: 10
             )))
+    }
+    
+    override func alarmButtonTapped() {
+        super.alarmButtonTapped()
+        listener?.alarmButtonTapped()
+    }
+    
+    override func userButtonTapped() {
+        super.userButtonTapped()
+        listener?.userButtonTapped()
     }
 
 }
