@@ -17,10 +17,7 @@ protocol RootPresentableListener: AnyObject {
     // interactor class.
 }
 
-final class RootViewController: UIViewController, RootPresentable, RootViewControllable {
-    let label: UILabel = UILabel().then {
-        $0.text = "안녕하세요"
-    }
+final class RootViewController: UINavigationController, RootPresentable, RootViewControllable {
     
     weak var listener: RootPresentableListener?
     
@@ -35,17 +32,18 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = ZetColor.Black.color
-//        setupViews()
-    }
-    
-    func setupViews() {
-        self.view.addSubview(label)
-        label.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
-        }
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = UIColor(red: 30/255, green: 30/255, blue: 30/255, alpha: 1)
+        
+        navigationBar.standardAppearance = appearance
+        navigationBar.scrollEdgeAppearance = appearance
+        navigationBar.isTranslucent = false
+        navigationBar.scrollEdgeAppearance = navigationBar.standardAppearance
     }
     
     func setViewController(_ viewController: ViewControllable) {
-        addChild(viewController.uiviewController)
+        let viewController = viewController.uiviewController
+        super.pushViewController(viewController, animated: true)
     }
 }

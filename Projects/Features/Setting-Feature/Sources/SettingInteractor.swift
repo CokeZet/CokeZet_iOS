@@ -1,26 +1,27 @@
 import ModernRIBs
 
-protocol {{name}}Routing: ViewableRouting {
+protocol SettingRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
-protocol {{name}}Presentable: Presentable {
-    var listener: {{name}}PresentableListener? { get set }
+protocol SettingPresentable: Presentable {
+    var listener: SettingPresentableListener? { get set }
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-public protocol {{name}}Listener: AnyObject {
+public protocol SettingListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+    func dettachSetting()
 }
 
-final class {{name}}Interactor: PresentableInteractor<{{name}}Presentable>, {{name}}Interactable, {{name}}PresentableListener {
+final class SettingInteractor: PresentableInteractor<SettingPresentable>, SettingInteractable, SettingPresentableListener {
 
-    weak var router: {{name}}Routing?
-    weak var listener: {{name}}Listener?
+    weak var router: SettingRouting?
+    weak var listener: SettingListener?
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
-    override init(presenter: {{name}}Presentable) {
+    override init(presenter: SettingPresentable) {
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -33,5 +34,9 @@ final class {{name}}Interactor: PresentableInteractor<{{name}}Presentable>, {{na
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
+    }
+    
+    func dettachSetting() {
+        listener?.dettachSetting()
     }
 }

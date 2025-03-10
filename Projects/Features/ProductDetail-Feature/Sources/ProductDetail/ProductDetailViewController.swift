@@ -5,17 +5,20 @@ import Then
 import SnapKit
 import CokeZet_Components
 import CokeZet_DesignSystem
+import CokeZet_Core
 
 protocol ProductDetailPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
     
-    func swipeToBack()
+    func backAction()
     func attachMoreView()
+    func userButtonTapped()
+    func alarmButtonTapped()
 }
 
-final class ProductDetailViewController: UIViewController, ProductDetailPresentable, ProductDetailViewControllable {
+final class ProductDetailViewController: BaseViewController, ProductDetailPresentable, ProductDetailViewControllable {
     
     enum Section: Int, CaseIterable {
         case productImage = 0
@@ -60,8 +63,8 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
         }
     }
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
+    override init(navigationBarType: NavigationBarType) {
+        super.init(navigationBarType: navigationBarType)
     }
     
     required init?(coder: NSCoder) {
@@ -71,17 +74,10 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        
-        // 스와이프 제스처 추가
-        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDown(_:)))
-        swipeDownGesture.direction = .right
-        view.addGestureRecognizer(swipeDownGesture)
     }
     
-    // 스와이프 동작 처리
-    @objc private func handleSwipeDown(_ gesture: UISwipeGestureRecognizer) {
-        // 화면 닫기
-        listener?.swipeToBack()
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
     
     func setupViews() {
@@ -93,6 +89,21 @@ final class ProductDetailViewController: UIViewController, ProductDetailPresenta
     
     func setCellData(_ data: State) {
         cellData = data
+    }
+    
+    override func backButtonTapped() {
+        super.backButtonTapped()
+        listener?.backAction()
+    }
+    
+    override func userButtonTapped() {
+        super.userButtonTapped()
+        listener?.userButtonTapped()
+    }
+    
+    override func alarmButtonTapped() {
+        super.alarmButtonTapped()
+        listener?.alarmButtonTapped()
     }
 }
 

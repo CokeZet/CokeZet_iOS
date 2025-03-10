@@ -33,9 +33,10 @@ public final class MainBuilder: Builder<MainDependency>, MainBuildable {
     
     public func build(withListener listener: MainListener) -> ViewableRouting {
         let component = MainComponent(dependency: dependency)
-        let viewController = MainViewController()
+        let viewController = MainViewController(navigationBarType: .Home)
         let interactor = MainInteractor(presenter: viewController)
         let productDetailBuilder = ProductDetailBuilder(dependency: component)
+        interactor.listener = listener
         
         return MainRouter(
             interactor: interactor,

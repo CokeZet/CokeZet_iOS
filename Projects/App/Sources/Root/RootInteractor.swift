@@ -10,6 +10,9 @@ import ModernRIBs
 protocol RootRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
     func attachMain()
+    func attachAlarm()
+    func attachUser()
+    func dettachUser()
 }
 
 protocol RootPresentable: Presentable {
@@ -22,13 +25,16 @@ protocol RootListener: AnyObject {
 }
 
 final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener {
-
+    
+    let presentationDelegateProxy: AdaptivePresentationControllerDelegateProxy
+    
     weak var router: RootRouting?
     weak var listener: RootListener?
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
     override init(presenter: RootPresentable) {
+        self.presentationDelegateProxy = AdaptivePresentationControllerDelegateProxy()
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -42,5 +48,17 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
+    }
+    
+    func attachAlarm() {
+        router?.attachAlarm()
+    }
+    
+    func attachUser() {
+        router?.attachUser()
+    }
+    
+    func dettachSetting() {
+        router?.dettachUser()
     }
 }

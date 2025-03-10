@@ -5,15 +5,18 @@ import Then
 import SnapKit
 
 import CokeZet_DesignSystem
+import CokeZet_Components
 
 protocol MainPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
     func productDetailAttach()
+    func alarmButtonTapped()
+    func userButtonTapped()
 }
 
-final class MainViewController: UIViewController, MainPresentable, MainViewControllable {
+class MainViewController: BaseViewController, MainPresentable, MainViewControllable {
 
     let contentView = MainView()
 
@@ -30,8 +33,8 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
 
     weak var listener: MainPresentableListener?
 
-    init() {
-        super.init(nibName: nil, bundle: nil)
+    override init(navigationBarType: NavigationBarType) {
+        super.init(navigationBarType: navigationBarType)
     }
 
     required init?(coder: NSCoder) {
@@ -43,7 +46,7 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
         self.bind()
     }
 
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .Gray800
     }
@@ -140,6 +143,16 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
                 ),
                 count: 10
             )))
+    }
+    
+    override func alarmButtonTapped() {
+        super.alarmButtonTapped()
+        listener?.alarmButtonTapped()
+    }
+    
+    override func userButtonTapped() {
+        super.userButtonTapped()
+        listener?.userButtonTapped()
     }
 
 }
