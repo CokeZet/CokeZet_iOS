@@ -19,55 +19,6 @@ protocol BaseViewControllerDelegate {
 open class BaseViewController: UIViewController, BaseViewControllerDelegate {
     open var navigationBarType: NavigationBarType
     
-    lazy var leftItem: UIBarButtonItem = {
-        let button = UIButton(type: .system)
-        button.setImage(CokeZetDesignSystemAsset.icMainLogo.image.withRenderingMode(.alwaysOriginal), for: .normal)
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        
-        // SnapKit을 이용해 버튼의 크기를 강제로 32x32로 설정
-        button.snp.makeConstraints { make in
-            make.width.height.equalTo(32)
-        }
-        
-        if navigationBarType == .Back {
-            return UIBarButtonItem(
-                image: CokeZetDesignSystemAsset.chevronLeft.image.withRenderingMode(.alwaysOriginal),
-                style: .plain,
-                target: self,
-                action: #selector(backButtonTapped)
-            )
-        }
-        
-        return UIBarButtonItem(customView: button)
-    }()
-    
-    // 오른쪽 아이템: icBell 아이콘
-    lazy var alarmItem: UIBarButtonItem = {
-        let button = UIButton(type: .system)
-        button.setImage(CokeZetDesignSystemAsset.icBell.image.withRenderingMode(.alwaysOriginal), for: .normal)
-        button.addTarget(self, action: #selector(alarmButtonTapped), for: .touchUpInside)
-        
-        // SnapKit을 이용해 버튼의 크기를 강제로 32x32로 설정
-        button.snp.makeConstraints { make in
-            make.width.height.equalTo(32)
-        }
-        
-        return UIBarButtonItem(customView: button)
-    }()
-    
-    // 오른쪽 아이템: User 아이콘
-    lazy var userItem: UIBarButtonItem = {
-        let button = UIButton(type: .system)
-        button.setImage(CokeZetDesignSystemAsset.icUser.image.withRenderingMode(.alwaysOriginal), for: .normal)
-        button.addTarget(self, action: #selector(userButtonTapped), for: .touchUpInside)
-        
-        button.snp.makeConstraints { make in
-            make.width.height.equalTo(32)
-        }
-        
-        return UIBarButtonItem(customView: button)
-    }()
-    
     public init(navigationBarType: NavigationBarType) {
         self.navigationBarType = navigationBarType
         super.init(nibName: nil, bundle: nil)
@@ -82,8 +33,8 @@ open class BaseViewController: UIViewController, BaseViewControllerDelegate {
         setupNavigationItems()
     }
     
-    func setupNavigationItems() {
-        
+    private func setupNavigationItems() {
+        let leftItem = makeLeftButtonItem()
         // 왼쪽 아이템: 로고 이미지 혹은 뒤로가기 버튼
         navigationItem.leftBarButtonItem = leftItem
         
@@ -91,8 +42,57 @@ open class BaseViewController: UIViewController, BaseViewControllerDelegate {
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         fixedSpace.width = 8
         
+        let userItem = makeUserButtonItem()
+        let alarmItem = makeAlarmButtonItme()
         // rightBarButtonItems 배열의 순서: 오른쪽에서 왼쪽으로 표시됨
         navigationItem.rightBarButtonItems = [userItem, fixedSpace, alarmItem]
+    }
+    
+    private func makeLeftButtonItem() -> UIBarButtonItem {
+        let leftButton = UIButton(type: .system)
+        leftButton.setImage(CokeZetDesignSystemAsset.icMainLogo.image.withRenderingMode(.alwaysOriginal), for: .normal)
+        leftButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        
+        // SnapKit을 이용해 버튼의 크기를 강제로 32x32로 설정
+        leftButton.snp.makeConstraints { make in
+            make.width.height.equalTo(32)
+        }
+        
+        if navigationBarType == .Back {
+            return UIBarButtonItem(
+                image: CokeZetDesignSystemAsset.chevronLeft.image.withRenderingMode(.alwaysOriginal),
+                style: .plain,
+                target: self,
+                action: #selector(backButtonTapped)
+            )
+        }
+        
+        return UIBarButtonItem(customView: leftButton)
+    }
+    
+    private func makeAlarmButtonItme() -> UIBarButtonItem {
+        let alarmButton = UIButton(type: .system)
+        alarmButton.setImage(CokeZetDesignSystemAsset.icBell.image.withRenderingMode(.alwaysOriginal), for: .normal)
+        alarmButton.addTarget(self, action: #selector(alarmButtonTapped), for: .touchUpInside)
+        
+        // SnapKit을 이용해 버튼의 크기를 강제로 32x32로 설정
+        alarmButton.snp.makeConstraints { make in
+            make.width.height.equalTo(32)
+        }
+        
+        return UIBarButtonItem(customView: alarmButton)
+    }
+    
+    private func makeUserButtonItem() -> UIBarButtonItem {
+        let userButton = UIButton(type: .system)
+        userButton.setImage(CokeZetDesignSystemAsset.icUser.image.withRenderingMode(.alwaysOriginal), for: .normal)
+        userButton.addTarget(self, action: #selector(userButtonTapped), for: .touchUpInside)
+        
+        userButton.snp.makeConstraints { make in
+            make.width.height.equalTo(32)
+        }
+        
+        return UIBarButtonItem(customView: userButton)
     }
     
     /// Navigation Controller에서 이전 화면으로 돌아가는 액션
