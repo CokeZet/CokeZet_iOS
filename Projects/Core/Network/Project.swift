@@ -6,7 +6,7 @@ let project = Project(
         .target(
             name: "CokeZet-Network",
             destinations: .iOS,
-            product: .staticFramework,
+            product: .framework,
             bundleId: "CokeZet.CokeZet-Network",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .default,
