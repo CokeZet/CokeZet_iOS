@@ -45,7 +45,7 @@ final class LoginView: UIView {
 
         self.imageView.image = CokeZetDesignSystemAsset.icLoginBack.image
 
-        self.exploreButton.setTitle("비회원으로 둘러보기", for: .normal)
+        self.setExploreButton()
         self.exploreButton.setTitleColor(.White, for: .normal)
         self.exploreButton.titleLabel?.font = Typography.medium(.T12).font
 
@@ -77,6 +77,16 @@ final class LoginView: UIView {
             $0.bottom.equalToSuperview().offset(-Metric.stackViewBottom)
             $0.centerX.equalToSuperview()
         }
+    }
+
+    func setExploreButton() {
+        let title = "비회원으로 둘러보기"
+        let attributedString = NSMutableAttributedString(string: title)
+        attributedString.addAttribute(.underlineStyle,
+                                      value: NSUnderlineStyle.single.rawValue,
+                                      range: NSRange(location: 0, length: title.count)
+        )
+        self.exploreButton.setAttributedTitle(attributedString, for: .normal)
     }
 }
 
