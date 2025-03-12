@@ -73,6 +73,7 @@ public final class ZetMediumButton: UIButton {
     ) {
         self.backgroundColor = state.backgroundColor(normalColor)
         self.setTitleColor(state.titleColor(normalColor), for: .normal)
+        self.setTitleColor(state.titleColor(normalColor), for: .highlighted)
         self.setTitleColor(state.titleColor(normalColor), for: .disabled)
         self.isEnabled = self.buttonState != .disabled
     }
