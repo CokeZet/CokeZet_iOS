@@ -28,6 +28,10 @@ final class LoginView: UIView {
     private let kakaoButton = UIButton()
     private let appleButton = UIButton()
 
+    var selectExplore: (() -> Void)?
+    var selectKaKao: (() -> Void)?
+    var selectApple: (() -> Void)?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addConfigure()
@@ -51,6 +55,8 @@ final class LoginView: UIView {
 
         self.kakaoButton.setImage(CokeZetDesignSystemAsset.icKakaoLogin.image, for: .normal)
         self.appleButton.setImage(CokeZetDesignSystemAsset.icAppleLogin.image, for: .normal)
+
+        self.setButtonAction()
     }
 
     private func makeConstraints() {
@@ -87,6 +93,26 @@ final class LoginView: UIView {
                                       range: NSRange(location: 0, length: title.count)
         )
         self.exploreButton.setAttributedTitle(attributedString, for: .normal)
+    }
+
+    func setButtonAction() {
+        let exploreAction = UIAction { [weak self] _ in
+            guard let self else { return }
+            self.selectExplore?()
+        }
+        self.exploreButton.addAction(exploreAction, for: .touchUpInside)
+
+        let kakaoAction = UIAction { [weak self] _ in
+            guard let self else { return }
+            self.selectKaKao?()
+        }
+        self.exploreButton.addAction(kakaoAction, for: .touchUpInside)
+
+        let appleAction = UIAction { [weak self] _ in
+            guard let self else { return }
+            self.selectApple?()
+        }
+        self.exploreButton.addAction(appleAction, for: .touchUpInside)
     }
 }
 
