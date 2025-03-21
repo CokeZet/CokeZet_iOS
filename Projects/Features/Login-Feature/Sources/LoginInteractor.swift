@@ -16,8 +16,12 @@ protocol LoginPresentable: Presentable {
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol LoginListener: AnyObject {
+public protocol LoginListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+    
+    func detachLogin()
+    func loginSuccess()
+    func loginFailure()
 }
 
 final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInteractable, LoginPresentableListener {
@@ -40,5 +44,13 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
+    }
+    
+    func detachAction() {
+        listener?.detachLogin()
+    }
+    
+    func loginAction() {
+        listener?.loginSuccess()
     }
 }

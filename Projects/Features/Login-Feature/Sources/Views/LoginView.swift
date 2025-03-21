@@ -21,7 +21,7 @@ final class LoginView: UIView {
     }
 
     private let imageView = UIImageView()
-    private let descriptionLabel = UILabel()
+    private let descriptionLabel = ZetLabel(typography: .semiBold(.T20), textColor: .Red50)
 
     private let stackView = UIStackView()
     private let exploreButton = UIButton()
@@ -49,6 +49,8 @@ final class LoginView: UIView {
 
         self.imageView.image = CokeZetDesignSystemAsset.icLoginBack.image
 
+        self.descriptionLabel.text = "ZET와 함께 최저가 탐색 시작해요"
+        
         self.setExploreButton()
         self.exploreButton.setTitleColor(.White, for: .normal)
         self.exploreButton.titleLabel?.font = Typography.medium(.T12).font
@@ -75,13 +77,25 @@ final class LoginView: UIView {
         }
 
         self.descriptionLabel.snp.makeConstraints {
-            $0.bottom.equalTo(self.stackView.snp.top).offset(-Metric.descriptionBottom)
+            $0.bottom.equalTo(self.exploreButton.snp.top).offset(-Metric.descriptionBottom)
             $0.centerX.equalToSuperview()
+            $0.height.equalTo(30)
         }
 
         self.stackView.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-Metric.stackViewBottom)
             $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(Metric.descriptionBottom)
+        }
+        
+        exploreButton.snp.makeConstraints {
+            $0.height.equalTo(18)
+        }
+        
+        [appleButton, kakaoButton].forEach {
+            $0.snp.makeConstraints {
+                $0.height.equalTo(48)
+            }
         }
     }
 
@@ -106,13 +120,13 @@ final class LoginView: UIView {
             guard let self else { return }
             self.selectKaKao?()
         }
-        self.exploreButton.addAction(kakaoAction, for: .touchUpInside)
+        self.kakaoButton.addAction(kakaoAction, for: .touchUpInside)
 
         let appleAction = UIAction { [weak self] _ in
             guard let self else { return }
             self.selectApple?()
         }
-        self.exploreButton.addAction(appleAction, for: .touchUpInside)
+        self.appleButton.addAction(appleAction, for: .touchUpInside)
     }
 }
 

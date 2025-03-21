@@ -12,6 +12,7 @@ let project = Project(
             infoPlist: .default,
             sources: [],
             dependencies: [
+                .project(target: "Login-Feature", path: "Login-Feature/"),
                 .project(target: "Main-Feature", path: "Main-Feature/"),
                 .project(target: "MyCardSetUp-Feature", path: "MyCardSetUp-Feature/"),
                 .project(target: "Nickname-Feature", path: "Nickname-Feature"),

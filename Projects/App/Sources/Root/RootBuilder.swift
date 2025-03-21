@@ -8,13 +8,14 @@
 import ModernRIBs
 import Main_Feature
 import Setting_Feature
+import Login_Feature
 
 protocol RootDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
     // created by this RIB.
 }
 
-final class RootComponent: Component<RootDependency>, MainDependency, SettingDependency {
+final class RootComponent: Component<RootDependency>, MainDependency, SettingDependency, LoginDependency {
     
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
@@ -37,12 +38,14 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
         let interactor = RootInteractor(presenter: viewController)
         let mainBuilder = MainBuilder(dependency: component)
         let settingBuilder = SettingBuilder(dependency: component)
+        let loginBuilder = LoginBuilder(dependency: component)
         
         return RootRouter(
             interactor: interactor,
             viewController: viewController,
             mainBuildable: mainBuilder,
-            settingBuilable: settingBuilder
+            settingBuilable: settingBuilder,
+            loginBuildable: loginBuilder
         )
     }
 }

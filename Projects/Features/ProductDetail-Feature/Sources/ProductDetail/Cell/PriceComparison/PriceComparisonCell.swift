@@ -36,7 +36,9 @@ public final class PriceComparisonCell: UICollectionViewCell {
     
     private let bubbleButton: BubblePopupButton = BubblePopupButton("내가 설정한 쇼핑몰 외의 사이트 최저가도 함께 갖고 왔어요.\n카드 혜택의 경우 조건이 있을 수 있어요.")
     
-    private let moreButton: BubblePopupButton = BubblePopupButton("내가 설정한 쇼핑몰 외의 사이트 최저가도 함께 갖고 왔어요.\n카드 혜택의 경우 조건이 있을 수 있어요.")
+    private lazy var moreButton: ZetSmallButton = ZetSmallButton().then {
+        $0.setTitle("132개 더보기", for: .normal)
+    }
     
     private lazy var tableView: UITableView = UITableView(frame: .zero, style: .plain).then {
         $0.dataSource = self
@@ -81,6 +83,10 @@ public final class PriceComparisonCell: UICollectionViewCell {
         
         [titleLabel, bubbleButton].forEach {
             titleStack.addArrangedSubview($0)
+        }
+        
+        bubbleButton.snp.makeConstraints {
+            $0.width.height.equalTo(20)
         }
         
         tableView.snp.makeConstraints {

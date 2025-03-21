@@ -9,10 +9,12 @@ import ModernRIBs
 
 protocol RootRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func attachLogin()
     func attachMain()
     func attachAlarm()
     func attachUser()
-    func dettachUser()
+    func detachLogin()
+    func detachUser()
 }
 
 protocol RootPresentable: Presentable {
@@ -42,7 +44,11 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     override func didBecomeActive() {
         super.didBecomeActive()
         // TODO: Implement business logic here.
-        router?.attachMain()
+        router?.attachLogin()
+        Task { @MainActor in
+//            let loginFlag = await Config.shared.getLogin()
+            
+        }
     }
 
     override func willResignActive() {
@@ -58,7 +64,19 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         router?.attachUser()
     }
     
-    func dettachSetting() {
-        router?.dettachUser()
+    func detachSetting() {
+        router?.detachUser()
+    }
+    
+    func detachLogin() {
+        router?.attachMain()
+    }
+    
+    func loginSuccess() {
+        router?.attachMain()
+    }
+    
+    func loginFailure() {
+        router?.attachMain()
     }
 }

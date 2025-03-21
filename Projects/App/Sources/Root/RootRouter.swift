@@ -11,8 +11,9 @@ import CokeZet_Utilities
 import CokeZet_Core
 import Foundation
 import Setting_Feature
+import Login_Feature
 
-protocol RootInteractable: Interactable, MainListener, SettingListener {
+protocol RootInteractable: Interactable, MainListener, SettingListener, LoginListener {
     var router: RootRouting? { get set }
     var listener: RootListener? { get set }
     var presentationDelegateProxy: AdaptivePresentationControllerDelegateProxy { get }
@@ -20,10 +21,12 @@ protocol RootInteractable: Interactable, MainListener, SettingListener {
 
 protocol RootViewControllable: ViewControllable {
     // TODO: Declare methods the router invokes to manipulate the view hierarchy.
-    func setViewController(_ viewController: ViewControllable)
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
+    
+    private let loginBuildable: LoginBuildable
+    private var loginRouting: Routing?
     
     private let mainBuildable: MainBuildable
     private var mainRouting: Routing?
@@ -34,19 +37,38 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     private let settingBuildable: SettingBuildable
     private var settingRouting: Routing?
     
-    private let transitioningDelegate: PushModalPresentationController
-    
     init(
         interactor: RootInteractable,
         viewController: RootViewControllable,
         mainBuildable: MainBuildable,
-        settingBuilable: SettingBuildable
+        settingBuilable: SettingBuildable,
+        loginBuildable: LoginBuildable
     ) {
-        self.transitioningDelegate = PushModalPresentationController()
         self.mainBuildable = mainBuildable
         self.settingBuildable = settingBuilable
+        self.loginBuildable = loginBuildable
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func attachLogin() {
+        if loginRouting != nil { return }
+        
+        let router = loginBuildable.build(withListener: interactor)
+        loginRouting = router
+        attachChild(router)
+        
+        viewController.setViewControllers([router.viewControllable])
+    }
+    
+    func detachLogin() {
+        guard let router = loginRouting else {
+            return
+        }
+        
+        viewController.popViewController(animated: true)
+        self.loginRouting = nil
+        detachChild(router)
     }
     
     func attachMain() {
@@ -56,7 +78,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         mainRouting = router
         attachChild(router)
         
-        viewController.setViewController(router.viewControllable)
+        viewController.setViewControllers([router.viewControllable])
     }
     
     func attachAlarm() {
@@ -73,7 +95,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         viewController.pushViewController(router.viewControllable, animated: true)
     }
     
-    func dettachUser() {
+    func detachUser() {
         guard let router = settingRouting else {
             return
         }

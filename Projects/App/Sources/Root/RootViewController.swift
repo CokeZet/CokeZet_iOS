@@ -41,9 +41,4 @@ final class RootViewController: UINavigationController, RootPresentable, RootVie
         navigationBar.isTranslucent = false
         navigationBar.scrollEdgeAppearance = navigationBar.standardAppearance
     }
-    
-    func setViewController(_ viewController: ViewControllable) {
-        let viewController = viewController.uiviewController
-        super.pushViewController(viewController, animated: true)
-    }
 }

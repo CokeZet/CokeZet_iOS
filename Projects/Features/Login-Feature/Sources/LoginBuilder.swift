@@ -7,7 +7,7 @@
 
 import ModernRIBs
 
-protocol LoginDependency: Dependency {
+public protocol LoginDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
     // created by this RIB.
 }
@@ -19,20 +19,22 @@ final class LoginComponent: Component<LoginDependency> {
 
 // MARK: - Builder
 
-protocol LoginBuildable: Buildable {
-    func build() -> LaunchRouting
+public protocol LoginBuildable: Buildable {
+    func build(withListener listener: LoginListener) -> ViewableRouting
 }
 
-final class LoginBuilder: Builder<LoginDependency>, LoginBuildable {
+public final class LoginBuilder: Builder<LoginDependency>, LoginBuildable {
     
-    override init(dependency: LoginDependency) {
+    public override init(dependency: LoginDependency) {
         super.init(dependency: dependency)
     }
     
-    public func build() -> LaunchRouting {
+    public func build(withListener listener: LoginListener) -> ViewableRouting {
         let component = LoginComponent(dependency: dependency)
         let viewController = LoginViewController()
         let interactor = LoginInteractor(presenter: viewController)
+        interactor.listener = listener
+        
         return LoginRouter(
             interactor: interactor,
             viewController: viewController

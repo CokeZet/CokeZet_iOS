@@ -30,8 +30,8 @@ public final class BubblePopupButton: UIButton {
     }
     
     private func addConfigure() {
-        self.setImage(.strokedCheckmark, for: .normal)
-        self.tintColor = .black
+        let image = CokeZetDesignSystemAsset.alertCircle.image.withTintColor(.Gray500).resize(targetSize: CGSize(width: 20, height: 20))
+        self.setImage(image, for: .normal)
         self.clipsToBounds = true
     }
 

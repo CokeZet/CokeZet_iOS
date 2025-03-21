@@ -11,7 +11,7 @@ protocol SettingPresentable: Presentable {
 
 public protocol SettingListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
-    func dettachSetting()
+    func detachSetting()
 }
 
 final class SettingInteractor: PresentableInteractor<SettingPresentable>, SettingInteractable, SettingPresentableListener {
@@ -36,7 +36,7 @@ final class SettingInteractor: PresentableInteractor<SettingPresentable>, Settin
         // TODO: Pause any business logic.
     }
     
-    func dettachSetting() {
-        listener?.dettachSetting()
+    func detachSetting() {
+        listener?.detachSetting()
     }
 }
