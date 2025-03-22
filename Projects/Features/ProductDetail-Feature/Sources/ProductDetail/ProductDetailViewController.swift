@@ -16,6 +16,7 @@ protocol ProductDetailPresentableListener: AnyObject {
     func attachMoreView()
     func userButtonTapped()
     func alarmButtonTapped()
+    func homeButtonTapped()
 }
 
 final class ProductDetailViewController: BaseViewController, ProductDetailPresentable, ProductDetailViewControllable {
@@ -76,10 +77,6 @@ final class ProductDetailViewController: BaseViewController, ProductDetailPresen
         setupViews()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-    
     func setupViews() {
         self.view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
@@ -104,6 +101,11 @@ final class ProductDetailViewController: BaseViewController, ProductDetailPresen
     override func alarmButtonTapped() {
         super.alarmButtonTapped()
         listener?.alarmButtonTapped()
+    }
+    
+    override func homeButtonTapped() {
+        super.homeButtonTapped()
+        listener?.homeButtonTapped()
     }
 }
 

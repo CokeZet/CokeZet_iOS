@@ -37,6 +37,8 @@ public final class Popup: UIView {
         $0.distribution = .fill
     }
     
+    private var state: State?
+    
     public struct State {
         let title: String
         let describe: String?
@@ -44,9 +46,15 @@ public final class Popup: UIView {
         let rightButtonTitle: String
         let leftButtonAction: UIAction?
         let rightButtonAction: UIAction?
+        let leftButtonColor: ColorType
     }
     
-    public override init(frame: CGRect) {
+    public enum ColorType {
+        case pink
+        case gray
+    }
+    
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         makeConstraints()
         addConfiguration()
@@ -78,6 +86,8 @@ public final class Popup: UIView {
     }
     
     public func bind(_ state: State) {
+        self.state = state
+        
         titleLabel.text = state.title
         
         if let describe = state.describe {
@@ -85,6 +95,9 @@ public final class Popup: UIView {
         } else {
             describeLabel.isHidden = true
         }
+        
+        leftButton.setNormalColor(state.leftButtonColor == .pink ? .white : .gray)
+        rightButton.setNormalColor(state.leftButtonColor == .pink ? .gray : .white)
         
         leftButton.setTitle(state.leftButtonTitle, for: .normal)
         rightButton.setTitle(state.rightButtonTitle, for: .normal)
@@ -94,6 +107,5 @@ public final class Popup: UIView {
         
         guard let rightButtonAction = state.rightButtonAction else { return }
         rightButton.addAction(rightButtonAction, for: .touchUpInside)
-        
     }
 }

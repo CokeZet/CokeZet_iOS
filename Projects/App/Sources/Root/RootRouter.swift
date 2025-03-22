@@ -13,7 +13,7 @@ import Foundation
 import Setting_Feature
 import Login_Feature
 
-protocol RootInteractable: Interactable, MainListener, SettingListener, LoginListener {
+protocol RootInteractable: Interactable, MainListener, SettingListener, LoginListener, SettingListener {
     var router: RootRouting? { get set }
     var listener: RootListener? { get set }
     var presentationDelegateProxy: AdaptivePresentationControllerDelegateProxy { get }
@@ -49,6 +49,12 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         self.loginBuildable = loginBuildable
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func moveToHome() {
+        viewController.popToRoot(animated: false)
+        
+        detachUser()
     }
     
     func attachLogin() {

@@ -89,6 +89,11 @@ public final class ZetMediumButton: UIButton {
         })
         addAction(touchUpAction, for: [.touchUpInside, .touchCancel, .touchDragExit])
     }
+    
+    public func setNormalColor(_ color: ButtonState.Color) {
+        self.normalColor = color
+        setButtonStyle(self.buttonState, normalColor: self.normalColor)
+    }
 
     private func handleTouchDown() {
         if self.buttonState != .disabled {

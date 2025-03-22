@@ -6,6 +6,7 @@
 //
 
 public enum NavigationBarType {
-    case Back
-    case Home
+    case main
+    case alarm_Setting_Home
+    case alarm_Home
 }

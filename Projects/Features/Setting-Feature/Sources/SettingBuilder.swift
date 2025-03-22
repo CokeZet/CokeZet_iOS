@@ -6,7 +6,6 @@ public protocol SettingDependency: Dependency {
 }
 
 final class SettingComponent: Component<SettingDependency> {
-    
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
@@ -24,7 +23,7 @@ public final class SettingBuilder: Builder<SettingDependency>, SettingBuildable 
     
     public func build(withListener listener: SettingListener) -> ViewableRouting {
         let component = SettingComponent(dependency: dependency)
-        let viewController = SettingViewController(navigationBarType: .Back)
+        let viewController = SettingViewController(navigationBarType: .alarm_Home)
         let interactor = SettingInteractor(presenter: viewController)
         interactor.listener = listener
         return SettingRouter(

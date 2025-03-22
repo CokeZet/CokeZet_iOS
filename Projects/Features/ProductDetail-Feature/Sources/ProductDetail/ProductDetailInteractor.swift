@@ -26,6 +26,7 @@ public protocol ProductDetailListener: AnyObject {
     func productDetailDidTapClose()
     func userButtonTapped()
     func alarmButtonTapped()
+    func homeButtonTapped()
 }
 
 protocol TransportHomeInteractorDependency {
@@ -86,5 +87,9 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     
     func alarmButtonTapped() {
         listener?.alarmButtonTapped()
+    }
+    
+    func homeButtonTapped() {
+        listener?.homeButtonTapped()
     }
 }

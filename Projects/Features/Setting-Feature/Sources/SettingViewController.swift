@@ -11,6 +11,8 @@ protocol SettingPresentableListener: AnyObject {
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
     func detachSetting()
+    func alarmButtonTapped()
+    func homeButtonTapped()
 }
 
 final class SettingViewController: BaseViewController, SettingPresentable, SettingViewControllable {
@@ -39,7 +41,7 @@ final class SettingViewController: BaseViewController, SettingPresentable, Setti
     private let sectionItems: [Section: [MenuItem]] = [
         .priceAlert: [MenuItem(title: "가격 알림 설정")],
         .support: [MenuItem(title: "공지사항"), MenuItem(title: "문의하기")],
-        .terms: [MenuItem(title: "서비스 이용약관"), MenuItem(title: "개인정보 처리방침"), MenuItem(title: "회원탈퇴")]
+        .terms: [MenuItem(title: "서비스 이용약관"), MenuItem(title: "개인정보 처리방침"), MenuItem(title: "회원탈퇴"), MenuItem(title: "로그아웃")]
     ]
     
     weak var listener: SettingPresentableListener?
@@ -75,7 +77,7 @@ final class SettingViewController: BaseViewController, SettingPresentable, Setti
         self.view.backgroundColor = ZetColor.Gray500.color
         setupCollectionView()
         
-        #warning("TODO: 네비게이션 타이틀 설정 값 확인")
+#warning("TODO: 네비게이션 타이틀 설정 값 확인")
         self.navigationItem.title = "내 설정"
     }
     
@@ -85,12 +87,12 @@ final class SettingViewController: BaseViewController, SettingPresentable, Setti
         collectionView.dataSource = self
         collectionView.register(MenuCell.self, forCellWithReuseIdentifier: "MenuCell")
         collectionView.register(ProfileHeaderView.self,
-                               forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                               withReuseIdentifier: "ProfileHeader")
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: "ProfileHeader")
         
         collectionView.register(VersionFooterView.self,
-                                   forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                                   withReuseIdentifier: "VersionFooter")
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                withReuseIdentifier: "VersionFooter")
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.showsVerticalScrollIndicator = false
         
@@ -99,6 +101,16 @@ final class SettingViewController: BaseViewController, SettingPresentable, Setti
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    override func alarmButtonTapped() {
+        super.alarmButtonTapped()
+        listener?.alarmButtonTapped()
+    }
+    
+    override func homeButtonTapped() {
+        super.homeButtonTapped()
+        listener?.homeButtonTapped()
     }
 }
 
@@ -124,6 +136,39 @@ extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         cell.bind(MenuState(title: items[indexPath.item].title))
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let sectionType = Section(rawValue: indexPath.section),
+              let items = sectionItems[sectionType] else {
+            return
+        }
+        
+        switch items[indexPath.item].title {
+        case "회원탈퇴":
+            self.showPopup(
+                false,
+                UIAction() { _ in
+                    self.dismissPopup()
+                },
+                UIAction(){ _ in
+                    print("회원탈퇴 클릭")
+                }
+            )
+        case "로그아웃":
+            self.showPopup(
+                true,
+                UIAction() { _ in
+                    self.dismissPopup()
+                },
+                UIAction(){ _ in
+                    print("로그아웃 클릭")
+                }
+            )
+        default:
+            break
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -167,7 +212,8 @@ extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return section == 2 ? CGSize(width: collectionView.frame.width, height: 50) : .zero
+        let height = self.collectionView.bounds.height - 561
+        return section == 2 ? CGSize(width: collectionView.frame.width, height: height) : .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

@@ -7,6 +7,8 @@ import CokeZet_Core
 protocol MainInteractable: Interactable, ProductDetailListener {
     var router: MainRouting? { get set }
     var listener: MainListener? { get set }
+    
+    func homeButtonTapped()
 }
 
 protocol MainViewControllable: ViewControllable {

@@ -6,6 +6,9 @@
 //
 
 import ModernRIBs
+import CokeZet_Core
+import Combine
+import Foundation
 
 protocol RootRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
@@ -15,6 +18,7 @@ protocol RootRouting: ViewableRouting {
     func attachUser()
     func detachLogin()
     func detachUser()
+    func moveToHome()
 }
 
 protocol RootPresentable: Presentable {
@@ -33,9 +37,18 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     weak var router: RootRouting?
     weak var listener: RootListener?
 
+    private let dependency: RootDependency
+    
+    private var cancellables: Set<AnyCancellable>
+    
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
-    override init(presenter: RootPresentable) {
+    init(
+        presenter: RootPresentable,
+        dependency: RootDependency
+    ) {
+        self.dependency = dependency
+        self.cancellables = .init()
         self.presentationDelegateProxy = AdaptivePresentationControllerDelegateProxy()
         super.init(presenter: presenter)
         presenter.listener = self
@@ -45,10 +58,17 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         super.didBecomeActive()
         // TODO: Implement business logic here.
         router?.attachLogin()
-        Task { @MainActor in
-//            let loginFlag = await Config.shared.getLogin()
-            
-        }
+        
+        dependency.navigationStream
+            .stream
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] type in
+                print("Root Tabs")
+                if type == .home {
+                    self?.router?.moveToHome()
+                    self?.dependency.navigationStream.stream.value = .none
+                }
+            }.store(in: &cancellables)
     }
 
     override func willResignActive() {
@@ -78,5 +98,9 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     
     func loginFailure() {
         router?.attachMain()
+    }
+    
+    func moveToHome() {
+        dependency.navigationStream.send(.home)
     }
 }

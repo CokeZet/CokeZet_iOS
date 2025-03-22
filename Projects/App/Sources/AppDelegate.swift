@@ -7,6 +7,7 @@
 
 import UIKit
 import ModernRIBs
+import CokeZet_Core
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -31,8 +32,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 public class AppComponent: Component<EmptyDependency>, RootDependency {
+    var navigationStream: NavgiationBarActions
+    
     
     public init() {
+        self.navigationStream = NavigationStreamState()
         super.init(dependency: EmptyComponent())
     }
 }

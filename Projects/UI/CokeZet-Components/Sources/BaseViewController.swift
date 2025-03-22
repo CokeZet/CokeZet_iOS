@@ -34,6 +34,7 @@ open class BaseViewController: UIViewController, BaseViewControllerDelegate {
     }
     
     private func setupNavigationItems() {
+        var rightItemlist: [UIBarButtonItem] = []
         let leftItem = makeLeftButtonItem()
         // 왼쪽 아이템: 로고 이미지 혹은 뒤로가기 버튼
         navigationItem.leftBarButtonItem = leftItem
@@ -42,10 +43,21 @@ open class BaseViewController: UIViewController, BaseViewControllerDelegate {
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         fixedSpace.width = 8
         
-        let userItem = makeUserButtonItem()
-        let alarmItem = makeAlarmButtonItme()
+        switch navigationBarType {
+        case .main:
+            rightItemlist += [makeUserButtonItem()]
+            rightItemlist += [makeAlarmButtonItem()]
+        case .alarm_Setting_Home:
+            rightItemlist += [makeHomeButtonItem()]
+            rightItemlist += [makeUserButtonItem()]
+            rightItemlist += [makeAlarmButtonItem()]
+        case .alarm_Home:
+            rightItemlist += [makeHomeButtonItem()]
+            rightItemlist += [makeAlarmButtonItem()]
+        }
+        
         // rightBarButtonItems 배열의 순서: 오른쪽에서 왼쪽으로 표시됨
-        navigationItem.rightBarButtonItems = [userItem, fixedSpace, alarmItem]
+        navigationItem.rightBarButtonItems = rightItemlist
     }
     
     private func makeLeftButtonItem() -> UIBarButtonItem {
@@ -58,7 +70,7 @@ open class BaseViewController: UIViewController, BaseViewControllerDelegate {
             make.width.height.equalTo(32)
         }
         
-        if navigationBarType == .Back {
+        if navigationBarType != .main {
             return UIBarButtonItem(
                 image: CokeZetDesignSystemAsset.chevronLeft.image.withRenderingMode(.alwaysOriginal),
                 style: .plain,
@@ -70,7 +82,7 @@ open class BaseViewController: UIViewController, BaseViewControllerDelegate {
         return UIBarButtonItem(customView: leftButton)
     }
     
-    private func makeAlarmButtonItme() -> UIBarButtonItem {
+    private func makeAlarmButtonItem() -> UIBarButtonItem {
         let alarmButton = UIButton(type: .system)
         alarmButton.setImage(CokeZetDesignSystemAsset.icBell.image.withRenderingMode(.alwaysOriginal), for: .normal)
         alarmButton.addTarget(self, action: #selector(alarmButtonTapped), for: .touchUpInside)
@@ -95,6 +107,18 @@ open class BaseViewController: UIViewController, BaseViewControllerDelegate {
         return UIBarButtonItem(customView: userButton)
     }
     
+    private func makeHomeButtonItem() -> UIBarButtonItem {
+        let userButton = UIButton(type: .system)
+        userButton.setImage(CokeZetDesignSystemAsset.icHome.image.withRenderingMode(.alwaysOriginal), for: .normal)
+        userButton.addTarget(self, action: #selector(homeButtonTapped), for: .touchUpInside)
+        
+        userButton.snp.makeConstraints { make in
+            make.width.height.equalTo(32)
+        }
+        
+        return UIBarButtonItem(customView: userButton)
+    }
+    
     /// Navigation Controller에서 이전 화면으로 돌아가는 액션
     @objc open func backButtonTapped() {
         print("Back Button Tapped")
@@ -106,6 +130,10 @@ open class BaseViewController: UIViewController, BaseViewControllerDelegate {
     
     @objc open func userButtonTapped() {
         print("userButton Tapped")
+    }
+    
+    @objc open func homeButtonTapped() {
+        print("homeButton Tapped")
     }
     
 }

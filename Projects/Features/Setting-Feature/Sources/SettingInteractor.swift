@@ -1,4 +1,7 @@
 import ModernRIBs
+import Combine
+import Foundation
+import CokeZet_Core
 
 protocol SettingRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
@@ -12,6 +15,8 @@ protocol SettingPresentable: Presentable {
 public protocol SettingListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
     func detachSetting()
+    func attachAlarm()
+    func moveToHome()
 }
 
 final class SettingInteractor: PresentableInteractor<SettingPresentable>, SettingInteractable, SettingPresentableListener {
@@ -39,4 +44,13 @@ final class SettingInteractor: PresentableInteractor<SettingPresentable>, Settin
     func detachSetting() {
         listener?.detachSetting()
     }
+    
+    func alarmButtonTapped() {
+        listener?.attachAlarm()
+    }
+    
+    func homeButtonTapped() {
+        listener?.moveToHome()
+    }
+    
 }
