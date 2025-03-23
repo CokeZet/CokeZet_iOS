@@ -9,6 +9,9 @@ import ModernRIBs
 import Main_Feature
 import Setting_Feature
 import Login_Feature
+import MyCardSetUp_Feature
+import Nickname_Feature
+import ShoppingMallSetUp_Feature
 import CokeZet_Core
 
 protocol RootDependency: Dependency {
@@ -17,7 +20,14 @@ protocol RootDependency: Dependency {
     var navigationStream: NavgiationBarActions { get }
 }
 
-final class RootComponent: Component<RootDependency>, MainDependency, SettingDependency, LoginDependency {
+final class RootComponent: Component<RootDependency>,
+                           MainDependency,
+                           SettingDependency,
+                           LoginDependency,
+                           MyCardSetUpDependency,
+                           NicknameDependency,
+                           ShoppingMallSetUpDependency
+{
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
     let navigationStream: NavgiationBarActions
     
@@ -46,13 +56,19 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
         let mainBuilder = MainBuilder(dependency: component)
         let settingBuilder = SettingBuilder(dependency: component)
         let loginBuilder = LoginBuilder(dependency: component)
+        let nickNameBuilder = NicknameBuilder(dependency: component)
+        let shoppingMallBuilder = ShoppingMallSetUpBuilder(dependency: component)
+        let cardSetupBuilder = MyCardSetUpBuilder(dependency: component)
         
         return RootRouter(
             interactor: interactor,
             viewController: viewController,
             mainBuildable: mainBuilder,
             settingBuilable: settingBuilder,
-            loginBuildable: loginBuilder
+            loginBuildable: loginBuilder,
+            nickNameBuildable: nickNameBuilder,
+            shoppingMallBuildable: shoppingMallBuilder,
+            cardSetupBuildable: cardSetupBuilder
         )
     }
 }

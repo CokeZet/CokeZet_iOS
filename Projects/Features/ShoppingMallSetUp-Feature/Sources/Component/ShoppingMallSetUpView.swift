@@ -23,12 +23,13 @@ final class ShoppingMallSetUpView: UIView {
     struct State {
         let nickname: String
         let list: [ShoppingMallListView.State]
+        let selectConfirm: UIAction
     }
 
     private let pageLabel = ZetLabel(typography: .semiBold(.T20), textColor: .Gray600)
     private let titleLabel = ZetLabel(typography: .semiBold(.T24), textColor: .White)
     private let listView = ShoppingMallListView()
-    private let confirmButton = ZetLargeButton(buttonState: .disabled)
+    private let confirmButton = ZetLargeButton(buttonState: .normal)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -82,6 +83,7 @@ final class ShoppingMallSetUpView: UIView {
     func bind(state: State) {
         self.titleLabel.text = "\(state.nickname) 님,\n어떤 쇼핑몰에서\n가격을 탐지할까요?"
         self.listView.bind(list: state.list)
+        self.confirmButton.addAction(state.selectConfirm, for: .touchUpInside)
     }
 }
 
@@ -113,7 +115,10 @@ final class ShoppingMallSetUpView: UIView {
                    ShoppingMallListView.State(image: CokeZetDesignSystemAsset.icCurly.image, title: "마켓컬리"),
                    ShoppingMallListView.State(image: CokeZetDesignSystemAsset.icNaver.image, title: "네이버"),
                    ShoppingMallListView.State(image: CokeZetDesignSystemAsset.icNaver.image, title: "네이버")
-            ]
+            ],
+            selectConfirm: UIAction() { _ in
+                print("클릭 클릭")
+            }
         )
     )
 

@@ -23,13 +23,14 @@ final class MyCardSetUpView: UIView {
 
     struct State {
         let list: [MyCardListView.State]
+        let confirmAction: UIAction
     }
 
     private let pageLabel = ZetLabel(typography: .semiBold(.T20), textColor: .Gray600)
     private let titleLabel = ZetLabel(typography: .semiBold(.T24), textColor: .White)
     private let listView = MyCardListView()
     private let descriptionLabel = ZetLabel(typography: .medium(.T12), textColor: .Gray500)
-    private let confirmButton = ZetLargeButton(buttonState: .disabled)
+    private let confirmButton = ZetLargeButton(buttonState: .normal)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,7 +44,7 @@ final class MyCardSetUpView: UIView {
     }
 
     private func addConfigure() {
-        self.pageLabel.text = "2/3"
+        self.pageLabel.text = "3/3"
 
         self.titleLabel.numberOfLines = 0
         self.titleLabel.text = "어떤 카드의\n할인 혜택 알림을\n받아볼까요?"
@@ -95,6 +96,7 @@ final class MyCardSetUpView: UIView {
     func bind(state: State) {
 
         self.listView.bind(list: state.list)
+        self.confirmButton.addAction(state.confirmAction, for: .touchDown)
     }
 }
 
@@ -125,7 +127,9 @@ final class MyCardSetUpView: UIView {
                 MyCardListView.State(image: CokeZetDesignSystemAsset.icHana.image, title: "하나"),
                 MyCardListView.State(image: CokeZetDesignSystemAsset.icSamsung.image, title: "삼성"),
                 MyCardListView.State(image: CokeZetDesignSystemAsset.icHyundai.image, title: "현대"),
-            ]
+            ], confirmAction: UIAction() { _ in
+                print("클릭 클릭")
+            }
         )
     )
 

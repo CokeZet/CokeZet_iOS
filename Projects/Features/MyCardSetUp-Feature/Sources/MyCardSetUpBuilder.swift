@@ -7,7 +7,7 @@
 
 import ModernRIBs
 
-protocol MyCardSetUpDependency: Dependency {
+public protocol MyCardSetUpDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
     // created by this RIB.
 }
@@ -19,20 +19,22 @@ final class MyCardSetUpComponent: Component<MyCardSetUpDependency> {
 
 // MARK: - Builder
 
-protocol MyCardSetUpBuildable: Buildable {
-    func build() -> LaunchRouting
+public protocol MyCardSetUpBuildable: Buildable {
+    func build(withListener listener: MyCardSetUpListener) -> ViewableRouting
 }
 
-final class MyCardSetUpBuilder: Builder<MyCardSetUpDependency>, MyCardSetUpBuildable {
+public final class MyCardSetUpBuilder: Builder<MyCardSetUpDependency>, MyCardSetUpBuildable {
     
-    override init(dependency: MyCardSetUpDependency) {
+    public override init(dependency: MyCardSetUpDependency) {
         super.init(dependency: dependency)
     }
     
-    public func build() -> LaunchRouting {
+    public func build(withListener listener: MyCardSetUpListener) -> ViewableRouting {
         let component = MyCardSetUpComponent(dependency: dependency)
         let viewController = MyCardSetUpViewController()
         let interactor = MyCardSetUpInteractor(presenter: viewController)
+        interactor.listener = listener
+        
         return MyCardSetUpRouter(
             interactor: interactor,
             viewController: viewController

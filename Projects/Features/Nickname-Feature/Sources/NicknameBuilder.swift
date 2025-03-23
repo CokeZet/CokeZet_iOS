@@ -7,7 +7,7 @@
 
 import ModernRIBs
 
-protocol NicknameDependency: Dependency {
+public protocol NicknameDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
     // created by this RIB.
 }
@@ -19,20 +19,22 @@ final class NicknameComponent: Component<NicknameDependency> {
 
 // MARK: - Builder
 
-protocol NicknameBuildable: Buildable {
-    func build() -> LaunchRouting
+public protocol NicknameBuildable: Buildable {
+    func build(withListener listener: NicknameListener) -> ViewableRouting
 }
 
-final class NicknameBuilder: Builder<NicknameDependency>, NicknameBuildable {
+public final class NicknameBuilder: Builder<NicknameDependency>, NicknameBuildable {
     
-    override init(dependency: NicknameDependency) {
+    public override init(dependency: NicknameDependency) {
         super.init(dependency: dependency)
     }
     
-    public func build() -> LaunchRouting {
+    public func build(withListener listener: NicknameListener) -> ViewableRouting {
         let component = NicknameComponent(dependency: dependency)
         let viewController = NicknameViewController()
         let interactor = NicknameInteractor(presenter: viewController)
+        interactor.listener = listener
+        
         return NicknameRouter(
             interactor: interactor,
             viewController: viewController

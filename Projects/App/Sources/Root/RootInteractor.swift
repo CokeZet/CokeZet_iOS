@@ -9,9 +9,15 @@ import ModernRIBs
 import CokeZet_Core
 import Combine
 import Foundation
+import AuthenticationServices
 
 protocol RootRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func attachNickName()
+    func moveToNickname()
+    func moveToShoppingMall()
+    func moveToCardSetup()
+    
     func attachLogin()
     func attachMain()
     func attachAlarm()
@@ -33,6 +39,9 @@ protocol RootListener: AnyObject {
 final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener {
     
     let presentationDelegateProxy: AdaptivePresentationControllerDelegateProxy
+    
+    private lazy var appleLoginManager = AppleLoginManager(delegate: self)
+
     
     weak var router: RootRouting?
     weak var listener: RootListener?
@@ -63,7 +72,7 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
             .stream
             .receive(on: DispatchQueue.main)
             .sink { [weak self] type in
-                print("Root Tabs")
+                print("Root Tabs \(type)")
                 if type == .home {
                     self?.router?.moveToHome()
                     self?.dependency.navigationStream.stream.value = .none
@@ -76,6 +85,40 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         // TODO: Pause any business logic.
     }
     
+    /// 최초 로그인 시 설정
+    ///
+    
+    func continueToNickname() {
+        router?.moveToNickname()
+    }
+    
+    func continueToShoppingMall() {
+        router?.moveToShoppingMall()
+    }
+    
+    func continueToMyCard() {
+        router?.moveToCardSetup()
+    }
+    
+    /// 로그인 관련 로직
+    
+    func loginSuccess() {
+        router?.attachNickName()
+    }
+    
+    func loginFailure() {
+        router?.attachMain()
+    }
+    
+    func detachLogin() {
+        router?.attachMain()
+    }
+    
+    func appleLogin() {
+        appleLoginManager.startAppleLogin()
+    }
+    
+    /// NavigationBar 이동 로직
     func attachAlarm() {
         router?.attachAlarm()
     }
@@ -88,19 +131,20 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         router?.detachUser()
     }
     
-    func detachLogin() {
-        router?.attachMain()
-    }
-    
-    func loginSuccess() {
-        router?.attachMain()
-    }
-    
-    func loginFailure() {
-        router?.attachMain()
-    }
-    
     func moveToHome() {
         dependency.navigationStream.send(.home)
+    }
+    
+}
+
+extension RootInteractor: AppleLoginManagerDelegate {
+    func didCompleteAppleLogin(userId: String, email: String?) {
+//        listener?.didLoginSuccessfully(userId: userId, email: email)
+        print("Login Success")
+    }
+    
+    func didFailAppleLogin() {
+//        listener?.didCancelLogin()
+        print("Login Failed")
     }
 }

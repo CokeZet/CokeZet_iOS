@@ -16,8 +16,9 @@ protocol NicknamePresentable: Presentable {
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol NicknameListener: AnyObject {
+public protocol NicknameListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+    func continueToNickname()
 }
 
 final class NicknameInteractor: PresentableInteractor<NicknamePresentable>, NicknameInteractable, NicknamePresentableListener {
@@ -40,5 +41,9 @@ final class NicknameInteractor: PresentableInteractor<NicknamePresentable>, Nick
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
+    }
+    
+    func continueToNickname() {
+        listener?.continueToNickname()
     }
 }

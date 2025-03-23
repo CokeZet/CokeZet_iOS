@@ -16,12 +16,13 @@ protocol MyCardSetUpPresentable: Presentable {
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol MyCardSetUpListener: AnyObject {
+public protocol MyCardSetUpListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+    func continueToMyCard()
 }
 
 final class MyCardSetUpInteractor: PresentableInteractor<MyCardSetUpPresentable>, MyCardSetUpInteractable, MyCardSetUpPresentableListener {
-
+    
     weak var router: MyCardSetUpRouting?
     weak var listener: MyCardSetUpListener?
 
@@ -40,5 +41,9 @@ final class MyCardSetUpInteractor: PresentableInteractor<MyCardSetUpPresentable>
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
+    }
+    
+    func continueToMyCard() {
+        listener?.continueToMyCard()
     }
 }

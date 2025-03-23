@@ -12,6 +12,7 @@ protocol LoginPresentableListener: AnyObject {
     // interactor class.
     
     func loginAction()
+    func appleLoginAction()
     func detachAction()
 }
 
@@ -35,16 +36,6 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
         self.makeConstraints()
         buttonSetup()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.navigationBar.isHidden = false
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        listener?.detachAction()
-    }
 
     private func addConfigure() {
         self.view.backgroundColor = .Gray800
@@ -60,13 +51,21 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
     }
     
     private func buttonSetup() {
-        let action: (() -> Void) = {
+        let kakaoAction: (() -> Void) = {
             self.listener?.loginAction()
         }
         
-        contentView.selectApple = action
-        contentView.selectExplore = action
-        contentView.selectKaKao = action
+        let exploreAction: (() -> Void) = {
+            self.listener?.detachAction()
+        }
+        
+        let appleAction: (() -> Void) = {
+            self.listener?.appleLoginAction()
+        }
+        
+        contentView.selectApple = appleAction
+        contentView.selectExplore = exploreAction
+        contentView.selectKaKao = kakaoAction
     }
 }
 

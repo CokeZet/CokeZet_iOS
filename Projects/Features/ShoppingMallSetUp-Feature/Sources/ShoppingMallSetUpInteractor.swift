@@ -16,12 +16,13 @@ protocol ShoppingMallSetUpPresentable: Presentable {
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol ShoppingMallSetUpListener: AnyObject {
+public protocol ShoppingMallSetUpListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+    func continueToShoppingMall()
 }
 
 final class ShoppingMallSetUpInteractor: PresentableInteractor<ShoppingMallSetUpPresentable>, ShoppingMallSetUpInteractable, ShoppingMallSetUpPresentableListener {
-
+    
     weak var router: ShoppingMallSetUpRouting?
     weak var listener: ShoppingMallSetUpListener?
 
@@ -40,5 +41,9 @@ final class ShoppingMallSetUpInteractor: PresentableInteractor<ShoppingMallSetUp
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
+    }
+    
+    func continueToShoppingMall() {
+        listener?.continueToShoppingMall()
     }
 }

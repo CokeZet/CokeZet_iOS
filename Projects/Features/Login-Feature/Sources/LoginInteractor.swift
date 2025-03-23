@@ -22,6 +22,7 @@ public protocol LoginListener: AnyObject {
     func detachLogin()
     func loginSuccess()
     func loginFailure()
+    func appleLogin()
 }
 
 final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInteractable, LoginPresentableListener {
@@ -52,5 +53,9 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
     
     func loginAction() {
         listener?.loginSuccess()
+    }
+    
+    func appleLoginAction() {
+        listener?.appleLogin()
     }
 }

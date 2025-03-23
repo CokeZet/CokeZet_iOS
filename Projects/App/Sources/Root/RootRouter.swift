@@ -12,8 +12,20 @@ import CokeZet_Core
 import Foundation
 import Setting_Feature
 import Login_Feature
+import MyCardSetUp_Feature
+import Nickname_Feature
+import ShoppingMallSetUp_Feature
+import UIKit
 
-protocol RootInteractable: Interactable, MainListener, SettingListener, LoginListener, SettingListener {
+protocol RootInteractable: Interactable,
+                           MainListener,
+                           SettingListener,
+                           LoginListener,
+                           SettingListener,
+                           NicknameListener,
+                           MyCardSetUpListener,
+                           ShoppingMallSetUpListener
+{
     var router: RootRouting? { get set }
     var listener: RootListener? { get set }
     var presentationDelegateProxy: AdaptivePresentationControllerDelegateProxy { get }
@@ -24,6 +36,15 @@ protocol RootViewControllable: ViewControllable {
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
+    
+    private let nickNameBuildable: NicknameBuildable
+    private var nickNameRouting: Routing?
+    
+    private let shoppingMallBuildable: ShoppingMallSetUpBuildable
+    private var shoppingMallRouting: Routing?
+    
+    private let cardSetupBuildable: MyCardSetUpBuildable
+    private var cardSetupRouting: Routing?
     
     private let loginBuildable: LoginBuildable
     private var loginRouting: Routing?
@@ -42,13 +63,74 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         viewController: RootViewControllable,
         mainBuildable: MainBuildable,
         settingBuilable: SettingBuildable,
-        loginBuildable: LoginBuildable
+        loginBuildable: LoginBuildable,
+        nickNameBuildable: NicknameBuildable,
+        shoppingMallBuildable: ShoppingMallSetUpBuildable,
+        cardSetupBuildable: MyCardSetUpBuildable
     ) {
+        self.nickNameBuildable = nickNameBuildable
+        self.shoppingMallBuildable = shoppingMallBuildable
+        self.cardSetupBuildable = cardSetupBuildable
         self.mainBuildable = mainBuildable
         self.settingBuildable = settingBuilable
         self.loginBuildable = loginBuildable
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func attachNickName() {
+        if nickNameRouting != nil { return }
+        
+        let router = nickNameBuildable.build(withListener: interactor)
+        nickNameRouting = router
+        attachChild(router)
+        
+        viewController.pushViewController(router.viewControllable, animated: true)
+    }
+    
+    func moveToNickname() {
+        if shoppingMallRouting != nil { return }
+        
+        let router = shoppingMallBuildable.build(withListener: interactor)
+        shoppingMallRouting = router
+        attachChild(router)
+        
+        viewController.pushViewController(router.viewControllable, animated: true)
+    }
+    
+    func moveToShoppingMall() {
+        if cardSetupRouting != nil { return }
+        
+        let router = cardSetupBuildable.build(withListener: interactor)
+        cardSetupRouting = router
+        attachChild(router)
+        
+        viewController.pushViewController(router.viewControllable, animated: true)
+    }
+    
+    func moveToCardSetup() {
+        detachFirstLoginSetup()
+        attachMain()
+    }
+    
+    func detachFirstLoginSetup() {
+        guard let nicknameRouter = nickNameRouting,
+              let shoppingMallRouting = shoppingMallRouting,
+              let cardSetupRouting = cardSetupRouting
+        else {
+            return
+        }
+        
+        viewController.popToRoot(animated: false)
+        
+        self.nickNameRouting = nil
+        detachChild(nicknameRouter)
+        
+        self.shoppingMallRouting = nil
+        detachChild(shoppingMallRouting)
+        
+        self.cardSetupRouting = nil
+        detachChild(cardSetupRouting)
     }
     
     func moveToHome() {
@@ -80,6 +162,8 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     func attachMain() {
         if mainRouting != nil { return }
         
+        let view = viewController.uiviewController as! UINavigationController
+        view.navigationBar.isHidden = false
         let router = mainBuildable.build(withListener: interactor)
         mainRouting = router
         attachChild(router)

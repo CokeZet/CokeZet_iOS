@@ -57,7 +57,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
             .stream
             .receive(on: DispatchQueue.main)
             .sink { [weak self] type in
-                print("Main Tabs")
+                print("Main Tabs \(type)")
                 if type == .home {
                     self?.router?.deatchProductDetail()
                 }
