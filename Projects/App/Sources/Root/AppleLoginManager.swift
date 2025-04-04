@@ -8,7 +8,7 @@
 import AuthenticationServices
 
 protocol AppleLoginManagerDelegate: AnyObject {
-    func didCompleteAppleLogin(userId: String, email: String?)
+    func didCompleteAppleLogin(userId: String, email: String?, token: String) async throws
     func didFailAppleLogin()
 }
 
@@ -22,12 +22,11 @@ final class AppleLoginManager: NSObject {
     }
     
     func startAppleLogin() {
-        print("Start sign in")
+        print("\n==== 🍎 APPLE LOGIN Start ====")
         
         let provider = ASAuthorizationAppleIDProvider()
         let requset = provider.createRequest()
         
-        // 사용자에게 제공받을 정보를 선택 (이름 및 이메일) -- 아래 이미지 참고
         requset.requestedScopes = [.fullName, .email]
         
         let controller = ASAuthorizationController(authorizationRequests: [requset])
@@ -56,7 +55,7 @@ extension AppleLoginManager: ASAuthorizationControllerDelegate {
     
     // 로그인 실패 시
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: any Error) {
-        print("로그인 실패", error.localizedDescription)
+        print("==== FAILED APPLE LOGIN ====\n", error.localizedDescription)
     }
     
     // Apple ID 로그인에 성공한 경우, 사용자의 인증 정보를 확인하고 필요한 작업을 수행합니다
@@ -67,36 +66,35 @@ extension AppleLoginManager: ASAuthorizationControllerDelegate {
             let fullName = appleIdCredential.fullName
             let email = appleIdCredential.email
             
-            // identityToken을 String으로 변환
-            if let identityToken = appleIdCredential.identityToken,
-               let identityTokenString = String(data: identityToken, encoding: .utf8) {
-                print("Identity Token: \(identityTokenString)")
-                // identityTokenString 사용
-            } else {
-                print("identityToken을 문자열로 변환할 수 없습니다.")
+            var identityToken = ""
+            var authorizationCode = ""
+            // identityToken을 Base64 String으로 변환
+            if let ori_identityToken = appleIdCredential.identityToken {
+                let identityTokenString = ori_identityToken.base64EncodedString()
+                identityToken = identityTokenString
             }
 
-            // authorizationCode를 String으로 변환
-            if let authorizationCode = appleIdCredential.authorizationCode,
-               let authorizationCodeString = String(data: authorizationCode, encoding: .utf8) {
-                print("Authorization Code: \(authorizationCodeString)")
-                // authorizationCodeString 사용
-            } else {
-                print("authorizationCode를 문자열로 변환할 수 없습니다.")
+            // authorizationCode를 Base64 String으로 변환
+            if let ori_authorizationCode = appleIdCredential.authorizationCode {
+                let authorizationCodeString = ori_authorizationCode.base64EncodedString()
+                authorizationCode = authorizationCodeString
             }
-            
-            let identityToken = appleIdCredential.identityToken
-            let authorizationCode = appleIdCredential.authorizationCode
             
             print("Apple ID 로그인에 성공하였습니다.")
             print("사용자 ID: \(userIdentifier)")
             print("전체 이름: \(fullName?.givenName ?? "") \(fullName?.familyName ?? "")")
             print("이메일: \(email ?? "")")
-            print("Token: \(identityToken!)")
-            print("authorizationCode: \(authorizationCode!)")
+            print("Token: \(identityToken)")
+            print("authorizationCode: \(authorizationCode)")
             
             // 여기에 로그인 성공 후 수행할 작업을 추가하세요.
-            delegate?.didCompleteAppleLogin(userId: userIdentifier, email: email)
+            Task {
+                do {
+                    try await delegate?.didCompleteAppleLogin(userId: userIdentifier, email: email, token: identityToken)
+                } catch {
+                    print("Login Failed")
+                }
+            }
             
         // 암호 기반 인증에 성공한 경우(iCloud), 사용자의 인증 정보를 확인하고 필요한 작업을 수행합니다
         case let passwordCredential as ASPasswordCredential:
@@ -108,10 +106,14 @@ extension AppleLoginManager: ASAuthorizationControllerDelegate {
             print("비밀번호: \(password)")
             
             // 여기에 로그인 성공 후 수행할 작업을 추가하세요.
-            delegate?.didCompleteAppleLogin(userId: userIdentifier, email: "")
+            Task {
+                try await delegate?.didCompleteAppleLogin(userId: userIdentifier, email: "", token: "")
+            }
             
         default: break
             
         }
+        
+        print("==== END APPLE LOGIN ====\n")
     }
 }

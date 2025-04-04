@@ -88,7 +88,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         viewController.pushViewController(router.viewControllable, animated: true)
     }
     
-    func moveToNickname() {
+    func moveToShoppingMallSetup() {
         if shoppingMallRouting != nil { return }
         
         let router = shoppingMallBuildable.build(withListener: interactor)
@@ -98,7 +98,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         viewController.pushViewController(router.viewControllable, animated: true)
     }
     
-    func moveToShoppingMall() {
+    func moveToCardSetup() {
         if cardSetupRouting != nil { return }
         
         let router = cardSetupBuildable.build(withListener: interactor)
@@ -108,7 +108,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         viewController.pushViewController(router.viewControllable, animated: true)
     }
     
-    func moveToCardSetup() {
+    func firstLoginSetupFinish() {
         detachFirstLoginSetup()
         attachMain()
     }

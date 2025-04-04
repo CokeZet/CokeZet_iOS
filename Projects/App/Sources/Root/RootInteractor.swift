@@ -10,13 +10,14 @@ import CokeZet_Core
 import Combine
 import Foundation
 import AuthenticationServices
+import CokeZet_Network
 
 protocol RootRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
     func attachNickName()
-    func moveToNickname()
-    func moveToShoppingMall()
+    func moveToShoppingMallSetup()
     func moveToCardSetup()
+    func firstLoginSetupFinish()
     
     func attachLogin()
     func attachMain()
@@ -89,19 +90,18 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     ///
     
     func continueToNickname() {
-        router?.moveToNickname()
+        router?.moveToShoppingMallSetup()
     }
     
     func continueToShoppingMall() {
-        router?.moveToShoppingMall()
-    }
-    
-    func continueToMyCard() {
         router?.moveToCardSetup()
     }
     
-    /// 로그인 관련 로직
+    func continueToMyCard() {
+        router?.firstLoginSetupFinish()
+    }
     
+    /// 로그인 관련 로직
     func loginSuccess() {
         router?.attachNickName()
     }
@@ -138,9 +138,10 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
 }
 
 extension RootInteractor: AppleLoginManagerDelegate {
-    func didCompleteAppleLogin(userId: String, email: String?) {
+    func didCompleteAppleLogin(userId: String, email: String?, token: String) async throws {
 //        listener?.didLoginSuccessfully(userId: userId, email: email)
         print("Login Success")
+        let _: [Post] = try await NetworkService.shared.requestAsync(endpoint: LoginEndpoint.login(token: token))
     }
     
     func didFailAppleLogin() {

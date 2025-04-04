@@ -8,11 +8,11 @@
 import Foundation
 import Combine
 
-struct NetworkService: NetworkProtocol {
+public struct NetworkService: NetworkProtocol {
     
-    let session: URLSessionProtocol
+    public let session: URLSessionProtocol
     
-    static let shared: NetworkService = {
+    public static let shared: NetworkService = {
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         return NetworkService(session: session)
@@ -22,7 +22,7 @@ struct NetworkService: NetworkProtocol {
         self.session = session
     }
     
-    func requestAsync<T: Decodable>(endpoint: EndpointProtocol) async throws -> T {
+    public func requestAsync<T: Decodable>(endpoint: EndpointProtocol) async throws -> T {
         guard let url = configUrl(endpoint: endpoint) else {
             throw NetworkError.invalidUrl
         }
@@ -33,7 +33,7 @@ struct NetworkService: NetworkProtocol {
         return try processResponse(data: data, response: response)
     }
     
-    func requestPublisher<T>(endpoint: Endpoint) -> AnyPublisher<T, Error> where T: Decodable {
+    public func requestPublisher<T>(endpoint: Endpoint) -> AnyPublisher<T, Error> where T: Decodable {
         guard let url = configUrl(endpoint: endpoint) else {
             return Fail(error: NetworkError.invalidUrl)
                 .eraseToAnyPublisher()
@@ -78,10 +78,12 @@ extension NetworkService {
             request.httpBody = try? JSONEncoder().encode(body)
         }
         
+        logFullRequest(request)
         return request
     }
     
     private func processResponse<T: Decodable>(data: Data, response: URLResponse) throws -> T {
+        logFullResponse(data: data, response: response)
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
         }
@@ -99,4 +101,31 @@ extension NetworkService {
             throw NetworkError.decodingError(error.localizedDescription)
         }
     }
+    private func logFullRequest(_ request: URLRequest) {
+        print("\n==== 📤 REQUEST ====")
+        print("URL: \(request.url?.absoluteString ?? "nil")")
+        print("METHOD: \(request.httpMethod ?? "nil")")
+        print("HEADERS: \(request.allHTTPHeaderFields ?? [:])")
+        if let body = request.httpBody, let bodyString = String(data: body, encoding: .utf8) {
+            print("BODY: \(bodyString)")
+        } else {
+            print("BODY: nil or not UTF-8")
+        }
+        print("==== END REQUEST ====\n")
+    }
+
+    private func logFullResponse(data: Data, response: URLResponse) {
+        guard let httpResponse = response as? HTTPURLResponse else { return }
+        print("\n==== 📥 RESPONSE ====")
+        print("URL: \(httpResponse.url?.absoluteString ?? "nil")")
+        print("STATUS: \(httpResponse.statusCode)")
+        print("HEADERS: \(httpResponse.allHeaderFields)")
+        if let responseString = String(data: data, encoding: .utf8) {
+            print("BODY: \(responseString)")
+        } else {
+            print("BODY: nil or not UTF-8")
+        }
+        print("==== END RESPONSE ====\n")
+    }
+
 }
