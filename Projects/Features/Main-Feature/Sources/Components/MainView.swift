@@ -59,7 +59,8 @@ final class MainView: UIView {
     }
 
     private func addConfigure() {
-            Task {
+        self.collectionView.showsVerticalScrollIndicator = false
+        self.collectionView.showsHorizontalScrollIndicator = false
         self.collectionView.backgroundColor = .Gray800
         self.collectionView.collectionViewLayout = self.collectionViewLayout()
         self.collectionView.registerCell(type: BannerListCell.self)
