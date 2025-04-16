@@ -67,7 +67,7 @@ open class BaseViewController: UIViewController, BaseViewControllerDelegate {
         
         // SnapKit을 이용해 버튼의 크기를 강제로 32x32로 설정
         leftButton.snp.makeConstraints { make in
-            make.width.height.equalTo(32)
+            make.width.height.equalTo(40)
         }
         
         if navigationBarType != .main {

@@ -14,7 +14,7 @@ public final class FilterView: UIView {
     private enum Metric {
         static let horizontalInset: CGFloat = 10
         static let verticalInset: CGFloat = 6
-        static let cornerRadius: CGFloat = 13
+        static let cornerRadius: CGFloat = 15
         static let borderWidth: CGFloat = 1
     }
 

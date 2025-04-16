@@ -45,6 +45,8 @@ public final class PriceComparisonCell: UICollectionViewCell {
         $0.delegate = self
         $0.rowHeight = 88
         $0.backgroundColor = .clear
+        $0.separatorStyle = .none
+        $0.isScrollEnabled = false
         $0.registerCell(type: PriceComparisonTableViewCell.self)
     }
     

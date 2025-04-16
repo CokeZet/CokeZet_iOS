@@ -25,6 +25,7 @@ final class PriceComparisonMoreViewController: UIViewController, PriceComparison
         $0.delegate = self
         $0.dataSource = self
         $0.backgroundColor = .clear
+        $0.separatorStyle = .none
         $0.rowHeight = 88
         
         $0.registerCell(type: Cell.self)
@@ -60,12 +61,12 @@ final class PriceComparisonMoreViewController: UIViewController, PriceComparison
         self.view.addSubview(tableView)
         
         tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 12, left: 20, bottom: 0, right: 20))
+            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20))
         }
     }
     
     func setPriceComparisonData(_ data: [PriceComparisonTableViewCell.State]) {
-        for i in 0..<3 {
+        for _ in 0..<3 {
             dataSource += data
         }
     }

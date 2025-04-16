@@ -52,7 +52,7 @@ public final class PopupView: UIView {
                                               rightButtonTitle: "네",
                                               leftButtonAction: state.leftButtonAction,
                                               rightButtonAction: state.rightButtonAction,
-                                              leftButtonColor: .pink))
+                                              leftButtonColor: .gray))
         } else {
             popupContentView.bind(ButtonState(title: "ZET와의 최저가 탐색을 정말 \n그만두시겠어요?",
                                               describe: "확인 선택 시 바로 탈퇴됩니다.",
@@ -60,7 +60,7 @@ public final class PopupView: UIView {
                                               rightButtonTitle: "확인",
                                               leftButtonAction: state.leftButtonAction,
                                               rightButtonAction: state.rightButtonAction,
-                                              leftButtonColor: .gray))
+                                              leftButtonColor: .pink))
         }
         layoutIfNeeded()
     }

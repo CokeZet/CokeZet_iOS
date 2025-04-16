@@ -41,7 +41,7 @@ final class ProductFilterHeaderView: UICollectionReusableView {
         self.addSubview(self.headerView)
 
         self.headerView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0))
         }
     }
 

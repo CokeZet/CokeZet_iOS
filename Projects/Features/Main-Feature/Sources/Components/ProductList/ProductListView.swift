@@ -33,7 +33,7 @@ final class ProductListView: UICollectionViewCell {
             bottom: .zero,
             trailing: horizontalInset
         )
-        static let cardHeight: CGFloat = 158
+        static let cardHeight: CGFloat = 166
     }
 
     private let headerView = ProductListHeaderCell()
@@ -62,7 +62,7 @@ final class ProductListView: UICollectionViewCell {
     }
 
     private func addConfigure() {
-        self.collectionView.backgroundColor = .clear
+        self.collectionView.backgroundColor = .Gray700
         self.collectionView.dataSource = self
         self.collectionView.registerCell(type: Cell.self)
         self.collectionView.collectionViewLayout = self.collectionViewLayout(

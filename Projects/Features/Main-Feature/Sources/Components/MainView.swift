@@ -29,7 +29,6 @@ final class MainView: UIView {
         collectionViewLayout: UICollectionViewLayout()
     )
 
-    private let refreshControl = UIRefreshControl()
 
     private var state: State = .init(
         bannerList: [],
@@ -39,12 +38,10 @@ final class MainView: UIView {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
-                self.refreshControl.endRefreshing()
             }
         }
     }
 
-    var refresh: (() async -> Void)?
     var selectBanner: ((IndexPath) -> Void)?
     var selectFilter: ((IndexPath) -> Void)?
     var selectProduct: ((IndexPath) -> Void)?
@@ -62,21 +59,13 @@ final class MainView: UIView {
     }
 
     private func addConfigure() {
-        let action = UIAction { [weak self] _ in
-            guard let self else { return }
             Task {
-                await self.refresh?()
-            }
-        }
-        self.refreshControl.addAction(action, for: .valueChanged)
-        self.refreshControl.tintColor = .Red300
-
-        self.collectionView.refreshControl = self.refreshControl
         self.collectionView.backgroundColor = .Gray800
         self.collectionView.collectionViewLayout = self.collectionViewLayout()
         self.collectionView.registerCell(type: BannerListCell.self)
         self.collectionView.registerCell(type: ProductListHeaderCell.self)
         self.collectionView.registerCell(type: ProductItemCell.self)
+        self.collectionView.registerCell(type: DividerCell.self)
         self.collectionView.registHeaderFooter(type: ProductFilterHeaderView.self, kindType: .header)
         self.collectionView.registHeaderFooter(type: ProductListFooterView.self, kindType: .footer)
         self.collectionView.dataSource = self
@@ -121,10 +110,15 @@ extension MainView: UICollectionViewDataSource {
 
         case .product:
             if indexPath.item == 0 {
+                let cell = collectionView.dequeueCell(withType: DividerCell.self, for: indexPath)
+                return cell
+                
+            } else if indexPath.item == 1 {
                 let cell = collectionView.dequeueCell(
                     withType: ProductListHeaderCell.self,
                     for: indexPath
                 )
+                
                 return cell
 
             } else {
@@ -132,7 +126,7 @@ extension MainView: UICollectionViewDataSource {
                     withType: ProductItemCell.self,
                     for: indexPath
                 )
-                cell.bind(state: self.state.productList[indexPath.item - 1])
+                cell.bind(state: self.state.productList[indexPath.item - 2])
 
                 return cell
             }
@@ -206,7 +200,7 @@ extension MainView: UICollectionViewDataSource {
             return 1
 
         case .product:
-            return self.state.productList.count + 1
+            return self.state.productList.count + 2
 
         case .none:
             return 0
@@ -227,7 +221,13 @@ extension MainView: UICollectionViewDelegate {
 
         case .product:
             // 0번에 "100ml당 낮은 순으로 소개해 드려요"가 포함되어 있어 -1 한 값으로 전달
-            let indexPath = IndexPath(item: indexPath.item - 1, section: 0)
+            // 2025년 04월 16일 (수요일) - Divider View 추가로 인해 -1 추가
+            let indexPath = IndexPath(item: indexPath.item - 2, section: 0)
+            
+            if indexPath.item < 0 {
+                return
+            }
+            
             self.selectProduct?(indexPath)
 
         case .none:
@@ -242,7 +242,7 @@ extension MainView {
         static let horizontalInset: CGFloat = 20
         static let headerInset = NSDirectionalEdgeInsets(
             top: .zero,
-            leading: horizontalInset,
+            leading: .zero,
             bottom: .zero,
             trailing: .zero
         )
@@ -294,7 +294,7 @@ extension MainView {
 
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = .init(
-            top: .zero,
+            top: 22,
             leading: Metric.horizontalInset,
             bottom: .zero,
             trailing: Metric.horizontalInset
@@ -304,7 +304,7 @@ extension MainView {
     }
 
     func productSectionLayout() -> NSCollectionLayoutSection {
-        let minimumValue: CGFloat = 1
+        let minimumValue: CGFloat = 166
 
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -332,7 +332,7 @@ extension MainView {
 
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(1)
+            heightDimension: .estimated(302)
         )
         let header = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
@@ -462,4 +462,32 @@ extension MainView {
     }
 
     return contentView
+}
+
+final class DividerCell: UICollectionViewCell {
+
+    let nullView = UIView()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.addConfigure()
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func addConfigure() {
+        self.nullView.backgroundColor = UIColor.Gray900
+        
+        self.addSubview(nullView)
+        
+        nullView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.leading.equalToSuperview().offset(-20)
+            $0.trailing.equalToSuperview().offset(20)
+            $0.height.equalTo(8)
+        }
+    }
 }

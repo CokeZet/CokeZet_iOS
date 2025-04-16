@@ -16,7 +16,6 @@ final class ProductListHeaderCell: UICollectionViewCell {
 
     private enum Metric {
         static let cornerRadius: CGFloat = 17
-        static let borderWidth: CGFloat = 1
         static let verticalInset: CGFloat = 10
         static let horizontalInset: CGFloat = 12
     }
@@ -44,8 +43,7 @@ final class ProductListHeaderCell: UICollectionViewCell {
 
     private func addConfigure() {
         self.layer.cornerRadius = Metric.cornerRadius
-        self.layer.borderWidth = Metric.borderWidth
-        self.layer.borderColor = UIColor.Gray700.cgColor
+        self.backgroundColor = UIColor.Gray900
 
         self.label.text = "100ml당 가격이 낮은 순으로 소개해 드려요."
         self.clipsToBounds = true

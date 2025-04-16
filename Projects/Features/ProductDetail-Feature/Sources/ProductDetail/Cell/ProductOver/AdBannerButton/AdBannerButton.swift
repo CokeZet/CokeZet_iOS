@@ -63,7 +63,7 @@ final class AdBannerButton: UIButton {
     }
     
     private let arrowImageView = UIImageView().then {
-        $0.image = CokeZetDesignSystemAsset.chevronLeft.image
+        $0.image = CokeZetDesignSystemAsset.chevronRight.image
     }
     
     // MARK: - Constants

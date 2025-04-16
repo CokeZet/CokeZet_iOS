@@ -42,6 +42,10 @@ public final class ProductInfomationCell: UICollectionViewCell {
         $0.rowHeight = 38
     }
     
+    private let subLabel: ZetLabel = ZetLabel(typography: .medium(.T12), textColor: .Gray500).then {
+        $0.text = "※자세한 내용은 해당 제품의 판매 사이트에서 확인해주세요."
+    }
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
@@ -56,7 +60,7 @@ public final class ProductInfomationCell: UICollectionViewCell {
     private func setupLayout() {
         addSubview(paddingView)
         
-        [titleLabel, tableView].forEach {
+        [titleLabel, tableView, subLabel].forEach {
             paddingView.addSubview($0)
         }
     }
@@ -71,8 +75,14 @@ public final class ProductInfomationCell: UICollectionViewCell {
         }
         
         tableView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(titleLabel.snp.bottom).offset(24)
+        }
+        
+        subLabel.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(tableView.snp.bottom).offset(16)
+            $0.bottom.equalToSuperview()
         }
     }
     

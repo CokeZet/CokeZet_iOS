@@ -132,7 +132,7 @@ extension FilterListView: UICollectionViewDelegate {
 
 extension FilterListView {
     func collectionViewLayout(groupSpacing: CGFloat) -> UICollectionViewLayout {
-        let minimumValue: CGFloat = 1
+        let minimumValue: CGFloat = 30
 
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .estimated(minimumValue),

@@ -30,7 +30,7 @@ final class ProductItemCell: UICollectionViewCell {
 
         self.cardView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(158)
+            $0.height.equalTo(166)
         }
     }
 
