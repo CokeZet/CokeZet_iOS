@@ -13,7 +13,6 @@ import ProjectDescription
 let tuist = Tuist
     .init(project:
             .tuist(
-                compatibleXcodeVersions: "16.2",
                 swiftVersion: "6.0.0",
                 plugins: [],
                 generationOptions: .options(
