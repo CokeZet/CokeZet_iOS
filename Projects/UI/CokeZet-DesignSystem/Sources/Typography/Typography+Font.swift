@@ -20,12 +20,47 @@ extension Typography {
             return CokeZetDesignSystemFontFamily.Suit.medium.font(size: scale.size)
         }
     }
-
-    public var letterSpacing: CGFloat? {
-        return nil
+    
+    public var typeScale: TypeScale {
+        switch self {
+        case .extraBold(let scale): return scale
+        case .bold(let scale): return scale
+        case .semiBold(let scale): return scale
+        case .medium(let scale): return scale
+        }
+    }
+    
+    /// 줄 수에 따라 다른 lineHeight 반환
+    /// - Parameter numberOfLines: UILabel의 numberOfLines
+    /// - Returns: 적절한 lineHeight 값
+    public func lineHeight(forNumberOfLines numberOfLines: Int) -> CGFloat {
+        let size = self.typeScale.size
+        if numberOfLines == 1 {
+            return size // 100%
+        } else {
+            return size * 1.5 // 150%
+        }
+    }
+    
+    /// TypeScale 별 letterSpacing 반환
+    public var letterSpacing: CGFloat {
+        switch self {
+        case .extraBold(let scale),
+             .bold(let scale),
+             .semiBold(let scale),
+             .medium(let scale):
+            return scale.letterSpacing
+        }
     }
 
-    public var lineHeight: CGFloat? {
-        return nil
+    /// TypeScale 별 lineHeight 반환
+    public var lineHeight: CGFloat {
+        switch self {
+        case .extraBold(let scale),
+             .bold(let scale),
+             .semiBold(let scale),
+             .medium(let scale):
+            return scale.lineHeight
+        }
     }
 }

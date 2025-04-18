@@ -17,7 +17,7 @@ final class MyCardSetUpView: UIView {
         static let horizontalInset: CGFloat = 20
         static let topInset: CGFloat = 24
         static let bottomInset: CGFloat = 16
-        static let descriptionInset: CGFloat = 8
+        static let descriptionInset: CGFloat = 15
         static let pageHeight: CGFloat = 68
     }
 
@@ -30,12 +30,13 @@ final class MyCardSetUpView: UIView {
     private let titleLabel = ZetLabel(typography: .semiBold(.T24), textColor: .White)
     private let listView = MyCardListView()
     private let descriptionLabel = ZetLabel(typography: .medium(.T12), textColor: .Gray500)
-    private let confirmButton = ZetLargeButton(buttonState: .normal)
+    private let confirmButton = ZetLargeButton(buttonState: .disabled)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addConfigure()
         self.makeConstraints()
+        self.bindSelectionEvent()
     }
 
     @available(*, unavailable)
@@ -90,6 +91,12 @@ final class MyCardSetUpView: UIView {
             $0.bottom.equalTo(self.confirmButton.snp.top).offset(-Metric.descriptionInset)
             $0.horizontalEdges.equalToSuperview()
 
+        }
+    }
+    
+    private func bindSelectionEvent() {
+        self.listView.onSelectionChanged = { [weak self] hasSelection in
+            self?.confirmButton.buttonState = hasSelection ? .normal : .disabled
         }
     }
 

@@ -9,13 +9,15 @@ import UIKit
 
 import CokeZet_DesignSystem
 import CokeZet_Utilities
-
 import SnapKit
 
 final class ShoppingMallListView: UIView {
 
     typealias State = ShoppingMallItemCell.State
     typealias Cell = ShoppingMallItemCell
+
+    /// 선택된 셀 개수 변경 시 호출되는 클로저
+    var onSelectionChanged: ((Int) -> Void)?
 
     private let collectionView = UICollectionView(
         frame: .zero,
@@ -25,8 +27,13 @@ final class ShoppingMallListView: UIView {
     private var list: [State] = [] {
         didSet {
             self.collectionView.reloadData()
+            self.selectedIndexes.removeAll()
+            self.onSelectionChanged?(0)
         }
     }
+
+    /// 선택된 indexPath 저장 (ALL 선택 동작 구현을 위해)
+    private var selectedIndexes: Set<Int> = []
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -107,6 +114,15 @@ extension ShoppingMallListView: UICollectionViewDataSource {
 
         cell.bind(state: self.list[indexPath.item])
 
+        // 셀의 선택 상태를 반영
+        if self.selectedIndexes.contains(indexPath.item) {
+            cell.setChoiceState(.active)
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+        } else {
+            cell.setChoiceState(.normal)
+            collectionView.deselectItem(at: indexPath, animated: false)
+        }
+
         return cell
     }
 }
@@ -116,18 +132,56 @@ extension ShoppingMallListView: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? Cell else { return }
-        cell.setChoiceState(.active)
+        // ALL(전체) 셀이 첫 번째(0번) 인덱스라고 가정
+        if indexPath.item == 0 {
+            // ALL 선택 시 모든 셀 선택
+            for i in 0..<self.list.count {
+                self.selectedIndexes.insert(i)
+                collectionView.selectItem(at: IndexPath(item: i, section: 0), animated: false, scrollPosition: [])
+                if let cell = collectionView.cellForItem(at: IndexPath(item: i, section: 0)) as? Cell {
+                    cell.setChoiceState(.active)
+                }
+            }
+        } else {
+            self.selectedIndexes.insert(indexPath.item)
+            if let cell = collectionView.cellForItem(at: indexPath) as? Cell {
+                cell.setChoiceState(.active)
+            }
+        }
+        self.onSelectionChanged?(self.selectedIndexes.count)
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
         didDeselectItemAt indexPath: IndexPath
     ) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? Cell else { return }
-        cell.setChoiceState(.normal)
+        // ALL(전체) 셀이 비선택되면 전체 해제
+        if indexPath.item == 0 {
+            for i in 0..<self.list.count {
+                self.selectedIndexes.remove(i)
+                collectionView.deselectItem(at: IndexPath(item: i, section: 0), animated: false)
+                if let cell = collectionView.cellForItem(at: IndexPath(item: i, section: 0)) as? Cell {
+                    cell.setChoiceState(.normal)
+                }
+            }
+        } else {
+            self.selectedIndexes.remove(indexPath.item)
+            if let cell = collectionView.cellForItem(at: indexPath) as? Cell {
+                cell.setChoiceState(.normal)
+            }
+            // ALL(전체) 셀이 선택되어 있다면 해제
+            if self.selectedIndexes.contains(0) {
+                self.selectedIndexes.remove(0)
+                collectionView.deselectItem(at: IndexPath(item: 0, section: 0), animated: false)
+                if let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? Cell {
+                    cell.setChoiceState(.normal)
+                }
+            }
+        }
+        self.onSelectionChanged?(self.selectedIndexes.count)
     }
 }
+
 
 @available(iOS 17.0, *)
 #Preview(

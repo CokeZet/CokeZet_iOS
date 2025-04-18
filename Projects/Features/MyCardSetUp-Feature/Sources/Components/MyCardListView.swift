@@ -27,6 +27,12 @@ final class MyCardListView: UIView {
             self.collectionView.reloadData()
         }
     }
+    
+    /// 선택 상태 변경 콜백
+    var onSelectionChanged: ((Bool) -> Void)?
+
+    // 선택된 indexPath 저장
+    private var selectedIndexes: Set<IndexPath> = []
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,6 +53,8 @@ final class MyCardListView: UIView {
         self.collectionView.delegate = self
         self.collectionView.allowsMultipleSelection = true
         self.collectionView.isScrollEnabled = false
+        self.collectionView.allowsMultipleSelection = true
+        self.collectionView.delegate = self
     }
 
     private func makeConstraints() {
@@ -118,6 +126,8 @@ extension MyCardListView: UICollectionViewDelegateFlowLayout {
     ) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? Cell else { return }
         cell.setChoiceState(.active)
+        selectedIndexes.insert(indexPath)
+        onSelectionChanged?(selectedIndexes.count > 0)
     }
 
     func collectionView(
@@ -126,6 +136,8 @@ extension MyCardListView: UICollectionViewDelegateFlowLayout {
     ) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? Cell else { return }
         cell.setChoiceState(.normal)
+        selectedIndexes.remove(indexPath)
+        onSelectionChanged?(selectedIndexes.count > 0)
     }
 }
 
@@ -139,7 +151,6 @@ extension MyCardListView: UICollectionViewDelegateFlowLayout {
     view.backgroundColor = .Gray800
 
     view.bind(list: [
-        MyCardListView.State(image: nil, title: "전체"),
         MyCardListView.State(image: CokeZetDesignSystemAsset.icNh.image, title: "농협"),
         MyCardListView.State(image: CokeZetDesignSystemAsset.icKb.image, title: "국민"),
         MyCardListView.State(image: CokeZetDesignSystemAsset.icShinhan.image, title: "신한"),

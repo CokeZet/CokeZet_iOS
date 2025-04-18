@@ -37,7 +37,6 @@ final class MyCardSetUpViewController: UIViewController, MyCardSetUpPresentable,
         contentView.bind(
             state: MyCardSetUpView.State(
                 list: [
-                    MyCardListView.State(image: nil, title: "전체"),
                     MyCardListView.State(image: CokeZetDesignSystemAsset.icNh.image, title: "농협"),
                     MyCardListView.State(image: CokeZetDesignSystemAsset.icKb.image, title: "국민"),
                     MyCardListView.State(image: CokeZetDesignSystemAsset.icShinhan.image, title: "신한"),

@@ -10,45 +10,45 @@ import UIKit
 import CokeZet_Utilities
 
 open class ZetLabel: UILabel {
-
+    
     private let typography: Typography
-
+    
     public override var text: String? {
         didSet {
             configureTypography()
         }
     }
-
+    
     public override var textColor: UIColor? {
         didSet {
             configureTypography()
         }
     }
-
+    
     public override var textAlignment: NSTextAlignment {
         didSet {
             configureTypography()
         }
     }
-
+    
     public override var lineBreakMode: NSLineBreakMode {
         didSet {
             configureTypography()
         }
     }
-
+    
     public var hasStrikeThrough: Bool = false {
         didSet {
             configureTypography()
         }
     }
-
+    
     public var hasUnderline: Bool = false {
         didSet {
             configureTypography()
         }
     }
-
+    
     public init(
         typography: Typography,
         textColor: UIColor = .Basic222222
@@ -58,19 +58,21 @@ open class ZetLabel: UILabel {
         self.textColor = textColor
         configureTypography()
     }
-
+    
     @available(*, unavailable)
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func configureTypography() {
+        let lineHeight = typography.lineHeight(forNumberOfLines: self.numberOfLines)
+        
         self.setAttributed(
             text: self.text,
             font: self.typography.font,
             color: self.textColor,
-            letterSpacing: .zero, // 추후 설정
-            lineHeight: nil, // 추후 설정
+            letterSpacing: self.typography.letterSpacing,
+            lineHeight: lineHeight,
             textAlignment: self.textAlignment,
             lineBreakMode: self.lineBreakMode,
             hasStrikeThrough: self.hasStrikeThrough,
@@ -91,23 +93,23 @@ open class ZetLabel: UILabel {
         textColor: .Basic222222
     )
     labelT24.text = "ZET와 함께 제로콜라 최저가 탐색"
-
+    
     let labelT22 = ZetLabel(
         typography: .bold(.T22),
         textColor: .Primary296DEA
     )
     labelT22.text = "ZET와 함께 제로콜라 최저가 탐색"
-
+    
     let labelT20 = ZetLabel(
         typography: .semiBold(.T20),
         textColor: .AdditionalDE0000
     )
     labelT20.text = "ZET와 함께 제로콜라 최저가 탐색"
-
+    
     contentView.addArrangedSubview(labelT24)
     contentView.addArrangedSubview(labelT22)
     contentView.addArrangedSubview(labelT20)
-
+    
     return contentView
 }
 
@@ -124,9 +126,9 @@ open class ZetLabel: UILabel {
     )
     labelT24.numberOfLines = 2
     labelT24.text = "ZET와 함께 제로콜라\n최저가 탐색 시작해요"
-
+    
     contentView.addArrangedSubview(labelT24)
-
+    
     return contentView
 }
 

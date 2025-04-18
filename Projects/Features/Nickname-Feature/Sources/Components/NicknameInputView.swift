@@ -13,6 +13,7 @@ import SnapKit
 
 internal final class NicknameInputView: UIView {
 
+    // 최대 글자수 및 레이아웃 관련 상수 정의
     private enum Constant {
         static let maxCount = 10
     }
@@ -24,6 +25,14 @@ internal final class NicknameInputView: UIView {
         static let underLineHeight: CGFloat = 1
     }
 
+    // 색상 상수 정의
+    private enum Color {
+        static let normal = UIColor.White
+        static let error = UIColor.red
+        static let countText = UIColor.Gray500
+    }
+
+    // 닉네임 입력 필드와 UI 구성요소 선언
     private let hStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = Metric.hStackSpacing
@@ -35,7 +44,7 @@ internal final class NicknameInputView: UIView {
         $0.font = Typography.semiBold(.T24).font
         $0.borderStyle = .none
         $0.tintColor = .White
-        $0.textAlignment = .center
+        $0.textAlignment = .left
     }
     private let underLineView = UIView().then {
         $0.backgroundColor = .White
@@ -53,6 +62,7 @@ internal final class NicknameInputView: UIView {
         $0.text = "0/\(Constant.maxCount)"
     }
 
+    // 닉네임 유효성 콜백
     var isVaild: ((Bool) -> ())?
 
     internal init() {
@@ -66,10 +76,12 @@ internal final class NicknameInputView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // 텍스트필드 델리게이트 설정
     private func addConfigure() {
         self.textField.delegate = self
     }
 
+    // 오토레이아웃 설정
     private func makeConstraints() {
         self.textField.addSubview(underLineView)
 
@@ -94,11 +106,40 @@ internal final class NicknameInputView: UIView {
         }
     }
 
+    // 닉네임 기본값 설정
     func setDefaultNickname(_ text: String) {
         self.textField.text = text
+        updateUIForInput(text)
+    }
+
+    // MARK: - 특수문자, 이모티콘 포함 여부 검사 함수
+    private func containsInvalidCharacters(_ text: String) -> Bool {
+        // 한글(완성형+자모), 영문, 숫자만 허용 (정규식)
+        let pattern = "^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]*$"
+        return !NSPredicate(format: "SELF MATCHES %@", pattern).evaluate(with: text)
+    }
+
+    // MARK: - 입력에 따른 UI 업데이트 함수
+    private func updateUIForInput(_ text: String) {
+        let length = text.precomposedStringWithCanonicalMapping.count
+
+        if containsInvalidCharacters(text) {
+            // 특수문자/이모티콘 입력시 에러 메시지 및 빨간색 표시
+            countLabel.text = "특수문자, 이모티콘은 입력할 수 없어요."
+            countLabel.textColor = Color.error
+            underLineView.backgroundColor = Color.error
+            self.isVaild?(false)
+        } else {
+            // 정상 입력시 글자수 및 흰색 스타일
+            countLabel.text = "\(length)/\(Constant.maxCount)"
+            countLabel.textColor = Color.countText
+            underLineView.backgroundColor = Color.normal
+            self.isVaild?(length > 0)
+        }
     }
 }
 
+// MARK: - UITextFieldDelegate 구현
 extension NicknameInputView: UITextFieldDelegate {
     func textField(
         _ textField: UITextField,
@@ -113,13 +154,14 @@ extension NicknameInputView: UITextFieldDelegate {
         guard let text = textField.text else { return }
         let length = text.precomposedStringWithCanonicalMapping.count
 
-        countLabel.text = "\(length)/\(Constant.maxCount)"
-
+        // 최대 글자수 초과시 자동 자르기
         if length > Constant.maxCount {
-            textField.text = String(text.precomposedStringWithCanonicalMapping.prefix(Constant.maxCount))
+            let trimmed = String(text.precomposedStringWithCanonicalMapping.prefix(Constant.maxCount))
+            textField.text = trimmed
+            updateUIForInput(trimmed)
+        } else {
+            updateUIForInput(text)
         }
-
-        self.isVaild?(length > 0)
     }
 }
 
@@ -141,5 +183,3 @@ extension NicknameInputView: UITextFieldDelegate {
 
     return contentView
 }
-
-

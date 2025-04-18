@@ -8,7 +8,6 @@
 import UIKit
 
 import CokeZet_DesignSystem
-
 import SnapKit
 
 final class ShoppingMallSetUpView: UIView {
@@ -18,6 +17,7 @@ final class ShoppingMallSetUpView: UIView {
         static let topInset: CGFloat = 24
         static let bottomInset: CGFloat = 16
         static let pageHeight: CGFloat = 68
+        static let noticeBottomSpacing: CGFloat = 14 // 안내 문구와 버튼 사이 간격
     }
 
     struct State {
@@ -29,12 +29,14 @@ final class ShoppingMallSetUpView: UIView {
     private let pageLabel = ZetLabel(typography: .semiBold(.T20), textColor: .Gray600)
     private let titleLabel = ZetLabel(typography: .semiBold(.T24), textColor: .White)
     private let listView = ShoppingMallListView()
-    private let confirmButton = ZetLargeButton(buttonState: .normal)
+    private let noticeLabel = ZetLabel(typography: .medium(.T12), textColor: .Gray500) // 안내 문구 라벨 추가
+    private let confirmButton = ZetLargeButton(buttonState: .disabled)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addConfigure()
         self.makeConstraints()
+        self.bindCollectionViewSelection()
     }
 
     @available(*, unavailable)
@@ -43,10 +45,13 @@ final class ShoppingMallSetUpView: UIView {
     }
 
     private func addConfigure() {
-        self.pageLabel.text = "1/3"
-
+        self.pageLabel.text = "2/3"
         self.titleLabel.numberOfLines = 0
-        
+
+        self.noticeLabel.text = "1개 이상 선택해주세요.\n선택한 정보는 ZET 홈에서 변경할 수 있어요."
+        self.noticeLabel.numberOfLines = 2
+        self.noticeLabel.textAlignment = .center
+
         self.confirmButton.setTitle("계속하기", for: .normal)
         self.confirmButton.setTitle("계속하기", for: .disabled)
     }
@@ -55,6 +60,7 @@ final class ShoppingMallSetUpView: UIView {
         self.addSubview(pageLabel)
         self.addSubview(titleLabel)
         self.addSubview(listView)
+        self.addSubview(noticeLabel)
         self.addSubview(confirmButton)
 
         self.pageLabel.snp.makeConstraints {
@@ -71,13 +77,25 @@ final class ShoppingMallSetUpView: UIView {
         self.listView.snp.makeConstraints {
             $0.top.equalTo(self.titleLabel.snp.bottom).offset(Metric.topInset)
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalTo(self.confirmButton.snp.top).offset(-Metric.bottomInset)
+            $0.bottom.equalTo(self.noticeLabel.snp.top).offset(-Metric.topInset)
+        }
+
+        self.noticeLabel.snp.makeConstraints {
+            $0.bottom.equalTo(self.confirmButton.snp.top).offset(-Metric.noticeBottomSpacing)
+            $0.horizontalEdges.equalToSuperview().inset(Metric.horizontalInset)
         }
 
         self.confirmButton.snp.makeConstraints {
             $0.bottom.equalTo(self.safeAreaLayoutGuide).offset(-Metric.bottomInset)
             $0.horizontalEdges.equalToSuperview().inset(Metric.horizontalInset)
         }
+    }
+
+    /// CollectionView 선택 상태 변경 감지 및 버튼 활성화 로직 바인딩
+    private func bindCollectionViewSelection() {
+        self.listView.onSelectionChanged = { [weak self] selectedCount in
+            self?.confirmButton.buttonState = selectedCount > 0 ? .normal : .disabled
+         }
     }
 
     func bind(state: State) {

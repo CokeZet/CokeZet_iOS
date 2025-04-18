@@ -30,12 +30,15 @@ internal final class NicknameSettingView: UIView {
     private let stackView = UIStackView()
     private let nickNameinputView = NicknameInputView()
     private let descriptionLabel = ZetLabel(typography: .semiBold(.T24), textColor: .White)
-    private let confirmButton = ZetLargeButton(buttonState: .normal)
+    private let confirmButton = ZetLargeButton(buttonState: .disabled)
+    
+    private var confirmButtonBottomConstraint: Constraint?
     
     internal init() {
         super.init(frame: .zero)
         self.addConfigure()
         self.makeConstraints()
+        self.addKeyboardDismissGesture()
     }
     
     @available(*, unavailable)
@@ -84,7 +87,7 @@ internal final class NicknameSettingView: UIView {
         }
         
         self.confirmButton.snp.makeConstraints {
-            $0.bottom.equalTo(self.safeAreaLayoutGuide).offset(-Metric.bottomInset)
+            self.confirmButtonBottomConstraint = $0.bottom.equalTo(self.safeAreaLayoutGuide).offset(-Metric.bottomInset).constraint
             $0.horizontalEdges.equalToSuperview().inset(Metric.leadingInset)
         }
     }
@@ -93,6 +96,27 @@ internal final class NicknameSettingView: UIView {
         self.nickNameinputView.setDefaultNickname(state.defaultNickname)
         self.confirmButton.addAction(state.selectConfirm, for: .touchUpInside)
     }
+    
+    private func addKeyboardDismissGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false // 버튼 등 다른 터치 이벤트도 동작하도록 설정
+        self.addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func dismissKeyboard() {
+        self.endEditing(true)
+    }
+    
+    /// 키보드 높이에 따라 버튼의 위치를 조정하는 함수
+    func updateButtonForKeyboard(keyboardHeight: CGFloat, animationDuration: Double = 0.3) {
+        // 키보드가 올라올 때, 버튼을 키보드 위로 10px 띄워줌
+        let bottomInset = keyboardHeight > 0 ? keyboardHeight + 10 : Metric.bottomInset
+        self.confirmButtonBottomConstraint?.update(offset: -bottomInset)
+        UIView.animate(withDuration: animationDuration) {
+            self.layoutIfNeeded()
+        }
+    }
+
 }
 
 @available(iOS 17.0, *)
