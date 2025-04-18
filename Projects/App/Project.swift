@@ -11,7 +11,8 @@ let project = Project(
             deploymentTargets: .iOS("16.0"),
             infoPlist: .extendingDefault(
                 with: [
-                    "UILaunchStoryboardName": "LaunchScreen.storyboard",
+                    "UILaunchStoryboardName": "LaunchScreen",
+                    "ITSAppUsesNonExemptEncryption": false
                 ]
             ),
             sources: ["Sources/**"],
