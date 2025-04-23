@@ -14,8 +14,13 @@ public final class BadgeDiscountRateView: UIView {
     private enum Metric {
         static let width: CGFloat = 64
         static let height: CGFloat = 24
-        static let cornerRadius: CGFloat = 4
+        static var cornerRadius: CGFloat = 4
         static let borderWidth: CGFloat = 1
+    }
+    
+    public enum Shape {
+        case Cricle
+        case Rectangle
     }
 
     private let label = ZetLabel(typography: .semiBold(.T12))
@@ -62,15 +67,24 @@ public final class BadgeDiscountRateView: UIView {
         }
     }
 
-    public func setType(_ type: DiscountRateType) {
+    public func setType(_ type: DiscountRateType, _ shape: Shape = .Rectangle) {
+        self.borderGradient?.removeFromSuperlayer()
+        self.backgroundGradient?.removeFromSuperlayer()
+        
         self.label.text = type.text
-        self.label.textColor = type.textColor
+        self.label.textColor = .Black
         self.label.font = type.font
         self.backgroundColor = type.backgroundColor
+        
+        if shape == .Cricle {
+            self.layer.cornerRadius = 12
+        }
 
         if type == .zetPick {
             self.setGradient()
         }
+        
+        layoutIfNeeded()
     }
 
     private func setGradient() {

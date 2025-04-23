@@ -42,8 +42,8 @@ class MenuCell: UICollectionViewCell {
         }
         
         // 화살표 이미지
-        arrowImageView.image = UIImage(systemName: "chevron.right")
-        arrowImageView.tintColor = .lightGray
+        arrowImageView.image = CokeZetDesignSystemAsset.chevronRight.image
+        arrowImageView.tintColor = .White
         contentView.addSubview(arrowImageView)
         
         arrowImageView.snp.makeConstraints { make in

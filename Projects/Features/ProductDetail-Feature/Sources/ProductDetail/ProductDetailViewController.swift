@@ -32,7 +32,6 @@ final class ProductDetailViewController: BaseViewController, ProductDetailPresen
     public struct State {
         var ProductImageCellData: ProductImageCell.State
         var ProductOverCellData: ProductOverCell.State
-        var GraphViewData: [GraphView.State]
         var PriceComparisonCellData: PriceComparisonCell.State
         var ProductInfomationCellData: ProductInfomationCell.State
     }
@@ -148,7 +147,7 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
         case .productOver:
             return CGSize(width: self.view.bounds.width, height: 542)
         case .graphView:
-            return CGSize(width: self.view.bounds.width, height: 360)
+            return CGSize(width: self.view.bounds.width, height: 149)
         case .priceComparison:
             return CGSize(width: self.view.bounds.width, height: 530)
         case .productInfo:
@@ -183,6 +182,27 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
     private func configuredGraphViewCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueCell(withType: GraphView.self, for: indexPath)
         cell.backgroundColor = .Gray800
+        cell.bind(.normal)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            cell.bind(.middle)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            cell.bind(.large)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            cell.bind(.lowest)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            cell.bind(.zetPick)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            cell.bind(.normal)
+        }
         return cell
     }
     

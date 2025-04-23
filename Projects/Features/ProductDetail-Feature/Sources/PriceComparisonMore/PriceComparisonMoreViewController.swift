@@ -26,7 +26,10 @@ final class PriceComparisonMoreViewController: UIViewController, PriceComparison
         $0.dataSource = self
         $0.backgroundColor = .clear
         $0.separatorStyle = .none
-        $0.rowHeight = 88
+        $0.rowHeight = 80
+        
+        $0.showsVerticalScrollIndicator = false
+        $0.showsHorizontalScrollIndicator = false
         
         $0.registerCell(type: Cell.self)
     }
@@ -61,7 +64,7 @@ final class PriceComparisonMoreViewController: UIViewController, PriceComparison
         self.view.addSubview(tableView)
         
         tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20))
+            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 30, left: 20, bottom: 0, right: 20))
         }
     }
     

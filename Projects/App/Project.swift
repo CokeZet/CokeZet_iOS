@@ -12,25 +12,29 @@ let project = Project(
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchStoryboardName": "LaunchScreen",
-                    "ITSAppUsesNonExemptEncryption": false
+                    "ITSAppUsesNonExemptEncryption": false,
+                    "NSAppTransportSecurity": .dictionary([ // ATS 설정 예시
+                        "NSAllowsArbitraryLoads": .boolean(true)
+                    ]),
                 ]
             ),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
+            entitlements: "CokeZet-App.entitlements",
             dependencies: [
                 .project(target: "Features", path: "../Features"),
             ]
         ),
         
-//        .target(
-//            name: "CokeZet_iOSTests",
-//            destinations: .iOS,
-//            product: .unitTests,
-//            bundleId: "io.tuist.CokeZet-iOSTests",
-//            infoPlist: .default,
-//            sources: ["Tests/**"],
-//            resources: [],
-//            dependencies: [.target(name: "App")]
-//        ),
+        //        .target(
+        //            name: "CokeZet_iOSTests",
+        //            destinations: .iOS,
+        //            product: .unitTests,
+        //            bundleId: "io.tuist.CokeZet-iOSTests",
+        //            infoPlist: .default,
+        //            sources: ["Tests/**"],
+        //            resources: [],
+        //            dependencies: [.target(name: "App")]
+        //        ),
     ]
 )

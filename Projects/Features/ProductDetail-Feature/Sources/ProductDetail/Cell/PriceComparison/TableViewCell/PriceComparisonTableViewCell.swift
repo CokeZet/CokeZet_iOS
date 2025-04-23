@@ -79,7 +79,7 @@ public final class PriceComparisonTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         // 셀의 contentView에 패딩 적용
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0))
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0))
     }
     
     // MARK: - Setup Methods

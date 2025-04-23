@@ -40,6 +40,8 @@ public final class BubblePopupButton: UIButton {
             guard let self else { return }
             if self.bubbleView == nil {
                 self.showBubbleView()
+            } else {
+                self.removeBubbleView()
             }
         })
         addAction(touchUpAction, for: .touchUpInside)

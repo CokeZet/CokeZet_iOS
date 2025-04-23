@@ -43,7 +43,7 @@ public final class PriceComparisonCell: UICollectionViewCell {
     private lazy var tableView: UITableView = UITableView(frame: .zero, style: .plain).then {
         $0.dataSource = self
         $0.delegate = self
-        $0.rowHeight = 88
+        $0.rowHeight = 80
         $0.backgroundColor = .clear
         $0.separatorStyle = .none
         $0.isScrollEnabled = false

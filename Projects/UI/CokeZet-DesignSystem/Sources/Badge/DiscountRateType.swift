@@ -7,51 +7,45 @@
 
 import UIKit
 
-public enum DiscountRateType {
-    /// 제트픽
-    case zetPick
-    /// 역대 최저가
-    case lowest
-    /// 대박
-    case large
+public enum DiscountRateType: CaseIterable {
+    /// 일반
+    case normal
     /// 중박
     case middle
-    /// 소박
-    case small
-    /// 평범
-    case normal
+    /// 대박
+    case large
+    /// 역대급
+    case lowest
+    /// 제트픽
+    case zetPick
 
-    var text: String {
+    public var text: String {
         switch self {
         case .zetPick:
             return "제트픽"
         case .lowest:
-            return "역대 최저가"
+            return "역대급"
         case .large:
             return "대박"
         case .middle:
             return "중박"
-        case .small:
-            return "소박"
         case .normal:
-            return "평범"
+            return "일반"
         }
     }
 
-    var textColor: UIColor {
+    var backgroundColor: UIColor? {
         switch self {
         case .zetPick:
-            return .Black
+            return nil
         case .lowest:
             return .Red500
         case .large:
             return UIColor(red: 235/255, green: 158/255, blue: 9/255, alpha: 1)
         case .middle:
             return UIColor(red: 19/255, green: 99/255, blue: 173/255, alpha: 1)
-        case .small:
-            return UIColor(red: 32/255, green: 137/255, blue: 171/255, alpha: 1)
         case .normal:
-            return .Red50
+            return .White
         }
     }
 
@@ -61,15 +55,6 @@ public enum DiscountRateType {
             return Typography.extraBold(.T12).font
         default:
             return Typography.semiBold(.T12).font
-        }
-    }
-
-    var backgroundColor: UIColor? {
-        switch self {
-        case .zetPick:
-            return nil // 그래디언트 처리가 필요해 nil 반환
-        default:
-            return UIColor.Red500.withAlphaComponent(0.12)
         }
     }
 

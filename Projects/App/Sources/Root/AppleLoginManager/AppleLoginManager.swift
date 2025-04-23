@@ -92,7 +92,7 @@ extension AppleLoginManager: ASAuthorizationControllerDelegate {
                 do {
                     try await delegate?.didCompleteAppleLogin(userId: userIdentifier, email: email, token: identityToken)
                 } catch {
-                    print("Login Failed")
+                    print("API Login Failed")
                 }
             }
             

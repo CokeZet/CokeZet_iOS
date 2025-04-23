@@ -41,7 +41,7 @@ final class SettingViewController: BaseViewController, SettingPresentable, Setti
     private let sectionItems: [Section: [MenuItem]] = [
         .priceAlert: [MenuItem(title: "가격 알림 설정")],
         .support: [MenuItem(title: "공지사항"), MenuItem(title: "문의하기")],
-        .terms: [MenuItem(title: "서비스 이용약관"), MenuItem(title: "개인정보 처리방침"), MenuItem(title: "회원탈퇴"), MenuItem(title: "로그아웃")]
+        .terms: [MenuItem(title: "서비스 이용약관"), MenuItem(title: "개인정보 처리방침"), MenuItem(title: "로그아웃"), MenuItem(title: "회원탈퇴")]
     ]
     
     weak var listener: SettingPresentableListener?
@@ -146,29 +146,63 @@ extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         switch items[indexPath.item].title {
         case "회원탈퇴":
-            self.showPopup(
-                false,
-                UIAction() { _ in
-                    self.dismissPopup()
-                },
-                UIAction(){ _ in
-                    print("회원탈퇴 클릭")
-                }
-            )
+            showPopupWithDimming(false)
         case "로그아웃":
-            self.showPopup(
-                true,
-                UIAction() { _ in
-                    self.dismissPopup()
-                },
-                UIAction(){ _ in
-                    print("로그아웃 클릭")
-                }
-            )
+            showPopupWithDimming(true)
         default:
             break
         }
         
+    }
+    
+    func TestdismissPopup() {
+        guard let navigationControllerView = navigationController?.view else { return }
+
+        if let dimmingView = navigationControllerView.viewWithTag(999),
+           let popupView = navigationControllerView.viewWithTag(1000) {
+
+            popupView.removeFromSuperview()
+            dimmingView.removeFromSuperview()
+        }
+    }
+    
+    func showPopupWithDimming(_ logoutFlag: Bool) {
+        guard let navigationControllerView = navigationController?.view else {
+            print("Error: Not embedded in a UINavigationController.")
+            return
+        }
+
+        // --- Dimming View 설정 ---
+        let dimmingView = UIView(frame: navigationControllerView.bounds)
+        dimmingView.backgroundColor = ZetColor.Gray900.color.withAlphaComponent(0.6)
+        dimmingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        dimmingView.tag = 999
+
+        navigationControllerView.addSubview(dimmingView)
+        navigationControllerView.bringSubviewToFront(dimmingView)
+
+        // --- Popup View 설정 ---
+        let popupContentView = self.showPopup(
+            logoutFlag,
+            UIAction() { _ in
+                self.TestdismissPopup()
+            },
+            UIAction(){ _ in
+                if logoutFlag {
+                    print("로그아웃 클릭")
+                } else {
+                    print("회원 탈퇴 클릭")
+                }
+                self.TestdismissPopup()
+            }
+        )
+        
+        popupContentView.tag = 1000
+        dimmingView.addSubview(popupContentView)
+
+        popupContentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

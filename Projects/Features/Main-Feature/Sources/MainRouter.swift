@@ -42,12 +42,12 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable>, 
         self.productDetailRouting = router
     }
     
-    func deatchProductDetail() {
+    func deatchProductDetail(animation: Bool) {
         guard let router = productDetailRouting else {
             return
         }
         
-        viewController.popViewController(animated: true)
+        viewController.popViewController(animated: animation)
         self.productDetailRouting = nil
         detachChild(router)
     }

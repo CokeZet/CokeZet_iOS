@@ -1,19 +1,17 @@
 import ProjectDescription
 
 let project = Project(
-    name: "CokeZet-Network",
+    name: "CokeZet-Configurations",
     targets: [
         .target(
-            name: "CokeZet-Network",
+            name: "CokeZet-Configurations",
             destinations: .iOS,
             product: .framework,
-            bundleId: "CokeZet.CokeZet-Network",
+            bundleId: "CokeZet.CokeZet-Configurations",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .default,
             sources: ["Sources/**"],
             dependencies: [
-//                .project(target: "CokeZet-Configurations", path: "../../Configurations"),
-                .project(target: "CokeZet-Configurations", path: .relativeToRoot("Projects/Configurations")),
             ]
         ),
     ]

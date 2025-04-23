@@ -20,7 +20,7 @@ public protocol LoginListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
     
     func detachLogin()
-    func loginSuccess()
+    func firstLoginSuccess()
     func loginFailure()
     func appleLogin()
 }
@@ -52,7 +52,7 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
     }
     
     func loginAction() {
-        listener?.loginSuccess()
+        listener?.firstLoginSuccess()
     }
     
     func appleLoginAction() {

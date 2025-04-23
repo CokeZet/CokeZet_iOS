@@ -13,7 +13,7 @@ import CokeZet_Core
 protocol MainRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
     func attachProductDetail()
-    func deatchProductDetail()
+    func deatchProductDetail(animation: Bool)
 }
 
 protocol MainPresentable: Presentable {
@@ -59,7 +59,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
             .sink { [weak self] type in
                 print("Main Tabs \(type)")
                 if type == .home {
-                    self?.router?.deatchProductDetail()
+                    self?.router?.deatchProductDetail(animation: false)
                 }
             }.store(in: &cancellables)
     }
@@ -74,7 +74,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     }
     
     func productDetailDidTapClose() {
-        router?.deatchProductDetail()
+        router?.deatchProductDetail(animation: true)
     }
     
     func alarmButtonTapped() {

@@ -25,11 +25,11 @@ final class LoginView: UIView {
 
     private let stackView = UIStackView()
     private let exploreButton = UIButton()
-    private let kakaoButton = UIButton()
+//    private let kakaoButton = UIButton()
     private let appleButton = UIButton()
 
     var selectExplore: (() -> Void)?
-    var selectKaKao: (() -> Void)?
+//    var selectKaKao: (() -> Void)?
     var selectApple: (() -> Void)?
 
     override init(frame: CGRect) {
@@ -55,7 +55,7 @@ final class LoginView: UIView {
         self.exploreButton.setTitleColor(.White, for: .normal)
         self.exploreButton.titleLabel?.font = Typography.medium(.T12).font
 
-        self.kakaoButton.setImage(CokeZetDesignSystemAsset.icKakaoLogin.image, for: .normal)
+//        self.kakaoButton.setImage(CokeZetDesignSystemAsset.icKakaoLogin.image, for: .normal)
         self.appleButton.setImage(CokeZetDesignSystemAsset.icAppleLogin.image, for: .normal)
 
         self.setButtonAction()
@@ -68,7 +68,7 @@ final class LoginView: UIView {
 
         self.stackView.addArrangedSubview(exploreButton)
         self.stackView.addArrangedSubview(appleButton)
-        self.stackView.addArrangedSubview(kakaoButton)
+//        self.stackView.addArrangedSubview(kakaoButton)
 
 
         self.imageView.snp.makeConstraints {
@@ -83,7 +83,7 @@ final class LoginView: UIView {
         }
 
         self.stackView.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-Metric.stackViewBottom)
+            $0.bottom.equalTo(safeAreaLayoutGuide).offset(-Metric.stackViewBottom)
             $0.centerX.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(Metric.descriptionBottom)
         }
@@ -92,7 +92,7 @@ final class LoginView: UIView {
             $0.height.equalTo(18)
         }
         
-        [appleButton, kakaoButton].forEach {
+        [appleButton, /*kakaoButton*/].forEach {
             $0.snp.makeConstraints {
                 $0.height.equalTo(48)
             }
@@ -116,11 +116,11 @@ final class LoginView: UIView {
         }
         self.exploreButton.addAction(exploreAction, for: .touchUpInside)
 
-        let kakaoAction = UIAction { [weak self] _ in
-            guard let self else { return }
-            self.selectKaKao?()
-        }
-        self.kakaoButton.addAction(kakaoAction, for: .touchUpInside)
+//        let kakaoAction = UIAction { [weak self] _ in
+//            guard let self else { return }
+//            self.selectKaKao?()
+//        }
+//        self.kakaoButton.addAction(kakaoAction, for: .touchUpInside)
 
         let appleAction = UIAction { [weak self] _ in
             guard let self else { return }

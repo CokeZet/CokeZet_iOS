@@ -51,9 +51,9 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
     }
     
     private func buttonSetup() {
-        let kakaoAction: (() -> Void) = {
-            self.listener?.loginAction()
-        }
+//        let kakaoAction: (() -> Void) = {
+//            self.listener?.loginAction()
+//        }
         
         let exploreAction: (() -> Void) = {
             self.listener?.detachAction()
@@ -65,7 +65,7 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
         
         contentView.selectApple = appleAction
         contentView.selectExplore = exploreAction
-        contentView.selectKaKao = kakaoAction
+//        contentView.selectKaKao = kakaoAction
     }
 }
 

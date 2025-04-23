@@ -11,7 +11,7 @@ public extension UIViewController {
     /// 팝업을 호출하는 함수
     func showPopup(_ loginFlag: Bool,
                    _ leftButtonAction: UIAction?,
-                   _ rightButtonAction: UIAction?) {
+                   _ rightButtonAction: UIAction?) -> UIView {
         // PopupView 인스턴스 생성
         let state = PopupView.State(loginFlag: loginFlag, leftButtonAction: leftButtonAction, rightButtonAction: rightButtonAction)
         let popupView = PopupView(state)
@@ -31,6 +31,8 @@ public extension UIViewController {
         UIView.animate(withDuration: 0.3) {
             popupView.alpha = 1
         }
+        
+        return popupView
     }
     
     /// 팝업을 닫는 함수

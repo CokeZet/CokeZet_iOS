@@ -35,6 +35,7 @@ final class RootViewController: UINavigationController, RootPresentable, RootVie
         
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = UIColor(red: 30/255, green: 30/255, blue: 30/255, alpha: 1)
+        appearance.shadowColor = .clear
         
         navigationBar.standardAppearance = appearance
         navigationBar.scrollEdgeAppearance = appearance

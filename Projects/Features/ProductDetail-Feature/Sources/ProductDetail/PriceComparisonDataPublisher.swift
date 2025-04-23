@@ -27,12 +27,6 @@ struct PriceComparisonDataPublisher {
                         print("Banner 버튼 클릭 클릭")
                     }
                 ),
-        GraphViewData:
-            [
-                .init(price: 13000, date: "23.11.07"),
-                .init(price: 11500, date: "23.11.12"),
-                .init(price: 11000, date: "23.11.28")
-            ],
         PriceComparisonCellData:
             PriceComparisonCell.State(cellData:
                                         [

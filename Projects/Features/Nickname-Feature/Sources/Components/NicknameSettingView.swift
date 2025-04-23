@@ -109,8 +109,8 @@ internal final class NicknameSettingView: UIView {
     
     /// 키보드 높이에 따라 버튼의 위치를 조정하는 함수
     func updateButtonForKeyboard(keyboardHeight: CGFloat, animationDuration: Double = 0.3) {
-        // 키보드가 올라올 때, 버튼을 키보드 위로 10px 띄워줌
-        let bottomInset = keyboardHeight > 0 ? keyboardHeight + 10 : Metric.bottomInset
+        // 키보드가 올라올 때, 버튼을 키보드 위로 24px 띄워줌
+        let bottomInset = keyboardHeight > 0 ? keyboardHeight + 24 : Metric.bottomInset
         self.confirmButtonBottomConstraint?.update(offset: -bottomInset)
         UIView.animate(withDuration: animationDuration) {
             self.layoutIfNeeded()

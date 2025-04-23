@@ -40,7 +40,7 @@ public struct NetworkService: NetworkProtocol {
         }
         
         let request = configRequest(url: url, endpoint: endpoint)
-
+        
         return URLSession.shared.dataTaskPublisher(for: request)
             .map(\.data)
             .decode(type: T.self, decoder: JSONDecoder())
@@ -68,6 +68,12 @@ extension NetworkService {
         var request = URLRequest(url: url)
         request.httpMethod = endpoint.method.rawValue
         
+        let defaultHeader = ["Content-Type": "application/json", "accept": "application/json"]
+        
+        for (key, value) in defaultHeader {
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        
         if let headers = endpoint.headers {
             for (key, value) in headers {
                 request.setValue(value, forHTTPHeaderField: key)
@@ -88,8 +94,24 @@ extension NetworkService {
             throw NetworkError.invalidResponse
         }
         
-        guard (200...299).contains(httpResponse.statusCode) else {
-            throw NetworkError.serverError(statusCode: httpResponse.statusCode)
+        if !(200...299).contains(httpResponse.statusCode) {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            
+            // 에러 응답 본문 디코딩 시도
+            if let errorResponse = try? decoder.decode(AuthResponse<Int>.self, from: data) {
+                // ** 401이고 AUTH-003이면 토큰 만료 에러 throw **
+                if httpResponse.statusCode == 401 && errorResponse.code == "AUTH-003" {
+                    print(">>> NetworkService: Detected Token Expiry (AUTH-003)")
+                    throw NetworkError.tokenExpired(statusCode: httpResponse.statusCode) // 특정 에러 throw
+                }
+                // 다른 API 레벨 에러
+                print(">>> NetworkService: Detected API Error: \(errorResponse.code) - \(errorResponse.message)")
+                throw NetworkError.serverError(statusCode: httpResponse.statusCode)
+            } else {
+                // 에러 본문 디코딩 실패 또는 다른 형식
+                throw NetworkError.decodingError("NetworkService: Failed to decode API error response body or non-JSON error.")
+            }
         }
         
         do {
@@ -113,7 +135,7 @@ extension NetworkService {
         }
         print("==== END REQUEST ====\n")
     }
-
+    
     private func logFullResponse(data: Data, response: URLResponse) {
         guard let httpResponse = response as? HTTPURLResponse else { return }
         print("\n==== 📥 RESPONSE ====")
@@ -127,5 +149,5 @@ extension NetworkService {
         }
         print("==== END RESPONSE ====\n")
     }
-
+    
 }
