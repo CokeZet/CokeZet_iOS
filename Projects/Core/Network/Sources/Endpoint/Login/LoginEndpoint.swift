@@ -11,6 +11,7 @@ public enum LoginEndpoint: EndpointProtocol {
     case login(token: String)
     case logout(token: String)
     case refresh(refreshToken: String)
+    case guestLogin
     
     public var baseURL: URL? { URL(string: "http://52.79.89.114:8080") }
     
@@ -19,6 +20,7 @@ public enum LoginEndpoint: EndpointProtocol {
         case .login: "api/auth/login"
         case .logout: "api/auth/logout"
         case .refresh: "api/auth/refresh"
+        case .guestLogin: "api/guest/token"
         }
     }
     
@@ -27,12 +29,13 @@ public enum LoginEndpoint: EndpointProtocol {
         case .login: .post
         case .logout: .post
         case .refresh: .post
+        case .guestLogin: .post
         }
     }
     
     public var parameters: [URLQueryItem]? {
         switch self {
-        case .login, .logout, .refresh:
+        case .login, .logout, .refresh, .guestLogin:
             return nil
         }
     }
@@ -51,10 +54,10 @@ public enum LoginEndpoint: EndpointProtocol {
                 idToken: token,
                 provider: "APPLE"
             )
-        case . logout:
-            return nil
         case .refresh(let refreshToken):
             return ["refreshToken": refreshToken]
+        case .logout, .guestLogin:
+            return nil
         }
     }
 }

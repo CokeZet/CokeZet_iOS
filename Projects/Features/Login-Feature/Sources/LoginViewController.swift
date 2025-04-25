@@ -12,8 +12,8 @@ protocol LoginPresentableListener: AnyObject {
     // interactor class.
     
     func loginAction()
+    func guestLogin()
     func appleLoginAction()
-    func detachAction()
 }
 
 final class LoginViewController: UIViewController, LoginPresentable, LoginViewControllable {
@@ -56,7 +56,7 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
 //        }
         
         let exploreAction: (() -> Void) = {
-            self.listener?.detachAction()
+            self.listener?.guestLogin()
         }
         
         let appleAction: (() -> Void) = {

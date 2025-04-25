@@ -12,7 +12,7 @@ public struct AuthResponse<T: Codable>: Codable {
 // 'data' 객체 구조체
 public struct AuthData: Codable {
     public let accessToken: String
-    public let refreshToken: String
+    public let refreshToken: String?
     public let user: User // 중첩된 'user' 객체를 위한 구조체 타입
     public let newUser: Bool
 }

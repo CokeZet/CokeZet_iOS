@@ -151,10 +151,26 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         dependency.navigationStream.send(.home)
     }
     
+    func guestLogin() {
+        Task {
+            try await tryGuestLogin()
+        }
+    }
 }
 
 // MARK: - 로그인 로직
 extension RootInteractor {
+    @MainActor
+    func tryGuestLogin() async throws {
+        let guest: AuthResponse<AuthData> = try await NetworkService.shared.requestAsync(endpoint: LoginEndpoint.guestLogin)
+        
+        guard let data = guest.data else { return }
+        
+        AuthManager.shared.saveAuthData(accessToken: data.accessToken, refreshToken: data.refreshToken ?? "", user: data.user)
+        
+        detachLogin()
+    }
+    
     @MainActor
     func tryLocalTokenLogin() async throws {
         print("Try Access Token Login")
@@ -190,9 +206,9 @@ extension RootInteractor: AppleLoginManagerDelegate {
         print("Login Success")
         let data: AuthResponse<AuthData> = try await NetworkService.shared.requestAsync(endpoint: LoginEndpoint.login(token: token))
         
-        guard let data = data.data else { return }
+        guard let data = data.data, let refreshToken = data.refreshToken else { return }
         
-        AuthManager.shared.saveAuthData(accessToken: data.accessToken, refreshToken: data.refreshToken, user: data.user)
+        AuthManager.shared.saveAuthData(accessToken: data.accessToken, refreshToken: refreshToken, user: data.user)
         
         print(AuthManager.shared.getCurrentUser() ?? "Not found User")
         
