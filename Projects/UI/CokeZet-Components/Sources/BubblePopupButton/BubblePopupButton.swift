@@ -19,14 +19,14 @@ public final class BubblePopupButton: UIButton {
     
     private var text = ""
     
-    private var location: BubblePopupLocation = .left
+    private let location: BubblePopupLocation
     
     public init(_ text: String, _ location: BubblePopupLocation = .left) {
+        self.location = location
         super.init(frame: .zero)
         addConfigure()
         setButtonAction()
         self.text = text
-        self.location = location
     }
     
     required init?(coder: NSCoder) {
