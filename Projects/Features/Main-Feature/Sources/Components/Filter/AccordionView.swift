@@ -22,6 +22,7 @@ final class AccordionView: UIView {
     private let stackView = UIStackView()
     private let headerView = AccordionHeaderView()
     private let contentView = AccordionContentView()
+    private let guestView = GuestView()
 
     private var isExpanded: Bool = true
     var selectFolded: ((Bool) -> Void)? 
@@ -49,6 +50,7 @@ final class AccordionView: UIView {
         self.headerView.selectExpanded = { [weak self] isExpanded in
             self?.isExpanded = isExpanded
             self?.contentView.isHidden = !isExpanded
+            self?.guestView.isHidden = !isExpanded
             self?.selectFolded?(isExpanded)
         }
     }
@@ -91,6 +93,15 @@ final class AccordionView: UIView {
 
         self.setNeedsLayout()
         self.layoutIfNeeded()
+    }
+    
+    func isGuestSetup(isGuest: Bool) {
+        if isGuest {
+            self.addSubview(guestView)
+            guestView.snp.makeConstraints {
+                $0.edges.equalTo(contentView)
+            }
+        }
     }
 }
 

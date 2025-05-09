@@ -14,8 +14,6 @@ final class ProductFilterHeaderView: UICollectionReusableView {
     typealias State = AccordionView.State
 
     private let headerView = AccordionView()
-
-    private let guestView = GuestView()
     
     var selectFolded: ((Bool) -> Void)? {
         didSet {
@@ -47,12 +45,7 @@ final class ProductFilterHeaderView: UICollectionReusableView {
     }
     
     func isGuestSetup(isGuest: Bool) {
-        if isGuest {
-            self.addSubview(guestView)
-            guestView.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
-        }
+        headerView.isGuestSetup(isGuest: isGuest)
     }
 
     func bind(list: [State]) {
