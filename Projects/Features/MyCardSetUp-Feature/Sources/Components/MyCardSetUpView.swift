@@ -105,6 +105,10 @@ final class MyCardSetUpView: UIView {
         self.listView.bind(list: state.list)
         self.confirmButton.addAction(state.confirmAction, for: .touchDown)
     }
+    
+    func getSelectList() -> [Int] {
+        return self.listView.getSelectList()
+    }
 }
 
 @available(iOS 17.0, *)

@@ -6,10 +6,12 @@
 //
 
 import ModernRIBs
+import CokeZet_Configurations
 
 public protocol ShoppingMallSetUpDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
     // created by this RIB.
+    var userSetting: UserSetting { get set }
 }
 
 final class ShoppingMallSetUpComponent: Component<ShoppingMallSetUpDependency> {
@@ -31,8 +33,13 @@ public final class ShoppingMallSetUpBuilder: Builder<ShoppingMallSetUpDependency
     
     public func build(withListener listener: ShoppingMallSetUpListener) -> ViewableRouting {
         let component = ShoppingMallSetUpComponent(dependency: dependency)
-        let viewController = ShoppingMallSetUpViewController()
-        let interactor = ShoppingMallSetUpInteractor(presenter: viewController)
+        let viewController = ShoppingMallSetUpViewController(nickname: dependency.userSetting.nickname)
+        
+        let interactor = ShoppingMallSetUpInteractor(
+            presenter: viewController,
+            dependency: dependency
+        )
+        
         interactor.listener = listener
         
         return ShoppingMallSetUpRouter(

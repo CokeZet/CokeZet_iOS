@@ -23,12 +23,18 @@ public protocol ShoppingMallSetUpListener: AnyObject {
 
 final class ShoppingMallSetUpInteractor: PresentableInteractor<ShoppingMallSetUpPresentable>, ShoppingMallSetUpInteractable, ShoppingMallSetUpPresentableListener {
     
+    
     weak var router: ShoppingMallSetUpRouting?
     weak var listener: ShoppingMallSetUpListener?
 
+    private let dependency: ShoppingMallSetUpDependency
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
-    override init(presenter: ShoppingMallSetUpPresentable) {
+    init(
+        presenter: ShoppingMallSetUpPresentable,
+        dependency: ShoppingMallSetUpDependency
+    ) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -43,7 +49,9 @@ final class ShoppingMallSetUpInteractor: PresentableInteractor<ShoppingMallSetUp
         // TODO: Pause any business logic.
     }
     
-    func continueToShoppingMall() {
+    func continueToShoppingMall(_ commerceType: [Int]) {
+        dependency.userSetting.commerceIds = commerceType
+        print("UserSetting Commerce Update: \(dependency.userSetting)")
         listener?.continueToShoppingMall()
     }
 }

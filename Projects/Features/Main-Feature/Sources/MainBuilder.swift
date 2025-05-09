@@ -8,11 +8,13 @@
 import ModernRIBs
 import ProductDetail_Feature
 import CokeZet_Core
+import CokeZet_Configurations
 
 public protocol MainDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
     // created by this RIB.
     var navigationStream: NavgiationBarActions { get }
+    var userSetting: UserSetting { get }
 }
 
 final class MainComponent: Component<MainDependency>, ProductDetailDependency {
@@ -36,7 +38,7 @@ public final class MainBuilder: Builder<MainDependency>, MainBuildable {
     
     public func build(withListener listener: MainListener) -> ViewableRouting {
         let component = MainComponent(dependency: dependency)
-        let viewController = MainViewController(navigationBarType: .main)
+        let viewController = MainViewController(navigationBarType: .main, userInfo: dependency.userSetting)
         let interactor = MainInteractor(presenter: viewController, dependency: dependency)
         let productDetailBuilder = ProductDetailBuilder(dependency: component)
         interactor.listener = listener

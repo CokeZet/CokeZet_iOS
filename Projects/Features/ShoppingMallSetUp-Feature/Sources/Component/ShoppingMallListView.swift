@@ -33,7 +33,7 @@ final class ShoppingMallListView: UIView {
     }
 
     /// 선택된 indexPath 저장 (ALL 선택 동작 구현을 위해)
-    private var selectedIndexes: Set<Int> = []
+    public var selectedIndexes: Set<Int> = []
 
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -117,6 +117,9 @@ internal final class NicknameSettingView: UIView {
         }
     }
 
+    public func getNickName() -> String {
+        return self.nickNameinputView.getNickName()
+    }
 }
 
 @available(iOS 17.0, *)

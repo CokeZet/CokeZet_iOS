@@ -66,8 +66,12 @@ final class MyCardListView: UIView {
         }
     }
 
-    func bind(list: [State]) {
+    public func bind(list: [State]) {
         self.list = list
+    }
+    
+    public func getSelectList() -> [Int] {
+        return selectedIndexes.map{$0.row}.sorted(by: <)
     }
 }
 

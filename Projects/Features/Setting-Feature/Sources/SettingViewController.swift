@@ -76,9 +76,21 @@ final class SettingViewController: BaseViewController, SettingPresentable, Setti
     private func setupUI() {
         self.view.backgroundColor = ZetColor.Gray500.color
         setupCollectionView()
+        setupCustomNavigationTitle()
+    }
+    
+    private func setupCustomNavigationTitle() {
+        guard let backButton = self.navigationItem.leftBarButtonItem else {
+            print("Warning: Could not find existing left bar button item.")
+            return
+        }
+
+        let titleLabel = ZetLabel(typography: .semiBold(.T18), textColor: .White)
+        titleLabel.text = "내정보"
+
+        let titleBarButtonItem = UIBarButtonItem(customView: titleLabel)
         
-#warning("TODO: 네비게이션 타이틀 설정 값 확인")
-        self.navigationItem.title = "내 설정"
+        self.navigationItem.leftBarButtonItems = [backButton, titleBarButtonItem]
     }
     
     private func setupCollectionView() {

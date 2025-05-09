@@ -127,6 +127,7 @@ class GraphListView: UIView {
         for type in segmentType {
             let label = ZetLabel(typography: .medium(.T12), textColor: .Gray600)
             label.text = type.text
+            label.textAlignment = .center
             segmentLabels.append(label)
             labelStackView.addArrangedSubview(label)
         }

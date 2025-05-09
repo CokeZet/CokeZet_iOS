@@ -10,7 +10,7 @@ import CokeZet_Configurations
 
 public enum ProfileEndpoint: EndpointProtocol {
     case getProfile
-    case updateProfile(nickname: String, commerceIds: [Int], cardCompanyIds: [Int])
+    case updateProfile(user: UserSetting)
     case deleteProfile
     case profileStatus
     
@@ -63,9 +63,8 @@ public enum ProfileEndpoint: EndpointProtocol {
         switch self {
         case .getProfile, .deleteProfile, .profileStatus:
             return nil
-        case .updateProfile(let nickname, let commerceIds, let cardCompanyIds):
-//            return Profile(nickname: nickname, commerceIds: commerceIds, cardCompanyIds: cardCompanyIds)
-            return nil
+        case .updateProfile(let user):
+            return ProfileUpdate(nickname: user.nickname, commerceIds: user.commerceIds, cardCompanyIds: user.cardCompanyIds)
         }
     }
 }

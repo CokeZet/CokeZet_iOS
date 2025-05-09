@@ -67,7 +67,7 @@ final class AccordionView: UIView {
     }
 
     func bind(list: [State]) {
-        self.headerView.bind(title: "최저가 탐색 조건 설정")
+        self.headerView.bind(title: "최저가 탐색·알림 필터")
         self.contentView.bind(list: list)
     }
 

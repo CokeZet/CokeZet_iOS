@@ -18,3 +18,10 @@ public struct PreferredType: Codable {
     public let id: Int
     public let name: String
 }
+
+
+public struct ProfileUpdate: Codable {
+    public let nickname: String
+    public let commerceIds: [Int]
+    public let cardCompanyIds: [Int]
+}

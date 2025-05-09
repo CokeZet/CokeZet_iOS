@@ -10,7 +10,7 @@ protocol NicknamePresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
-    func continueToNickname()
+    func continueToNickname(_ nickname: String)
 }
 
 final class NicknameViewController: UIViewController, NicknamePresentable, NicknameViewControllable {
@@ -52,7 +52,8 @@ final class NicknameViewController: UIViewController, NicknamePresentable, Nickn
                     defaultNickname: "",
                     selectConfirm: UIAction() { [weak self] _ in
                         print("Nickname Next Button Click")
-                        self?.listener?.continueToNickname()
+                        guard let nickname = self?.contentView.getNickName() else { return }
+                        self?.listener?.continueToNickname(nickname)
                     }
                 )
         )

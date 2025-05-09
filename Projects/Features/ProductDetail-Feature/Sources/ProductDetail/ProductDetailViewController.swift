@@ -147,9 +147,9 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
         case .productOver:
             return CGSize(width: self.view.bounds.width, height: 542)
         case .graphView:
-            return CGSize(width: self.view.bounds.width, height: 149)
+            return CGSize(width: self.view.bounds.width, height: 158)
         case .priceComparison:
-            return CGSize(width: self.view.bounds.width, height: 530)
+            return CGSize(width: self.view.bounds.width, height: 504)
         case .productInfo:
             return CGSize(width: self.view.bounds.width, height: 320)
         }

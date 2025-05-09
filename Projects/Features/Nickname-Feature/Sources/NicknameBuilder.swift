@@ -6,10 +6,12 @@
 //
 
 import ModernRIBs
+import CokeZet_Configurations
 
 public protocol NicknameDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
     // created by this RIB.
+    var userSetting: UserSetting { get set }
 }
 
 final class NicknameComponent: Component<NicknameDependency> {
@@ -32,7 +34,11 @@ public final class NicknameBuilder: Builder<NicknameDependency>, NicknameBuildab
     public func build(withListener listener: NicknameListener) -> ViewableRouting {
         let component = NicknameComponent(dependency: dependency)
         let viewController = NicknameViewController()
-        let interactor = NicknameInteractor(presenter: viewController)
+        let interactor = NicknameInteractor(
+            presenter: viewController,
+            dependency: dependency
+        )
+        
         interactor.listener = listener
         
         return NicknameRouter(

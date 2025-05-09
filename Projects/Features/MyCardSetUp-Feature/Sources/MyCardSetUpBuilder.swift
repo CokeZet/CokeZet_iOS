@@ -6,10 +6,12 @@
 //
 
 import ModernRIBs
+import CokeZet_Configurations
 
 public protocol MyCardSetUpDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
     // created by this RIB.
+    var userSetting: UserSetting { get set }
 }
 
 final class MyCardSetUpComponent: Component<MyCardSetUpDependency> {
@@ -32,7 +34,11 @@ public final class MyCardSetUpBuilder: Builder<MyCardSetUpDependency>, MyCardSet
     public func build(withListener listener: MyCardSetUpListener) -> ViewableRouting {
         let component = MyCardSetUpComponent(dependency: dependency)
         let viewController = MyCardSetUpViewController()
-        let interactor = MyCardSetUpInteractor(presenter: viewController)
+        let interactor = MyCardSetUpInteractor(
+            presenter: viewController,
+            dependency: dependency
+        )
+        
         interactor.listener = listener
         
         return MyCardSetUpRouter(

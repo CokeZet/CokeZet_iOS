@@ -14,6 +14,7 @@ let project = Project(
             dependencies: [
                 .project(target: "Login-Feature", path: "Login-Feature/"),
                 .project(target: "Main-Feature", path: "Main-Feature/"),
+                .project(target: "Splash-Feature", path: "Splash-Feature/"),
                 .project(target: "MyCardSetUp-Feature", path: "MyCardSetUp-Feature/"),
                 .project(target: "Nickname-Feature", path: "Nickname-Feature"),
                 .project(target: "ShoppingMallSetUp-Feature", path: "ShoppingMallSetUp-Feature/"),

@@ -8,17 +8,25 @@
 import UIKit
 import CokeZet_DesignSystem
 
+public enum BubblePopupLocation {
+    case left
+    case right
+}
+
 public final class BubblePopupButton: UIButton {
     
     private var bubbleView: BubblePopupView?
     
     private var text = ""
     
-    public init(_ text: String) {
+    private var location: BubblePopupLocation = .left
+    
+    public init(_ text: String, _ location: BubblePopupLocation = .left) {
         super.init(frame: .zero)
         addConfigure()
         setButtonAction()
         self.text = text
+        self.location = location
     }
     
     required init?(coder: NSCoder) {
@@ -49,7 +57,7 @@ public final class BubblePopupButton: UIButton {
     
     private func showBubbleView() {
         // BubblePopupView 생성 및 설정
-        let bubbleView = BubblePopupView(text: text)
+        let bubbleView = BubblePopupView(text: text, location: location)
         self.bubbleView = bubbleView
         
         // BubblePopupView를 최상위 뷰에 추가
@@ -62,7 +70,13 @@ public final class BubblePopupButton: UIButton {
         // BubblePopupView 위치 설정
         bubbleView.snp.makeConstraints {
             $0.top.equalTo(self.snp.bottom).offset(12)
-            $0.leading.equalTo(self.snp.leading).offset(-26)
+            
+            switch location {
+            case .left:
+                $0.leading.equalTo(self.snp.leading).offset(-26)
+            case .right:
+                $0.trailing.equalTo(self.snp.trailing).offset(13)
+            }
         }
         
         // BubblePopupView 제거를 위한 탭 제스처 추가

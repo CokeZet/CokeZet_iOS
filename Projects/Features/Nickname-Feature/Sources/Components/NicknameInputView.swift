@@ -19,7 +19,7 @@ internal final class NicknameInputView: UIView {
     }
 
     private enum Metric {
-        static let textFieldWidth: CGFloat = 210
+        static let textFieldWidth: CGFloat = 226
         static let hStackSpacing: CGFloat = 8
         static let vStackSpacing: CGFloat = 12
         static let underLineHeight: CGFloat = 1
@@ -83,12 +83,13 @@ internal final class NicknameInputView: UIView {
 
     // 오토레이아웃 설정
     private func makeConstraints() {
-        self.textField.addSubview(underLineView)
+//        self.textField.addSubview(underLineView)
 
         self.hStackView.addArrangedSubview(textField)
         self.hStackView.addArrangedSubview(sirLabel)
 
         self.vStackView.addArrangedSubview(hStackView)
+        self.vStackView.addArrangedSubview(underLineView)
         self.vStackView.addArrangedSubview(countLabel)
 
         self.addSubview(vStackView)
@@ -102,7 +103,8 @@ internal final class NicknameInputView: UIView {
         }
         self.underLineView.snp.makeConstraints {
             $0.height.equalTo(Metric.underLineHeight)
-            $0.horizontalEdges.bottom.equalToSuperview()
+            $0.width.equalTo(Metric.textFieldWidth)
+//            $0.horizontalEdges.bottom.equalToSuperview()
         }
     }
 
@@ -136,6 +138,10 @@ internal final class NicknameInputView: UIView {
             underLineView.backgroundColor = Color.normal
             self.isVaild?(length > 0)
         }
+    }
+    
+    public func getNickName() -> String {
+        return textField.text ?? ""
     }
 }
 

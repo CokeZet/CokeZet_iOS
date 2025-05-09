@@ -7,7 +7,7 @@
 
 import UIKit
 
-public enum DiscountRateType: CaseIterable {
+public enum DiscountRateType: Int, CaseIterable {
     /// 일반
     case normal
     /// 중박

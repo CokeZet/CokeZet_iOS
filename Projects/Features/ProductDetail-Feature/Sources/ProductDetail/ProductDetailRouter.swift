@@ -50,7 +50,7 @@ final class ProductDetailRouter: LaunchRouter<ProductDetailInteractable, Product
     
     private func presentWithPushTransition(_ viewControllable: ViewControllable, animated: Bool) {
         viewControllable.uiviewController.modalPresentationStyle  = .automatic
-        viewControllable.uiviewController.sheetPresentationController?.prefersGrabberVisible = true
+        viewControllable.uiviewController.sheetPresentationController?.prefersGrabberVisible = false
         viewController.present(viewControllable, animated: true, completion: nil)
     }
 }

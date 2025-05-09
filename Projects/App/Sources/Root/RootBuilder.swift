@@ -13,6 +13,8 @@ import MyCardSetUp_Feature
 import Nickname_Feature
 import ShoppingMallSetUp_Feature
 import CokeZet_Core
+import CokeZet_Configurations
+import Splash_Feature
 
 protocol RootDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
@@ -22,17 +24,21 @@ protocol RootDependency: Dependency {
 
 final class RootComponent: Component<RootDependency>,
                            MainDependency,
+                           SplashDependency,
                            SettingDependency,
                            LoginDependency,
                            MyCardSetUpDependency,
                            NicknameDependency,
                            ShoppingMallSetUpDependency
 {
+    
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
     let navigationStream: NavgiationBarActions
+    var userSetting: UserSetting
     
     override init(dependency: RootDependency) {
         self.navigationStream = dependency.navigationStream
+        self.userSetting = UserSettingsManager.shared.loadSettings() ?? UserSetting()
         super.init(dependency: dependency)
     }
 }
@@ -53,6 +59,7 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
         let component = RootComponent(dependency: dependency)
         let viewController = RootViewController()
         let interactor = RootInteractor(presenter: viewController, dependency: dependency)
+        let splashBuilder = SplashBuilder(dependency: component)
         let mainBuilder = MainBuilder(dependency: component)
         let settingBuilder = SettingBuilder(dependency: component)
         let loginBuilder = LoginBuilder(dependency: component)
@@ -63,6 +70,7 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
         return RootRouter(
             interactor: interactor,
             viewController: viewController,
+            splashBuildable: splashBuilder,
             mainBuildable: mainBuilder,
             settingBuilable: settingBuilder,
             loginBuildable: loginBuilder,

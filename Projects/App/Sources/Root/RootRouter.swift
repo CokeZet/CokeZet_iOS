@@ -5,20 +5,26 @@
 //  Created by 김진우 on 1/9/25.
 //
 
+
+import UIKit
+
 import ModernRIBs
-import Main_Feature
+
 import CokeZet_Utilities
 import CokeZet_Core
-import Foundation
+
+import Main_Feature
 import Setting_Feature
 import Login_Feature
 import MyCardSetUp_Feature
 import Nickname_Feature
 import ShoppingMallSetUp_Feature
-import UIKit
+import Splash_Feature
+
 
 protocol RootInteractable: Interactable,
                            MainListener,
+                           SplashListener,
                            SettingListener,
                            LoginListener,
                            SettingListener,
@@ -37,6 +43,12 @@ protocol RootViewControllable: ViewControllable {
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
     
+    private let splashBuildable: SplashBuildable
+    private var splashRouting: Routing?
+    
+    private let loginBuildable: LoginBuildable
+    private var loginRouting: Routing?
+    
     private let nickNameBuildable: NicknameBuildable
     private var nickNameRouting: Routing?
     
@@ -45,9 +57,6 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     
     private let cardSetupBuildable: MyCardSetUpBuildable
     private var cardSetupRouting: Routing?
-    
-    private let loginBuildable: LoginBuildable
-    private var loginRouting: Routing?
     
     private let mainBuildable: MainBuildable
     private var mainRouting: Routing?
@@ -61,6 +70,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     init(
         interactor: RootInteractable,
         viewController: RootViewControllable,
+        splashBuildable: SplashBuildable,
         mainBuildable: MainBuildable,
         settingBuilable: SettingBuildable,
         loginBuildable: LoginBuildable,
@@ -71,11 +81,32 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         self.nickNameBuildable = nickNameBuildable
         self.shoppingMallBuildable = shoppingMallBuildable
         self.cardSetupBuildable = cardSetupBuildable
+        self.splashBuildable = splashBuildable
         self.mainBuildable = mainBuildable
         self.settingBuildable = settingBuilable
         self.loginBuildable = loginBuildable
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func attachSplash() {
+        if splashRouting != nil { return }
+        
+        let router = splashBuildable.build(withListener: interactor)
+        splashRouting = router
+        attachChild(router)
+        
+        viewController.setViewControllers([router.viewControllable])
+    }
+    
+    func detachSplash() {
+        guard let router = splashRouting else {
+            return
+        }
+        
+        viewController.popViewController(animated: true)
+        self.splashRouting = nil
+        detachChild(router)
     }
     
     func attachNickName() {

@@ -12,6 +12,7 @@ let project = Project(
             infoPlist: .default,
             sources: ["Sources/**"],
             dependencies: [
+                .project(target: "CokeZet-DesignSystem", path: "../UI/CokeZet-DesignSystem"),
             ]
         ),
     ]

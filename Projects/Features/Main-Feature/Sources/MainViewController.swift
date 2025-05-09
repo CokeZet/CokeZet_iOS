@@ -6,6 +6,7 @@ import SnapKit
 
 import CokeZet_DesignSystem
 import CokeZet_Components
+import CokeZet_Configurations
 
 protocol MainPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
@@ -17,8 +18,7 @@ protocol MainPresentableListener: AnyObject {
 }
 
 class MainViewController: BaseViewController, MainPresentable, MainViewControllable {
-
-    let contentView = MainView()
+    let contentView: MainView
 
     lazy var button: UIButton = UIButton().then {
         $0.setTitle("테스트용 버튼", for: .normal)
@@ -33,7 +33,9 @@ class MainViewController: BaseViewController, MainPresentable, MainViewControlla
 
     weak var listener: MainPresentableListener?
 
-    override init(navigationBarType: NavigationBarType) {
+    init(navigationBarType: NavigationBarType, userInfo: UserSetting) {
+        let isGuest = userInfo.nickname == "" ? true : false
+        self.contentView = MainView(isGuest: isGuest)
         super.init(navigationBarType: navigationBarType)
     }
 
@@ -104,22 +106,51 @@ class MainViewController: BaseViewController, MainPresentable, MainViewControlla
                         description: "개당 2000원",
                         cokeImage: CokeZetDesignSystemAsset.icCanCocaLemon190.image,
                         bottleType: .can
+                    ),
+                    BannerItemCell.State(
+                        logoImage: CokeZetDesignSystemAsset.icGs25.image,
+                        title: "[1+1] 펩시(디카페인) 라임 355ml",
+                        description: "개당 2000원",
+                        cokeImage: CokeZetDesignSystemAsset.icCanCocaLemon190.image,
+                        bottleType: .can
                     )
                 ],
-            filterList: Array(
-                repeating: AccordionItemView.State(
-                    title: "쇼핑몰",
+            filterList: [
+                AccordionItemView.State(
+                    title: "브랜드",
                     list: [
-                        FilterListView.State(title: "쿠팡", isSelected: true),
-                        FilterListView.State(title: "G마켓", isSelected: false),
-                        FilterListView.State(title: "11번가", isSelected: false),
-                        FilterListView.State(title: "네이버", isSelected: false),
-                        FilterListView.State(title: "마켓컬리", isSelected: false),
-                        FilterListView.State(title: "마켓컬리", isSelected: false)
+                        FilterListView.State(title: "코카콜라", isSelected: false),
+                        FilterListView.State(title: "펩시", isSelected: false)
                     ]
                 ),
-                count: 5
-            ),
+                AccordionItemView.State(
+                    title: "용량",
+                    list: [
+                        FilterListView.State(title: "190ml ~ 210ml", isSelected: false),
+                        FilterListView.State(title: "210ml", isSelected: false),
+                        FilterListView.State(title: "350ml", isSelected: false),
+                        FilterListView.State(title: "355ml", isSelected: false)
+                    ]
+                ),
+                AccordionItemView.State(
+                    title: "쇼핑몰",
+                    list: CommerceType.allCases.map {
+                        FilterListView.State(title: $0.name, isSelected: false)
+                    }
+                ),
+                AccordionItemView.State(
+                    title: "할인율",
+                    list: DiscountRateType.allCases.sorted { $0.rawValue > $1.rawValue }.map {
+                        FilterListView.State(title: $0.text, isSelected: false)
+                    }
+                ),
+                AccordionItemView.State(
+                    title: "카드혜택",
+                    list: CardType.allCases.map {
+                        FilterListView.State(title: $0.name, isSelected: false)
+                    }
+                )
+            ],
             productList: Array(
                 repeating: ProductItemCell.State(
                     market: CokeZetDesignSystemAsset.icMarket11st.image,

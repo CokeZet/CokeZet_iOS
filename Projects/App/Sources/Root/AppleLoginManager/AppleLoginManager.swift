@@ -8,7 +8,7 @@
 import AuthenticationServices
 
 protocol AppleLoginManagerDelegate: AnyObject {
-    func didCompleteAppleLogin(userId: String, email: String?, token: String) async throws
+    func didCompleteAppleLogin(userId: String, email: String?, token: String, authorizationCode: String) async throws
     func didFailAppleLogin()
 }
 
@@ -90,7 +90,7 @@ extension AppleLoginManager: ASAuthorizationControllerDelegate {
             // 여기에 로그인 성공 후 수행할 작업을 추가하세요.
             Task {
                 do {
-                    try await delegate?.didCompleteAppleLogin(userId: userIdentifier, email: email, token: identityToken)
+                    try await delegate?.didCompleteAppleLogin(userId: userIdentifier, email: email, token: identityToken, authorizationCode: authorizationCode)
                 } catch {
                     print("API Login Failed")
                 }
@@ -107,7 +107,7 @@ extension AppleLoginManager: ASAuthorizationControllerDelegate {
             
             // 여기에 로그인 성공 후 수행할 작업을 추가하세요.
             Task {
-                try await delegate?.didCompleteAppleLogin(userId: userIdentifier, email: "", token: "")
+                try await delegate?.didCompleteAppleLogin(userId: userIdentifier, email: "", token: "", authorizationCode: "")
             }
             
         default: break

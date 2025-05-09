@@ -17,17 +17,28 @@ import CokeZet_Configurations
 
 protocol RootRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    // Splash 화면 진입
+    func attachSplash()
+    func detachSplash()
+    
+    // 로그인 화면 진입
+    func attachLogin()
+    func detachLogin()
+    
+    // 회원가입 로직
     func attachNickName()
     func moveToShoppingMallSetup()
     func moveToCardSetup()
     func firstLoginSetupFinish()
     
-    func attachLogin()
+    // 메인화면으로 이동
     func attachMain()
     func attachAlarm()
+    
+    // User Setting 진입
     func attachUser()
-    func detachLogin()
     func detachUser()
+    
     func moveToHome()
 }
 
@@ -69,18 +80,22 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     override func didBecomeActive() {
         super.didBecomeActive()
         // TODO: Implement business logic here.
+        
+        router?.attachSplash()
+        
         Task { @MainActor in
             do {
                 try await tryLocalTokenLogin()
             } catch NetworkError.tokenExpired(_) {
                 print("Access Token Expired")
-                
                 do {
                     try await tryRefreshToken()
                 } catch {
+                    router?.detachSplash()
                     router?.attachLogin()
                 }
             } catch {
+                router?.detachSplash()
                 router?.attachLogin()
             }
         }
@@ -166,7 +181,7 @@ extension RootInteractor {
         
         guard let data = guest.data else { return }
         
-        AuthManager.shared.saveAuthData(accessToken: data.accessToken, refreshToken: data.refreshToken ?? "", user: data.user)
+        AuthManager.shared.saveAuthData(accessToken: data.accessToken, refreshToken: data.refreshToken ?? "", authorizationToken: "", user: data.user)
         
         detachLogin()
     }
@@ -177,11 +192,19 @@ extension RootInteractor {
         
         let profile: AuthResponse<Profile> = try await NetworkService.shared.requestAsync(endpoint: ProfileEndpoint.getProfile)
         guard let profile_data = profile.data else { return }
+        let user = UserSetting(nickname: profile_data.nickname, commerceIds: profile_data.preferredCommerces.map{$0.id}, cardCompanyIds: profile_data.preferredCommerces.map{$0.id})
+        if UserSettingsManager.shared.saveSettings(user) {
+            print("User Setting 정상적으로 서버에서 불러옴")
+        } else {
+            print("User Setting 서버에서 불러오기 실패")
+        }
         
         if !profile_data.profileComplete {
+            router?.detachSplash()
             firstLoginSuccess()
         } else {
-            router?.detachLogin()
+            detachLogin()
+            router?.attachMain()
         }
     }
     
@@ -202,33 +225,23 @@ extension RootInteractor {
 
 // MARK: - 애플 로그인 로직
 extension RootInteractor: AppleLoginManagerDelegate {
-    func didCompleteAppleLogin(userId: String, email: String?, token: String) async throws {
-        print("Login Success")
+    
+    func didCompleteAppleLogin(userId: String, email: String?, token: String, authorizationCode: String) async throws {
+        print("애플 로그인 성공")
         let data: AuthResponse<AuthData> = try await NetworkService.shared.requestAsync(endpoint: LoginEndpoint.login(token: token))
         
         guard let data = data.data, let refreshToken = data.refreshToken else { return }
         
-        AuthManager.shared.saveAuthData(accessToken: data.accessToken, refreshToken: refreshToken, user: data.user)
+        AuthManager.shared.saveAuthData(accessToken: data.accessToken, refreshToken: refreshToken, authorizationToken: authorizationCode, user: data.user)
         
         print(AuthManager.shared.getCurrentUser() ?? "Not found User")
+            
+        try await tryLocalTokenLogin()
         
-        let profile: AuthResponse<Profile> = try await NetworkService.shared.requestAsync(endpoint: ProfileEndpoint.getProfile)
-        
-        guard let profile_data = profile.data else { return }
-        
-        print(profile)
-        
-        Task { @MainActor in
-            if data.newUser || !profile_data.profileComplete {
-                firstLoginSuccess()
-            } else {
-                detachLogin()
-            }
-        }
+        print("백엔드 서버 로그인 성공")
     }
     
     func didFailAppleLogin() {
-        //        listener?.didCancelLogin()
         print("APPLE Login Failed")
     }
 }

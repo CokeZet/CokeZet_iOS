@@ -103,6 +103,10 @@ final class ShoppingMallSetUpView: UIView {
         self.listView.bind(list: state.list)
         self.confirmButton.addAction(state.selectConfirm, for: .touchUpInside)
     }
+    
+    public func getSelectList() -> [Int] {
+        return self.listView.selectedIndexes.sorted(by: <)
+    }
 }
 
 @available(iOS 17.0, *)

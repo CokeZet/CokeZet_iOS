@@ -92,7 +92,7 @@ public final class PriceComparisonCell: UICollectionViewCell {
         }
         
         tableView.snp.makeConstraints {
-            $0.top.equalTo(topStack.snp.bottom).offset(8)
+            $0.top.equalTo(topStack.snp.bottom).offset(16)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         

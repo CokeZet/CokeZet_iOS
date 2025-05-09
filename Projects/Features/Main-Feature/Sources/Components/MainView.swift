@@ -46,9 +46,11 @@ final class MainView: UIView {
     var selectFilter: ((IndexPath) -> Void)?
     var selectProduct: ((IndexPath) -> Void)?
     var selectMore: (() -> Void)?
+    let isGuest: Bool
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(isGuest: Bool) {
+        self.isGuest = isGuest
+        super.init(frame: .zero)
         self.addConfigure()
         self.makeConstraints()
     }
@@ -164,6 +166,8 @@ extension MainView: UICollectionViewDataSource {
             }
 
             header.bind(list: self.state.filterList)
+            
+            header.isGuestSetup(isGuest: isGuest)
 
             return header
 
@@ -369,7 +373,7 @@ extension MainView {
     traits: .sizeThatFitsLayout
 ) {
     let contentView = UIView()
-    let view = MainView()
+    let view = MainView(isGuest: false)
 
     contentView.backgroundColor = .Gray800
     contentView.addSubview(view)

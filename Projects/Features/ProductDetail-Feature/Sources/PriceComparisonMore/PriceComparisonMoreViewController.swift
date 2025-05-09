@@ -34,6 +34,17 @@ final class PriceComparisonMoreViewController: UIViewController, PriceComparison
         $0.registerCell(type: Cell.self)
     }
     
+    private let titleLabel: ZetLabel = ZetLabel(typography: .semiBold(.T18), textColor: .white).then {
+        $0.text = "더보기"
+    }
+    
+    private let exitButton: UIButton = UIButton().then {
+        let image = UIImage(systemName: "xmark")?
+            .withTintColor(.white, renderingMode: .alwaysTemplate)
+            .resize(targetSize: CGSize(width: 22, height: 22))
+        $0.setImage(image, for: .normal)
+    }
+    
     var dataSource: [PriceComparisonTableViewCell.State] = [] {
         didSet {
             tableView.reloadData()
@@ -61,15 +72,31 @@ final class PriceComparisonMoreViewController: UIViewController, PriceComparison
     
     func setupViews() {
         view.backgroundColor = ZetColor.Gray800.color
-        self.view.addSubview(tableView)
+        
+        [tableView, titleLabel, exitButton].forEach {
+            self.view.addSubview($0)
+        }
         
         tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 30, left: 20, bottom: 0, right: 20))
+            $0.top.equalTo(exitButton.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview()
+        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(16)
+            $0.centerX.equalToSuperview()
+        }
+        
+        exitButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(20)
+            $0.centerY.equalTo(titleLabel)
+            $0.width.height.equalTo(32)
         }
     }
     
     func setPriceComparisonData(_ data: [PriceComparisonTableViewCell.State]) {
-        for _ in 0..<3 {
+        for _ in 0..<1 {
             dataSource += data
         }
     }

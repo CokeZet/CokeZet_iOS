@@ -53,10 +53,14 @@ public final class ZetMediumButton: UIButton {
         self.setContentHuggingPriority(.required, for: .horizontal)
         self.setContentCompressionResistancePriority(.required, for: .horizontal)
         self.layer.cornerRadius = Metric.cornerRadius
-        self.titleLabel?.font = Typography.semiBold(.T18).font
         self.setButtonStyle(self.buttonState, normalColor: self.normalColor)
         var config = UIButton.Configuration.plain()
         config.contentInsets = Metric.inset
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = Typography.semiBold(.T18).font
+            return outgoing
+        }
         self.configuration = config
         self.setButtonAction()
     }

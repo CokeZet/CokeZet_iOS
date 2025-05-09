@@ -15,6 +15,8 @@ final class ProductFilterHeaderView: UICollectionReusableView {
 
     private let headerView = AccordionView()
 
+    private let guestView = GuestView()
+    
     var selectFolded: ((Bool) -> Void)? {
         didSet {
             self.headerView.selectFolded = selectFolded
@@ -33,8 +35,7 @@ final class ProductFilterHeaderView: UICollectionReusableView {
     }
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        self.makeConstraints()
+        fatalError("init(coder:) has not been implemented")
     }
 
     private func makeConstraints() {
@@ -42,6 +43,15 @@ final class ProductFilterHeaderView: UICollectionReusableView {
 
         self.headerView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0))
+        }
+    }
+    
+    func isGuestSetup(isGuest: Bool) {
+        if isGuest {
+            self.addSubview(guestView)
+            guestView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
         }
     }
 

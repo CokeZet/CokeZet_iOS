@@ -11,11 +11,14 @@ import CokeZet_DesignSystem
 public final class BubblePopupView: UIView {
     // 텍스트를 표시할 UILabel
     public let textLabel = ZetLabel(typography: .medium(.T12), textColor: .White).then {
-        $0.numberOfLines = 2
+        $0.numberOfLines = 0
         $0.textAlignment = .left
     }
     
-    public init(text: String) {
+    private var location: BubblePopupLocation
+    
+    public init(text: String, location: BubblePopupLocation) {
+        self.location = location
         super.init(frame: .zero)
         addConfigure(text: text)
         makeConstraints()
@@ -89,7 +92,7 @@ public final class BubblePopupView: UIView {
         let curveRadius: CGFloat = 1 // 꼬리 끝의 둥글기 반경
         
         // 꼬리의 시작점 (말풍선 위쪽 중앙)
-        let startX: CGFloat = 30
+        let startX: CGFloat = location == .left ? 30 : self.bounds.width - 30
         let startY: CGFloat = 0.0 // 말풍선의 위쪽 경계선
         
         // 꼬리 그리기
@@ -124,7 +127,7 @@ public final class BubblePopupView: UIView {
     "button state",
     traits: .sizeThatFitsLayout
 ) {
-    let popupView = BubblePopupView(text: "내가 설정한 쇼핑몰 외의 사이트 최저가도 함께 갖고 왔어요. 카드 혜택의 경우 조건이 있을 수 있어요.")
+    let popupView = BubblePopupView(text: "내가 설정한 쇼핑몰 외의 사이트 최저가도 함께 갖고 왔어요. 카드 혜택의 경우 조건이 있을 수 있어요.", location: .left)
     
     let maxWidth: CGFloat = 293        // 말풍선의 최대 너비
     

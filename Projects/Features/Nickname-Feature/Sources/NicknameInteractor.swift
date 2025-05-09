@@ -26,9 +26,14 @@ final class NicknameInteractor: PresentableInteractor<NicknamePresentable>, Nick
     weak var router: NicknameRouting?
     weak var listener: NicknameListener?
 
+    private let dependency: NicknameDependency
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
-    override init(presenter: NicknamePresentable) {
+    init(
+        presenter: NicknamePresentable,
+        dependency: NicknameDependency
+    ) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -43,7 +48,9 @@ final class NicknameInteractor: PresentableInteractor<NicknamePresentable>, Nick
         // TODO: Pause any business logic.
     }
     
-    func continueToNickname() {
+    func continueToNickname(_ nickname: String) {
+        self.dependency.userSetting.nickname = nickname
+        print("UserSetting Nickname Update: \(dependency.userSetting)")
         listener?.continueToNickname()
     }
 }

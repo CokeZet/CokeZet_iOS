@@ -87,7 +87,5 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     
     func homeButtonTapped() {
         dependency.navigationStream.send(.home)
-//        listener?.moveToHome()
-//        productDetailDidTapClose()
     }
 }

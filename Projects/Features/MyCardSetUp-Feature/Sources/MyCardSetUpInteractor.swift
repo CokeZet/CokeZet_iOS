@@ -6,6 +6,8 @@
 //
 
 import ModernRIBs
+import CokeZet_Network
+import CokeZet_Configurations
 
 protocol MyCardSetUpRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
@@ -26,9 +28,14 @@ final class MyCardSetUpInteractor: PresentableInteractor<MyCardSetUpPresentable>
     weak var router: MyCardSetUpRouting?
     weak var listener: MyCardSetUpListener?
 
+    private let dependency: MyCardSetUpDependency
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
-    override init(presenter: MyCardSetUpPresentable) {
+    init(
+        presenter: MyCardSetUpPresentable,
+        dependency: MyCardSetUpDependency
+    ) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -43,7 +50,15 @@ final class MyCardSetUpInteractor: PresentableInteractor<MyCardSetUpPresentable>
         // TODO: Pause any business logic.
     }
     
-    func continueToMyCard() {
-        listener?.continueToMyCard()
+    func continueToMyCard(_ cardList: [Int]) {
+        dependency.userSetting.cardCompanyIds = cardList
+        print("UserSetting CardCompanyIds Update: \(dependency.userSetting)")
+        _ = UserSettingsManager.shared.saveSettings(dependency.userSetting)
+        
+        guard let user = UserSettingsManager.shared.loadSettings() else { return }
+        Task { @MainActor in
+            let result: AuthResponse<AuthData> = try await NetworkService.shared.requestAsync(endpoint: ProfileEndpoint.updateProfile(user: user))
+            listener?.continueToMyCard()
+        }
     }
 }
