@@ -105,7 +105,7 @@ final class ShoppingMallSetUpView: UIView {
     }
     
     public func getSelectList() -> [Int] {
-        return self.listView.selectedIndexes.sorted(by: <)
+        return self.listView.selectedIndexes.sorted(by: <).map{$0 + 1}
     }
 }
 

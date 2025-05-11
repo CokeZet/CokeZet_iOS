@@ -52,7 +52,6 @@ protocol RootListener: AnyObject {
 }
 
 final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener {
-    
     let presentationDelegateProxy: AdaptivePresentationControllerDelegateProxy
     
     private lazy var appleLoginManager = AppleLoginManager(delegate: self)
@@ -60,7 +59,7 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     weak var router: RootRouting?
     weak var listener: RootListener?
     
-    private let dependency: RootDependency
+    private let component: RootComponent
     
     private var cancellables: Set<AnyCancellable>
     
@@ -68,9 +67,9 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     // in constructor.
     init(
         presenter: RootPresentable,
-        dependency: RootDependency
+        component: RootComponent
     ) {
-        self.dependency = dependency
+        self.component = component
         self.cancellables = .init()
         self.presentationDelegateProxy = AdaptivePresentationControllerDelegateProxy()
         super.init(presenter: presenter)
@@ -84,6 +83,11 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         router?.attachSplash()
         
         Task { @MainActor in
+            
+            #warning("테스트 끝나면 추후에 삭제 해야함.")
+            AuthManager.shared.logout()
+            UserSettingsManager.shared.clearSettings()
+            
             do {
                 try await tryLocalTokenLogin()
             } catch NetworkError.tokenExpired(_) {
@@ -100,14 +104,14 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
             }
         }
         
-        dependency.navigationStream
+        component.navigationStream
             .stream
             .receive(on: DispatchQueue.main)
             .sink { [weak self] type in
                 print("Root Tabs \(type)")
                 if type == .home {
                     self?.router?.moveToHome()
-                    self?.dependency.navigationStream.stream.value = .none
+                    self?.component.navigationStream.stream.value = .none
                 }
             }.store(in: &cancellables)
     }
@@ -163,12 +167,18 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     }
     
     func moveToHome() {
-        dependency.navigationStream.send(.home)
+        component.navigationStream.send(.home)
     }
     
     func guestLogin() {
         Task {
             try await tryGuestLogin()
+        }
+    }
+    
+    func deleteProfile() {
+        Task {
+            try await deleteUser()
         }
     }
 }
@@ -204,7 +214,6 @@ extension RootInteractor {
             firstLoginSuccess()
         } else {
             detachLogin()
-            router?.attachMain()
         }
     }
     
@@ -243,5 +252,18 @@ extension RootInteractor: AppleLoginManagerDelegate {
     
     func didFailAppleLogin() {
         print("APPLE Login Failed")
+    }
+}
+
+// MARK: - 회원 탈퇴 로직
+extension RootInteractor {
+    func deleteUser() async throws {
+        guard let userToken = AuthManager.shared.getAuthorizationToken() else {
+            print("유저 토큰이 존재하지 않음")
+            return
+        }
+        
+        let data: AuthResponse<AuthData> = try await NetworkService.shared.requestAsync(endpoint: ProfileEndpoint.deleteProfile(user: DeleteProfile(socialProvider: "APPLE", revokeToken: userToken)))
+        
     }
 }

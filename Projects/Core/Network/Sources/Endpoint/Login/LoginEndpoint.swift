@@ -13,7 +13,7 @@ public enum LoginEndpoint: EndpointProtocol {
     case refresh(refreshToken: String)
     case guestLogin
     
-    public var baseURL: URL? { URL(string: "http://52.79.89.114:8080") }
+    public var baseURL: URL? { URL(string: "http://54.180.163.219:8080") }
     
     public var path: String {
         switch self {

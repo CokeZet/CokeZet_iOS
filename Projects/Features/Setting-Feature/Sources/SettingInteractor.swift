@@ -17,6 +17,7 @@ public protocol SettingListener: AnyObject {
     func detachSetting()
     func attachAlarm()
     func moveToHome()
+    func deleteProfile()
 }
 
 final class SettingInteractor: PresentableInteractor<SettingPresentable>, SettingInteractable, SettingPresentableListener {
@@ -53,4 +54,7 @@ final class SettingInteractor: PresentableInteractor<SettingPresentable>, Settin
         listener?.moveToHome()
     }
     
+    func deleteProfile() {
+        listener?.deleteProfile()
+    }
 }

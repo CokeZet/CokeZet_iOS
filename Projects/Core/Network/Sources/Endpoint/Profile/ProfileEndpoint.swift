@@ -11,10 +11,10 @@ import CokeZet_Configurations
 public enum ProfileEndpoint: EndpointProtocol {
     case getProfile
     case updateProfile(user: UserSetting)
-    case deleteProfile
+    case deleteProfile(user: DeleteProfile)
     case profileStatus
     
-    public var baseURL: URL? { URL(string: "http://52.79.89.114:8080") }
+    public var baseURL: URL? { URL(string: "http://54.180.163.219:8080") }
     
     public var token: String? { AuthManager.shared.getAccessToken() }
     
@@ -61,10 +61,12 @@ public enum ProfileEndpoint: EndpointProtocol {
     
     public var body: Encodable? {
         switch self {
-        case .getProfile, .deleteProfile, .profileStatus:
+        case .getProfile, .profileStatus:
             return nil
         case .updateProfile(let user):
             return ProfileUpdate(nickname: user.nickname, commerceIds: user.commerceIds, cardCompanyIds: user.cardCompanyIds)
+        case .deleteProfile(let user):
+            return user
         }
     }
 }

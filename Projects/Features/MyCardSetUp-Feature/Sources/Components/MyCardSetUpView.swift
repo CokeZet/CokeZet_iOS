@@ -107,7 +107,7 @@ final class MyCardSetUpView: UIView {
     }
     
     func getSelectList() -> [Int] {
-        return self.listView.getSelectList()
+        return self.listView.getSelectList().map{$0 + 1}
     }
 }
 

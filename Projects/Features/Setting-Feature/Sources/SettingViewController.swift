@@ -13,6 +13,7 @@ protocol SettingPresentableListener: AnyObject {
     func detachSetting()
     func alarmButtonTapped()
     func homeButtonTapped()
+    func deleteProfile()
 }
 
 final class SettingViewController: BaseViewController, SettingPresentable, SettingViewControllable {
@@ -196,16 +197,17 @@ extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataS
         // --- Popup View 설정 ---
         let popupContentView = self.showPopup(
             logoutFlag,
-            UIAction() { _ in
-                self.TestdismissPopup()
+            UIAction() { [weak self] _ in
+                self?.TestdismissPopup()
             },
-            UIAction(){ _ in
+            UIAction(){ [weak self] _ in
                 if logoutFlag {
                     print("로그아웃 클릭")
                 } else {
                     print("회원 탈퇴 클릭")
+                    self?.listener?.deleteProfile()
                 }
-                self.TestdismissPopup()
+                self?.TestdismissPopup()
             }
         )
         

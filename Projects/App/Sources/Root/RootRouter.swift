@@ -116,7 +116,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         nickNameRouting = router
         attachChild(router)
         
-        viewController.pushViewController(router.viewControllable, animated: true)
+        viewController.setViewControllers([router.viewControllable])
     }
     
     func moveToShoppingMallSetup() {

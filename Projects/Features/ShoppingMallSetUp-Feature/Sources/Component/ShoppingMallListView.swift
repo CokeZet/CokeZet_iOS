@@ -132,21 +132,9 @@ extension ShoppingMallListView: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        // ALL(전체) 셀이 첫 번째(0번) 인덱스라고 가정
-        if indexPath.item == 0 {
-            // ALL 선택 시 모든 셀 선택
-            for i in 0..<self.list.count {
-                self.selectedIndexes.insert(i)
-                collectionView.selectItem(at: IndexPath(item: i, section: 0), animated: false, scrollPosition: [])
-                if let cell = collectionView.cellForItem(at: IndexPath(item: i, section: 0)) as? Cell {
-                    cell.setChoiceState(.active)
-                }
-            }
-        } else {
-            self.selectedIndexes.insert(indexPath.item)
-            if let cell = collectionView.cellForItem(at: indexPath) as? Cell {
-                cell.setChoiceState(.active)
-            }
+        self.selectedIndexes.insert(indexPath.item)
+        if let cell = collectionView.cellForItem(at: indexPath) as? Cell {
+            cell.setChoiceState(.active)
         }
         self.onSelectionChanged?(self.selectedIndexes.count)
     }
@@ -155,28 +143,9 @@ extension ShoppingMallListView: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didDeselectItemAt indexPath: IndexPath
     ) {
-        // ALL(전체) 셀이 비선택되면 전체 해제
-        if indexPath.item == 0 {
-            for i in 0..<self.list.count {
-                self.selectedIndexes.remove(i)
-                collectionView.deselectItem(at: IndexPath(item: i, section: 0), animated: false)
-                if let cell = collectionView.cellForItem(at: IndexPath(item: i, section: 0)) as? Cell {
-                    cell.setChoiceState(.normal)
-                }
-            }
-        } else {
-            self.selectedIndexes.remove(indexPath.item)
-            if let cell = collectionView.cellForItem(at: indexPath) as? Cell {
-                cell.setChoiceState(.normal)
-            }
-            // ALL(전체) 셀이 선택되어 있다면 해제
-            if self.selectedIndexes.contains(0) {
-                self.selectedIndexes.remove(0)
-                collectionView.deselectItem(at: IndexPath(item: 0, section: 0), animated: false)
-                if let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? Cell {
-                    cell.setChoiceState(.normal)
-                }
-            }
+        self.selectedIndexes.remove(indexPath.item)
+        if let cell = collectionView.cellForItem(at: indexPath) as? Cell {
+            cell.setChoiceState(.normal)
         }
         self.onSelectionChanged?(self.selectedIndexes.count)
     }
