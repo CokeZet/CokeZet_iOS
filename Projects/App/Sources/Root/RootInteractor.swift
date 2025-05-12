@@ -185,6 +185,23 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
 
 // MARK: - 로그인 로직
 extension RootInteractor {
+    func getProfileData() async throws -> Profile? {
+        let profile: AuthResponse<Profile> = try await NetworkService.shared.requestAsync(endpoint: ProfileEndpoint.getProfile)
+        
+        guard let profile_data = profile.data else { return nil }
+        
+        let user = UserSetting(nickname: profile_data.nickname, commerceIds: profile_data.preferredCommerces.map{$0.id}, cardCompanyIds: profile_data.preferredCommerces.map{$0.id})
+        
+        if UserSettingsManager.shared.saveSettings(user) {
+            print("User Setting 정상적으로 서버에서 불러옴")
+            component.userSetting = user
+        } else {
+            print("User Setting 서버에서 불러오기 실패")
+        }
+        
+        return profile_data
+    }
+    
     @MainActor
     func tryGuestLogin() async throws {
         let guest: AuthResponse<AuthData> = try await NetworkService.shared.requestAsync(endpoint: LoginEndpoint.guestLogin)
@@ -200,21 +217,21 @@ extension RootInteractor {
     func tryLocalTokenLogin() async throws {
         print("Try Access Token Login")
         
-        let profile: AuthResponse<Profile> = try await NetworkService.shared.requestAsync(endpoint: ProfileEndpoint.getProfile)
-        guard let profile_data = profile.data else { return }
-        let user = UserSetting(nickname: profile_data.nickname, commerceIds: profile_data.preferredCommerces.map{$0.id}, cardCompanyIds: profile_data.preferredCommerces.map{$0.id})
-        if UserSettingsManager.shared.saveSettings(user) {
-            print("User Setting 정상적으로 서버에서 불러옴")
-        } else {
-            print("User Setting 서버에서 불러오기 실패")
+        let profile = try await getProfileData()
+        
+        guard let profileComplete = profile?.profileComplete else {
+            print("서버 에러 발생 가능성 높음")
+            print("profile Complete 데이터가 들어오지 않음")
+            return
         }
         
-        if !profile_data.profileComplete {
+        if profileComplete {
+            detachLogin()
+        } else {
             router?.detachSplash()
             firstLoginSuccess()
-        } else {
-            detachLogin()
         }
+        
     }
     
     @MainActor
@@ -244,7 +261,7 @@ extension RootInteractor: AppleLoginManagerDelegate {
         AuthManager.shared.saveAuthData(accessToken: data.accessToken, refreshToken: refreshToken, authorizationToken: authorizationCode, user: data.user)
         
         print(AuthManager.shared.getCurrentUser() ?? "Not found User")
-            
+        
         try await tryLocalTokenLogin()
         
         print("백엔드 서버 로그인 성공")

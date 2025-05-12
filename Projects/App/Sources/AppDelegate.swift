@@ -6,38 +6,25 @@
 //
 
 import UIKit
-import ModernRIBs
-import CokeZet_Core
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    var window: UIWindow?
-    
-    private var launchRouter: LaunchRouting?
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        self.window = window
-        
-        let launchRouter = RootBuilder(dependency: AppComponent()).build()
-        self.launchRouter = launchRouter
-        launchRouter.launch(from: window)
-        return true
-    }
+    func application(
+        _ application: UIApplication,
+        configurationForConnecting connectingSceneSession: UISceneSession,
+        options: UIScene.ConnectionOptions
+    ) -> UISceneConfiguration {
 
 
-}
-
-public class AppComponent: Component<EmptyDependency>, RootDependency {
-    var navigationStream: NavgiationBarActions
+        // Each UISceneConfiguration have a unique configuration name.
+        // The configuration name is a app-specific name
+        // you use to identify the scene, and it corresponds to entries
+        // in the `Info.plist` scene manifest.
+        var configurationName = "Default Configuration"
     
-    
-    public init() {
-        self.navigationStream = NavigationStreamState()
-        super.init(dependency: EmptyComponent())
+        return UISceneConfiguration(
+            name: configurationName,
+            sessionRole: connectingSceneSession.role
+        )
     }
 }
-

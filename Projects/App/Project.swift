@@ -11,6 +11,17 @@ let project = Project(
             deploymentTargets: .iOS("16.0"),
             infoPlist: .extendingDefault(
                 with: [
+                    "UIApplicationSceneManifest": .dictionary([
+                        "UIApplicationSupportsMultipleScenes": false,
+                        "UISceneConfigurations": .dictionary([
+                            "UIWindowSceneSessionRoleApplication": .array([
+                                .dictionary([
+                                    "UISceneConfigurationName": "Default Configuration",
+                                    "UISceneDelegateClassName": "$(PRODUCT_MODULE_NAME).SceneDelegate",
+                                ])
+                            ]),
+                        ]),
+                    ]),
                     "UILaunchStoryboardName": "LaunchScreen",
                     "ITSAppUsesNonExemptEncryption": false,
                     "NSAppTransportSecurity": .dictionary([ // ATS 설정 예시

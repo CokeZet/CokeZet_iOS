@@ -6,7 +6,10 @@
 //
 
 import UIKit
+
 import ModernRIBs
+
+import CokeZet_Core
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -23,8 +26,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let launchRouter = RootBuilder(dependency: AppComponent()).build()
             self.launchRouter = launchRouter
             launchRouter.launch(from: window)
-            print("bulid toto")
         }
     }
 }
+
+
+public class AppComponent: Component<EmptyDependency>, RootDependency {
+    var navigationStream: NavgiationBarActions
+    
+    
+    public init() {
+        self.navigationStream = NavigationStreamState()
+        super.init(dependency: EmptyComponent())
+    }
+}
+
 
